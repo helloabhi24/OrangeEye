@@ -16,8 +16,6 @@ class HomePage extends GetView<HomepageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const CustomDrawer(),
-      appBar: CustomAppbar.customeAppbar(
-          isImage: true, imagePath: ImageConstant.APPLOGO),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,7 +1,5 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
@@ -10,7 +8,7 @@ import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/customeElevatedButton.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/widgets/homepageWidget.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:orangeeye/widgets/productDetailPage.dart';
 
 class ProductDetailScreen extends GetView<HomepageController> {
   ProductDetailScreen({super.key});
@@ -265,29 +263,25 @@ class ProductDetailScreen extends GetView<HomepageController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Row(
-                              children: [
-                                CircleAvatar(
-                                  radius: 10,
-                                  backgroundColor: AppColor.blackColor,
+                              children: const [
+                                ColorDots(
+                                  dotsColor: AppColor.blackColor,
                                 ),
                                 width10,
-                                CircleAvatar(
-                                  backgroundColor: AppColor.redColor,
-                                  radius: 10,
+                                ColorDots(
+                                  dotsColor: AppColor.redColor,
                                 ),
                                 width10,
-                                CircleAvatar(
-                                  backgroundColor: AppColor.brownColor,
-                                  radius: 10,
+                                ColorDots(
+                                  dotsColor: AppColor.brownColor,
                                 ),
                                 width10,
-                                CircleAvatar(
-                                  backgroundColor: AppColor.orangeColor,
-                                  radius: 10,
+                                ColorDots(
+                                  dotsColor: AppColor.orangeColor,
                                 ),
                               ],
                             ),
-                            AppText(
+                            const AppText(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
                               text: "Size Guide",

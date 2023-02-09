@@ -9,10 +9,10 @@ class HomepageController extends GetxController {
 
   RxList<String> backgroudSliderList = [
     "assets/image/model1.png",
-    "assets/image/model1.png",
-    "assets/image/model1.png",
-    "assets/image/model1.png",
-    "assets/image/model1.png",
+    "assets/image/model2.png",
+    "assets/image/model3.png",
+    "assets/image/model4.png",
+    "assets/image/model5.png",
   ].obs;
   RxList<Widget> sliderList = [
     const SliderWidget(
@@ -23,22 +23,22 @@ class HomepageController extends GetxController {
     const SliderWidget(
       isPadding: true,
       isCircularRadius: true,
-      image: "assets/image/model1.png",
+      image: "assets/image/model2.png",
     ),
     const SliderWidget(
       isPadding: true,
       isCircularRadius: true,
-      image: "assets/image/model1.png",
+      image: "assets/image/model3.png",
     ),
     const SliderWidget(
       isPadding: true,
       isCircularRadius: true,
-      image: "assets/image/model1.png",
+      image: "assets/image/model4.png",
     ),
     const SliderWidget(
       isPadding: true,
       isCircularRadius: true,
-      image: "assets/image/model1.png",
+      image: "assets/image/model5.png",
     ),
   ].obs;
 
@@ -46,7 +46,7 @@ class HomepageController extends GetxController {
     const SliderWidget(
       isPadding: true,
       isCircularRadius: true,
-      image: "assets/image/model2.png",
+      image: "assets/image/model1.png",
     ),
     const SliderWidget(
       isPadding: true,
@@ -56,17 +56,17 @@ class HomepageController extends GetxController {
     const SliderWidget(
       isPadding: true,
       isCircularRadius: true,
-      image: "assets/image/model2.png",
+      image: "assets/image/model3.png",
     ),
     const SliderWidget(
       isPadding: true,
       isCircularRadius: true,
-      image: "assets/image/model2.png",
+      image: "assets/image/model4.png",
     ),
     const SliderWidget(
       isPadding: true,
       isCircularRadius: true,
-      image: "assets/image/model2.png",
+      image: "assets/image/model5.png",
     ),
   ].obs;
 
@@ -105,7 +105,7 @@ class SliderWidget extends StatelessWidget {
           boxShadow: const [
             BoxShadow(
               offset: Offset(5, 5),
-              color: AppColor.blackColor,
+              color: AppColor.whiteColor,
               blurRadius: 10.0,
             ),
           ],

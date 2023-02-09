@@ -7,6 +7,7 @@ import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/view.dart/productDetailPage.dart';
+import 'package:orangeeye/widgets/productDetailPage.dart';
 import '../utils/customeAssetsImage.dart';
 
 class HomePageSlider extends StatelessWidget {
@@ -23,7 +24,7 @@ class HomePageSlider extends StatelessWidget {
                   Column(
                     children: [
                       Container(
-                          color: AppColor.orangeColor,
+                          color: AppColor.whiteColor,
                           height: getVerticalSize(510),
                           width: Get.width,
                           child: homepageController.sliderIndex.value ==
@@ -73,7 +74,7 @@ class HomePageSlider extends StatelessWidget {
                             initialPage: 0,
                             enableInfiniteScroll: true,
                             reverse: false,
-                            autoPlay: true,
+                            autoPlay: false,
                             autoPlayInterval: const Duration(seconds: 3),
                             autoPlayAnimationDuration:
                                 const Duration(milliseconds: 800),
@@ -182,61 +183,106 @@ class GogleSlider extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: GestureDetector(
-              onTap: () => Get.to(ProductDetailScreen()),
-              child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border:
-                          Border.all(color: AppColor.greyColor, width: 0.4)),
-                  height: 160.h,
-                  width: 150.w,
-                  child: Stack(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomAssetsImage(
-                            height: 130.h,
-                            width: 135.w,
-                            imagePath: homepageController.gogleList[index],
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(left: getHorizontalSize(10)),
-                            child: const AppText(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              text: "Tecla",
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(left: getHorizontalSize(10)),
-                            child: const AppText(
-                              fontSize: 13,
-                              text: "₹4000",
-                            ),
-                          )
-                        ],
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Align(
-                            alignment: Alignment.topRight,
-                            child: Icon(
-                              Icons.favorite_border,
-                              color: AppColor.orangeColor,
-                            )),
-                      ),
-                    ],
-                  )),
-            ),
+          return GogleWidget(
+            index: index,
           );
         },
         itemCount: homepageController.gogleList.length,
+      ),
+    );
+  }
+}
+
+class GogleWidget extends StatelessWidget {
+  final int? index;
+  GogleWidget({this.index, super.key});
+  HomepageController homepageController = Get.find<HomepageController>();
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: GestureDetector(
+        onTap: () => Get.to(ProductDetailScreen()),
+        child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppColor.greyColor, width: 0.4)),
+            height: 160.h,
+            width: 150.w,
+            child: Stack(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomAssetsImage(
+                      height: 130.h,
+                      width: 135.w,
+                      imagePath: homepageController.gogleList[index!],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(left: getHorizontalSize(10)),
+                              child: const AppText(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                text: "Tecla",
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(left: getHorizontalSize(10)),
+                              child: const AppText(
+                                fontSize: 13,
+                                text: "₹4000",
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: const [
+                                ColorDots(
+                                  dotsColor: AppColor.blackColor,
+                                ),
+                                width5,
+                                ColorDots(
+                                  dotsColor: AppColor.redColor,
+                                ),
+                                width5,
+                                ColorDots(
+                                  dotsColor: AppColor.brownColor,
+                                ),
+                                width5,
+                                ColorDots(
+                                  dotsColor: AppColor.orangeColor,
+                                ),
+                                width5,
+                              ],
+                            ),
+                          ],
+                        )
+                      ],
+                    )
+                  ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Align(
+                      alignment: Alignment.topRight,
+                      child: Icon(
+                        Icons.favorite_border,
+                        color: AppColor.orangeColor,
+                      )),
+                ),
+              ],
+            )),
       ),
     );
   }
