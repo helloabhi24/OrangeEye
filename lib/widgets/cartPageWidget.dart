@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/cartPageController.dart';
 import 'package:orangeeye/utils/appColor.dart';
@@ -27,19 +28,19 @@ class Productdesc extends GetView<CartpageController> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  color: AppColor.whiteColor,
-                  height: getVerticalSize(140),
-                  width: getHorizontalSize(200),
-                  child: const CustomAssetsImage(
-                    imagePath: "assets/image/g4.png",
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: getHorizontalSize(50)),
+                  child: CustomAssetsImage(
+                    height: Get.height * 0.15,
+                    imagePath: "assets/image/bgg2.png",
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(right: getHorizontalSize(10)),
-                  child: const AppText(
+                  child: AppText(
                     text: "₹4000",
-                    fontSize: 15,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 )
@@ -47,15 +48,15 @@ class Productdesc extends GetView<CartpageController> {
             ),
             Padding(
               padding: EdgeInsets.only(left: getHorizontalSize(20)),
-              child: const AppText(
-                fontSize: 19,
+              child: AppText(
+                fontSize: 17.sp,
                 text: "Tecla - Black Gold",
                 color: AppColor.blackColor,
               ),
             ),
             getheight(context, 0.015),
             Padding(
-              padding: EdgeInsets.only(left: getHorizontalSize(40)),
+              padding: EdgeInsets.only(left: getHorizontalSize(50)),
               child: Obx(
                 () => Container(
                   height: getVerticalSize(40),
@@ -114,29 +115,30 @@ class Productdesc extends GetView<CartpageController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
-                    children: const [
+                    children: [
                       AppText(
                         text: "Prescription Type :",
                         color: AppColor.greyColor,
-                        fontSize: 16,
+                        fontSize: 13.sp,
                       ),
                       AppText(
                         text: "  Zero Power",
                         color: AppColor.blackColor,
-                        fontSize: 14,
+                        fontSize: 13.sp,
                       )
                     ],
                   ),
                   Row(
-                    children: const [
+                    children: [
                       AppText(
                         text: "Size :",
                         color: AppColor.greyColor,
-                        fontSize: 15,
+                        fontSize: 13.sp,
                       ),
                       AppText(
                         text: " Medium",
                         color: AppColor.blackColor,
+                        fontSize: 13.sp,
                       )
                     ],
                   ),
@@ -147,16 +149,16 @@ class Productdesc extends GetView<CartpageController> {
             Padding(
               padding: EdgeInsets.only(left: getHorizontalSize(10)),
               child: Row(
-                children: const [
+                children: [
                   AppText(
                     text: "Lens Type :",
                     color: AppColor.greyColor,
-                    fontSize: 16,
+                    fontSize: 13.sp,
                   ),
                   AppText(
                     text: " Zero Power BLU Anti-Fog Lenses",
                     color: AppColor.blackColor,
-                    fontSize: 14,
+                    fontSize: 13.sp,
                   )
                 ],
               ),
@@ -169,15 +171,16 @@ class Productdesc extends GetView<CartpageController> {
               padding: EdgeInsets.symmetric(horizontal: getHorizontalSize(10)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   AppText(
                     text: "Totle",
                     color: AppColor.greyColor,
-                    fontSize: 16,
+                    fontSize: 15.sp,
                   ),
                   AppText(
-                    text: "₹ 4500",
+                    text: "₹4500",
                     color: AppColor.blackColor,
+                    fontSize: 14.sp,
                   )
                 ],
               ),
@@ -195,7 +198,7 @@ class ProductReturnPolicy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Get.height * 0.20,
+      height: Get.height * 0.21,
       width: Get.width * 0.95,
       decoration: BoxDecoration(
           color: AppColor.blackColor.withOpacity(0.1),
@@ -205,31 +208,31 @@ class ProductReturnPolicy extends StatelessWidget {
         child: Column(
           children: [
             getheight(context, 0.010),
-            const AppText(
+            AppText(
               text: "14 Days Return",
               color: AppColor.blackColor,
-              fontSize: 15,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w600,
             ),
             getheight(context, 0.006),
             AppText(
               color: AppColor.blackColor.withOpacity(0.6),
-              fontSize: 12,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w400,
               text:
                   "Frames and lenses are both eligible for 14-day exchange/return. if you are not comfortable, we will refunded amount for both",
             ),
-            getheight(context, 0.010),
-            const AppText(
+            getheight(context, 0.015),
+            AppText(
               text: "365 Day Warranty",
               color: AppColor.blackColor,
-              fontSize: 15,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w600,
             ),
             getheight(context, 0.006),
             AppText(
               color: AppColor.blackColor.withOpacity(0.6),
-              fontSize: 12,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w400,
               text:
                   "In case of ant manufacturing defect during warrenty period. we will send a brand new pair angain",
@@ -252,13 +255,13 @@ class Coupouns extends GetView<CartpageController> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           getheight(context, 0.010),
-          const AppText(
+          AppText(
             text: "Enter Promo Code",
-            fontSize: 15,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w600,
             color: AppColor.blackColor,
           ),
-          getheight(context, 0.010),
+          getheight(context, 0.017),
           Row(
             children: [
               Expanded(
@@ -281,12 +284,12 @@ class Coupouns extends GetView<CartpageController> {
                   ontap: () {})
             ],
           ),
-          getheight(context, 0.010),
+          getheight(context, 0.017),
           GestureDetector(
             onTap: () {},
-            child: const AppText(
+            child: AppText(
               text: "View Available Offers",
-              fontSize: 15,
+              fontSize: 15.sp,
               fontWeight: FontWeight.w600,
             ),
           )
@@ -306,9 +309,9 @@ class ProductPaymentDetails extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const AppText(
+          AppText(
             text: "Order Summary",
-            fontSize: 18,
+            fontSize: 15.sp,
             fontWeight: FontWeight.w600,
             color: AppColor.blackColor,
           ),
@@ -321,18 +324,18 @@ class ProductPaymentDetails extends StatelessWidget {
           getheight(context, 0.008),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
+            children: [
               AppText(
                 text: "Discount",
-                fontSize: 15,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColor.blackColor,
+                color: AppColor.greyColor,
               ),
               AppText(
                 text: "-₹200",
-                fontSize: 15,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColor.blackColor,
+                color: AppColor.greyColor,
               ),
             ],
           ),
@@ -341,24 +344,25 @@ class ProductPaymentDetails extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const AppText(
+                  AppText(
                     text: "Taxes",
-                    fontSize: 15,
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
-                    color: AppColor.blackColor,
+                    color: AppColor.greyColor,
                   ),
                   IconButton(
                       onPressed: () {},
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.report_outlined,
+                        color: AppColor.greyColor,
                       ))
                 ],
               ),
-              const AppText(
+              AppText(
                 text: "₹3200",
-                fontSize: 15,
+                fontSize: 14.sp,
                 fontWeight: FontWeight.w600,
-                color: AppColor.blackColor,
+                color: AppColor.greyColor,
               ),
             ],
           ),
@@ -380,15 +384,15 @@ class ProductPaymentDetails extends StatelessWidget {
       children: [
         AppText(
           text: title,
-          fontSize: 15,
+          fontSize: 13.sp,
           fontWeight: FontWeight.w600,
-          color: AppColor.blackColor,
+          color: AppColor.greyColor,
         ),
         AppText(
           text: amount,
-          fontSize: 15,
+          fontSize: 13.sp,
           fontWeight: FontWeight.w600,
-          color: AppColor.blackColor,
+          color: AppColor.greyColor,
         ),
       ],
     );

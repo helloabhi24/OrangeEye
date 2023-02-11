@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/cartPageController.dart';
+import 'package:orangeeye/routes/approutes.dart';
+import 'package:orangeeye/utils/customeAppBar.dart';
 
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/widgets/cartPageWidget.dart';
@@ -15,6 +17,23 @@ class CartPage extends GetView<CartpageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appBar:
+      //     CustomAppbar.customeAppbar(title: "Cart", color: AppColor.blackColor),
+      resizeToAvoidBottomInset: false,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            getheight(context, 0.010),
+            const ProductReturnPolicy(),
+            getheight(context, 0.010),
+            const Productdesc(),
+            getheight(context, 0.010),
+            Coupouns(),
+            getheight(context, 0.010),
+            const ProductPaymentDetails(),
+          ],
+        ),
+      ),
       bottomNavigationBar: SizedBox(
         height: Get.height * 0.07,
         child: BottomAppBar(
@@ -51,27 +70,14 @@ class CartPage extends GetView<CartpageController> {
                         width: Get.width * 0.93,
                         textcolor: AppColor.whiteColor,
                         textButton: "Checkout",
-                        ontap: () {}),
+                        ontap: () {
+                          Get.toNamed(Routes.CARTPAGE);
+                        }),
                   ),
                 ),
               ],
             ),
           ),
-        ),
-      ),
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            getheight(context, 0.010),
-            const ProductReturnPolicy(),
-            getheight(context, 0.010),
-            const Productdesc(),
-            getheight(context, 0.010),
-            Coupouns(),
-            getheight(context, 0.010),
-            const ProductPaymentDetails(),
-          ],
         ),
       ),
     );

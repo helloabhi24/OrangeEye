@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:orangeeye/constant/imageConstantValue.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
+import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
-import 'package:orangeeye/utils/customeAppBar.dart';
 import 'package:orangeeye/utils/customeDrawer.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
+import 'package:orangeeye/view.dart/catByGender.dart';
 import 'package:orangeeye/widgets/homepageWidget.dart';
 
 class HomePage extends GetView<HomepageController> {
-  const HomePage({super.key});
-
+  HomePage({super.key});
+  HomepageController homepageController = Get.put(HomepageController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,45 +27,49 @@ class HomePage extends GetView<HomepageController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const AppText(
+                  AppText(
                     text: "Discover All",
-                    fontSize: 20,
+                    fontSize: 17.sp,
                     fontWeight: FontWeight.w700,
                   ),
                   height10,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       GlassCategory(
+                        ontap: () => Get.toNamed(Routes.CATEGORYBYGENDERPAGE,
+                            arguments: {"type": "Shop Eyeglasses"}),
                         image: "assets/image/model1.png",
                         title: "Shop Eyeglasses",
                       ),
                       GlassCategory(
+                        ontap: () => Get.toNamed(Routes.CATEGORYBYGENDERPAGE,
+                            arguments: {"type": "Shop Sunglasses"}),
                         image: "assets/image/model2.png",
                         title: "Shop Sunglasses",
                       )
                     ],
                   ),
-                  getheight(context, 0.020),
-                  const AppText(
+                  getheight(context, 0.040),
+                  AppText(
                     text: "What's New",
-                    fontSize: 20,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w700,
                   ),
                   height5,
-                  const AppText(
+                  AppText(
                     text:
                         "Fall in love at first sight with rich hues and bolder than ever silhouettes this autumn",
-                    fontSize: 15,
+                    fontSize: 13.sp,
                     fontWeight: FontWeight.w400,
                     color: AppColor.greyColor,
                   ),
                   BannerAd(),
-                  getheight(context, 0.020),
-                  const AppText(
+                  getheight(context, 0.030),
+                  AppText(
                     text: "Our Recommendation",
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.w600,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -80,12 +85,12 @@ class HomePage extends GetView<HomepageController> {
             GogleSlider(),
             getheight(context, 0.015),
             GogleVariousCategory(),
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: AppText(
                 text: "Shop Our Collections",
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
+                fontSize: 17.sp,
+                fontWeight: FontWeight.w600,
               ),
             ),
             ShopOurCollectionWidget()

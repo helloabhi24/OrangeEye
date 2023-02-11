@@ -9,6 +9,8 @@ abstract class AppColor {
 
   static const whiteColor = Colors.white;
 
+  static const blueColor = Colors.blue;
+
   static const Color brownColor = Color(0xff613029);
 
   static const Color authLogoBackColor = Color(0xffF0E5D5);

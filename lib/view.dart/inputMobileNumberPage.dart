@@ -2,26 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/loginController.dart';
 import 'package:orangeeye/utils/appColor.dart';
-
 import '../utils/appText.dart';
-import '../utils/customeAssetsImage.dart';
 import '../utils/sizeHelper.dart';
 
 class LoginScreen extends GetView<LoginPageController> {
-  const LoginScreen({super.key});
-
+  LoginScreen({super.key});
+  LoginPageController loginPageController = Get.put(LoginPageController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: AppColor.blackColor,
+        backgroundColor: AppColor.orangeColor,
         appBar: AppBar(
           automaticallyImplyLeading: false,
           centerTitle: true,
-          backgroundColor: AppColor.blackColor,
+          backgroundColor: AppColor.orangeColor,
           elevation: 0,
           title: AppText(
-            color: AppColor.blackColor,
+            color: AppColor.whiteColor,
             text: "Login",
             fontSize: 20,
             fontWeight: FontWeight.w500,
@@ -148,7 +146,7 @@ class LoginScreen extends GetView<LoginPageController> {
                       getheight(context, 0.040),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColor.blackColor,
+                              backgroundColor: AppColor.orangeColor,
                               shape: const StadiumBorder(),
                               minimumSize: Size(
                                   getHorizontalSize(375), getVerticalSize(50))),
@@ -204,35 +202,7 @@ class LoginScreen extends GetView<LoginPageController> {
                       SizedBox(
                         height: getVerticalSize(42),
                       ),
-                      TextButton(
-                        onPressed: () async {
-                          // await controller.googleSignIn().then((value) {
-                          //   if (value == null) {
-                          //     Get.to(const Signin());
-                          //   } else {
-                          //     Get.to(MainPage());
-                          //   }
-                          // });
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomAssetsImage(
-                                imagePath: "assets/images/google96.png",
-                                height: getVerticalSize(32)),
-                            SizedBox(
-                              width: getHorizontalSize(4),
-                            ),
-                            AppText(
-                              textAlign: TextAlign.center,
-                              color: AppColor.blackColor,
-                              text: "Continue with google",
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ],
-                        ),
-                      ),
+
                       getheight(context, 0.27),
                       // CustomTextButtons(
                       //   textAlign: TextAlign.center,

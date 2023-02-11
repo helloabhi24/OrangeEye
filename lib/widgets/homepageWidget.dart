@@ -12,7 +12,7 @@ import '../utils/customeAssetsImage.dart';
 
 class HomePageSlider extends StatelessWidget {
   HomePageSlider({super.key});
-  HomepageController homepageController = Get.put(HomepageController());
+  HomepageController homepageController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Obx((() => Padding(
@@ -97,26 +97,34 @@ class HomePageSlider extends StatelessWidget {
 class GlassCategory extends StatelessWidget {
   final String title;
   final String image;
-  const GlassCategory({this.image = "", this.title = "", super.key});
+  final Function? ontap;
+  const GlassCategory(
+      {this.ontap, this.image = "", this.title = "", super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          height: 160.h,
-          width: 164.w,
-          decoration: BoxDecoration(
-              image:
-                  DecorationImage(fit: BoxFit.cover, image: AssetImage(image)),
-              borderRadius: BorderRadius.circular(4),
-              color: AppColor.orangeColor),
+        GestureDetector(
+          onTap: () {
+            ontap!();
+          },
+          child: Container(
+            height: 160.h,
+            width: 164.w,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.cover, image: AssetImage(image)),
+                borderRadius: BorderRadius.circular(4),
+                color: AppColor.orangeColor),
+          ),
         ),
-        height5,
+        height8,
         AppText(
           color: AppColor.blackColor,
           text: title,
-          fontSize: 18,
+          fontSize: 13.sp,
+          fontWeight: FontWeight.w600,
         )
       ],
     );
@@ -163,7 +171,7 @@ filterCategory(String title) {
           onPressed: () {},
           child: AppText(
             color: AppColor.blackColor,
-            fontSize: 15,
+            fontSize: 13.sp,
             fontWeight: FontWeight.w700,
             text: title,
           ))
@@ -177,7 +185,7 @@ class GogleSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 177.h,
+      height: 181.h,
       width: Get.width,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -223,12 +231,13 @@ class GogleWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
                               padding:
                                   EdgeInsets.only(left: getHorizontalSize(10)),
-                              child: const AppText(
-                                fontSize: 15,
+                              child: AppText(
+                                fontSize: 13.sp,
                                 fontWeight: FontWeight.w600,
                                 text: "Tecla",
                               ),
@@ -236,8 +245,8 @@ class GogleWidget extends StatelessWidget {
                             Padding(
                               padding:
                                   EdgeInsets.only(left: getHorizontalSize(10)),
-                              child: const AppText(
-                                fontSize: 13,
+                              child: AppText(
+                                fontSize: 12.sp,
                                 text: "₹4000",
                               ),
                             ),
@@ -251,19 +260,19 @@ class GogleWidget extends StatelessWidget {
                                 ColorDots(
                                   dotsColor: AppColor.blackColor,
                                 ),
-                                width5,
+                                width3,
                                 ColorDots(
                                   dotsColor: AppColor.redColor,
                                 ),
-                                width5,
+                                width3,
                                 ColorDots(
                                   dotsColor: AppColor.brownColor,
                                 ),
-                                width5,
+                                width3,
                                 ColorDots(
                                   dotsColor: AppColor.orangeColor,
                                 ),
-                                width5,
+                                width3,
                               ],
                             ),
                           ],
@@ -331,7 +340,7 @@ class ShopOurCollectionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250.h,
+      height: 200.h,
       width: Get.width,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -343,7 +352,7 @@ class ShopOurCollectionWidget extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: AppColor.greyColor)),
-              height: Get.height * 0.24,
+              height: Get.height * 0.20,
               width: Get.width * 0.45,
               child: Column(
                 children: [

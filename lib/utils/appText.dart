@@ -26,7 +26,7 @@ class AppText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.dmSans(
+      style: GoogleFonts.poppins(
         decoration: textDecoration,
         letterSpacing: wordSpacing,
         color: color,

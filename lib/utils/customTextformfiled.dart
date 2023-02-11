@@ -71,7 +71,7 @@ class CustomFormField extends StatelessWidget {
                   ontap!();
                 },
                 icon: const Icon(
-                  Icons.gps_fixed,
+                  Icons.remove_red_eye,
                   color: AppColor.greyColor,
                 ))
             : null,

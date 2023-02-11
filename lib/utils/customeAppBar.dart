@@ -5,7 +5,8 @@ import 'package:orangeeye/utils/customeAssetsImage.dart';
 
 class CustomAppbar {
   static PreferredSizeWidget customeAppbar(
-      {String title = "appbar",
+      {Color? color,
+      String title = "appbar",
       double fontSize = 15,
       FontWeight fontWeight = FontWeight.w500,
       Color appBarColor = AppColor.whiteColor,
@@ -25,6 +26,7 @@ class CustomAppbar {
               text: title,
               fontSize: fontSize,
               fontWeight: fontWeight,
+              color: color,
             ),
       actions: const [
         Icon(

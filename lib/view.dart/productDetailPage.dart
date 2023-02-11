@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/utils/appColor.dart';
@@ -19,390 +20,312 @@ class ProductDetailScreen extends GetView<HomepageController> {
         body: Stack(
           children: [
             SingleChildScrollView(
-              child: Column(
-                children: [
-                  Stack(
-                    children: [
-                      SizedBox(
-                        height: Get.height * 0.72,
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, int) {
-                            return Container(
-                              height: Get.height * 0.72,
-                              width: Get.width,
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: AssetImage(
-                                          "assets/image/model1.png"))),
-                            );
-                          },
-                          itemCount: 3,
-                        ),
+              child: Column(children: [
+                Stack(
+                  children: [
+                    SizedBox(
+                      height: Get.height * 0.72,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, int) {
+                          return Container(
+                            height: Get.height * 0.72,
+                            width: Get.width,
+                            decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image:
+                                        AssetImage("assets/image/model1.png"))),
+                          );
+                        },
+                        itemCount: 3,
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: getHorizontalSize(16),
-                            vertical: getVerticalSize(25)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: (() => Navigator.pop(context)),
-                              child: CircleAvatar(
-                                  backgroundColor: Colors.white60,
-                                  radius: Get.height * 0.022,
-                                  child: const Icon(
-                                    Icons.arrow_back,
-                                    size: 20,
-                                    color: AppColor.orangeColor,
-                                  )),
-                            ),
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap: () async {},
-                                  child: CircleAvatar(
-                                      backgroundColor: Colors.white60,
-                                      radius: Get.height * 0.022,
-                                      child: const Icon(
-                                        Icons.share_outlined,
-                                        size: 20,
-                                        color: AppColor.blackColor,
-                                      )
-                                      // customIconButtom(
-                                      //     () {},
-                                      //     Icons.share_outlined,
-                                      //     22,
-                                      //     homeCategoryColor),
-                                      ),
-                                ),
-                                SizedBox(
-                                  width: getHorizontalSize(14),
-                                ),
-                                CircleAvatar(
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: getHorizontalSize(16),
+                          vertical: getVerticalSize(25)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            onTap: (() => Navigator.pop(context)),
+                            child: CircleAvatar(
+                                backgroundColor: Colors.white60,
+                                radius: Get.height * 0.022,
+                                child: const Icon(
+                                  Icons.arrow_back,
+                                  size: 20,
+                                  color: AppColor.orangeColor,
+                                )),
+                          ),
+                          Row(
+                            children: [
+                              InkWell(
+                                onTap: () async {},
+                                child: CircleAvatar(
                                     backgroundColor: Colors.white60,
                                     radius: Get.height * 0.022,
-                                    child: PopupMenuButton(
-                                      position: PopupMenuPosition.under,
-                                      itemBuilder: (context) {
-                                        return [
-                                          PopupMenuItem(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 18),
-                                            height: 10,
-                                            child: GestureDetector(
-                                              onTap: () {},
-                                              child: Row(
-                                                children: const [
-                                                  AppText(
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: AppColor.blackColor,
-                                                    text: "Report",
-                                                  ),
-                                                  width5,
-                                                  Icon(
-                                                    Icons.report_outlined,
-                                                    color: AppColor.blackColor,
-                                                  )
-                                                ],
-                                              ),
+                                    child: const Icon(
+                                      Icons.share_outlined,
+                                      size: 20,
+                                      color: AppColor.blackColor,
+                                    )
+                                    // customIconButtom(
+                                    //     () {},
+                                    //     Icons.share_outlined,
+                                    //     22,
+                                    //     homeCategoryColor),
+                                    ),
+                              ),
+                              SizedBox(
+                                width: getHorizontalSize(14),
+                              ),
+                              CircleAvatar(
+                                  backgroundColor: Colors.white60,
+                                  radius: Get.height * 0.022,
+                                  child: PopupMenuButton(
+                                    position: PopupMenuPosition.under,
+                                    itemBuilder: (context) {
+                                      return [
+                                        PopupMenuItem(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 18),
+                                          height: 10,
+                                          child: GestureDetector(
+                                            onTap: () {},
+                                            child: Row(
+                                              children: const [
+                                                AppText(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: AppColor.blackColor,
+                                                  text: "Report",
+                                                ),
+                                                width5,
+                                                Icon(
+                                                  Icons.report_outlined,
+                                                  color: AppColor.blackColor,
+                                                )
+                                              ],
                                             ),
-                                          )
-                                        ];
-                                      },
-                                      icon: const Icon(
-                                        Icons.more_vert,
-                                        color: AppColor.greyColor,
-                                        size: 20,
-                                      ),
-                                    ))
-                              ],
-                            )
-                          ],
-                        ),
+                                          ),
+                                        )
+                                      ];
+                                    },
+                                    icon: const Icon(
+                                      Icons.more_vert,
+                                      color: AppColor.greyColor,
+                                      size: 20,
+                                    ),
+                                  ))
+                            ],
+                          )
+                        ],
                       ),
-                      Positioned(
-                        top: Get.height * 0.65,
-                        left: getHorizontalSize(335),
-                        child: Container(
-                          height: Get.height * 0.042,
-                          width: Get.width * 0.18,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: AppColor.whiteColor),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: const [
-                                Icon(
-                                  Icons.favorite,
-                                  size: 25,
-                                  color: AppColor.redColor,
-                                ),
-                                width2,
-                                // customIconButtom(() {}, Icons.favorite, 10, redColor),
-                                AppText(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColor.blackColor,
-                                  text: "5.0k",
-                                )
-                              ],
-                            ),
+                    ),
+                    Positioned(
+                      top: Get.height * 0.65,
+                      left: getHorizontalSize(335),
+                      child: Container(
+                        height: Get.height * 0.042,
+                        width: Get.width * 0.18,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: AppColor.whiteColor),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: const [
+                              Icon(
+                                Icons.favorite,
+                                size: 25,
+                                color: AppColor.redColor,
+                              ),
+                              width2,
+                              // customIconButtom(() {}, Icons.favorite, 10, redColor),
+                              AppText(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: AppColor.blackColor,
+                                text: "5.0k",
+                              )
+                            ],
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: Get.height * 0.68,
-                        left: getHorizontalSize(12),
-                        child: const AppText(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
+                    ),
+                    Positioned(
+                      top: Get.height * 0.68,
+                      left: getHorizontalSize(12),
+                      child: const AppText(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: AppColor.greyColor,
+                          text: ""),
+                    )
+                  ],
+                ),
+                height10,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ...Iterable.generate(3).map((e) => Padding(
+                          padding: const EdgeInsets.all(2.0),
+                          child: CircleAvatar(
+                              radius: getHorizontalSize(4.5),
+                              backgroundColor: AppColor.greyColor),
+                        )),
+                  ],
+                ),
+                Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: getHorizontalSize(15),
+                        vertical: getVerticalSize(22)),
+                    child: Column(children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppText(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.bold,
+                              color: AppColor.blackColor,
+                              text: "Tecla"),
+                          GestureDetector(
+                            onTap: () {},
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.only(right: getHorizontalSize(10)),
+                              child: Icon(
+                                Icons.bookmark_add_outlined,
+                                size: 30.sp,
+                                color: AppColor.blackColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          AppText(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColor.blackColor,
+                              text: "₹4000"),
+                          AppText(
+                            textDecoration: TextDecoration.underline,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w500,
                             color: AppColor.greyColor,
-                            text: ""),
-                      )
-                    ],
-                  ),
-                  height10,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ...Iterable.generate(3).map((e) => Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: CircleAvatar(
-                                radius: getHorizontalSize(4.5),
-                                backgroundColor: AppColor.greyColor),
-                          )),
-                    ],
-                  ),
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: getHorizontalSize(15),
-                          vertical: getVerticalSize(22)),
-                      child: Column(children: [
-                        Row(
+                            text: "Bookmark",
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: getVerticalSize(20)),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const AppText(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                                 color: AppColor.blackColor,
-                                text: "Tecla"),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    right: getHorizontalSize(10)),
-                                child: const Icon(
-                                  Icons.bookmark_add_outlined,
-                                  size: 30,
-                                  color: AppColor.blackColor,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: const [
-                            AppText(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: AppColor.blackColor,
-                                text: "₹4000"),
-                            AppText(
-                              textDecoration: TextDecoration.underline,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: AppColor.greyColor,
-                              text: "Bookmark",
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: getVerticalSize(20)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const AppText(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColor.blackColor,
-                                  text: "Brown&black"),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Row(
-                                    children: const [
-                                      AppText(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColor.blackColor,
-                                        text: "5.0",
-                                      ),
-                                      width5,
-                                      Icon(
-                                        Icons.star,
-                                        color: AppColor.brownColor,
-                                        size: 16,
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                        getheight(context, 0.010),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: const [
-                                ColorDots(
-                                  dotsColor: AppColor.blackColor,
-                                ),
-                                width10,
-                                ColorDots(
-                                  dotsColor: AppColor.redColor,
-                                ),
-                                width10,
-                                ColorDots(
-                                  dotsColor: AppColor.brownColor,
-                                ),
-                                width10,
-                                ColorDots(
-                                  dotsColor: AppColor.orangeColor,
+                                text: "Brown&black"),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Row(
+                                  children: const [
+                                    AppText(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColor.blackColor,
+                                      text: "5.0",
+                                    ),
+                                    width5,
+                                    Icon(
+                                      Icons.star,
+                                      color: AppColor.brownColor,
+                                      size: 16,
+                                    ),
+                                  ],
                                 ),
                               ],
-                            ),
-                            const AppText(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              text: "Size Guide",
                             )
                           ],
-                        )
-                      ])),
-
-                  Container(
-                    width: Get.width,
-                    color: AppColor.brownColor,
-                    height: 0.3,
-                  ),
-                  SizedBox(
-                    height: getVerticalSize(10),
-                  ),
-
-                  productDescriptionDeatil(),
-                  SizedBox(
-                    height: getVerticalSize(28),
-                  ),
-                  description(),
-                  SizedBox(
-                    height: getVerticalSize(28),
-                  ),
-                  address(),
-
-                  SizedBox(
-                    height: getVerticalSize(28),
-                  ),
-                  productDetail("Dimensions", context, () {}),
-                  SizedBox(
-                    height: getVerticalSize(18),
-                  ),
-
-                  productDetail("Exchange & Return", context, () {}),
-
-                  getheight(context, 0.030),
-                  // const Align(
-                  //   alignment: Alignment.centerLeft,
-                  //   child: AppText(
-                  //     text: "Customer Reviews(10)",
-                  //     fontSize: 14,
-                  //     fontWeight: FontWeight.bold,
-                  //   ),
-                  // ),
-                  //  reviewDetail("Customer Reviews(10)"),
-
-                  const AppText(
-                    text: "Similar Styles",
-                    fontSize: 22,
-                    fontWeight: FontWeight.w800,
-                  ),
-                  getheight(context, 0.030),
-                  GogleSlider(),
-
-                  // getheight(context, 0.20)
-
-                  // SizedBox(
-                  //   height: getVerticalSize(24),
-                  // ),
-                  // getNewTrendsProduct(context, true, Get.height * 0.80, false),
-                ],
-              ),
+                        ),
+                      ),
+                      getheight(context, 0.010),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: const [
+                              ColorDots(
+                                dotsColor: AppColor.blackColor,
+                              ),
+                              width10,
+                              ColorDots(
+                                dotsColor: AppColor.redColor,
+                              ),
+                              width10,
+                              ColorDots(
+                                dotsColor: AppColor.brownColor,
+                              ),
+                              width10,
+                              ColorDots(
+                                dotsColor: AppColor.orangeColor,
+                              ),
+                            ],
+                          ),
+                          const AppText(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                            text: "Size Guide",
+                          )
+                        ],
+                      )
+                    ])),
+                Container(
+                  width: Get.width,
+                  color: AppColor.brownColor,
+                  height: 0.3,
+                ),
+                SizedBox(
+                  height: getVerticalSize(10),
+                ),
+                productDescriptionDeatil(),
+                SizedBox(
+                  height: getVerticalSize(28),
+                ),
+                description(),
+                SizedBox(
+                  height: getVerticalSize(28),
+                ),
+                address(),
+                SizedBox(
+                  height: getVerticalSize(28),
+                ),
+                productDetail("Dimensions", context, () {}),
+                SizedBox(
+                  height: getVerticalSize(18),
+                ),
+                productDetail("Exchange & Return", context, () {}),
+                getheight(context, 0.030),
+                AppText(
+                  text: "Similar Styles",
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+                getheight(context, 0.030),
+                GogleSlider(),
+              ]),
             ),
-            // Column(
-            //   mainAxisAlignment: MainAxisAlignment.end,
-            //   children: [
-            //     Container(
-            //       width: Get.width,
-            //       height: getVerticalSize(60),
-            //       color: whiteColor,
-            //       child: Padding(
-            //         padding: const EdgeInsets.symmetric(horizontal: 10),
-            //         child: Row(
-            //           children: [
-            //             Expanded(
-            //               child: ClipRRect(
-            //                 borderRadius: BorderRadius.circular(10),
-            //                 child: CustomElevatedButtons(
-            //                     fontWeight: FontWeight.w600,
-            //                     isBorder: true,
-            //                     buttoncolor: blackColor,
-            //                     height: Get.height * 0.070,
-            //                     width: Get.width * 0.93,
-            //                     textcolor: whiteColor,
-            //                     textButton: "Edit ",
-            //                     ontap: () {
-            //                       Get.to(const EditPage());
-            //                     }),
-            //               ),
-            //             ),
-            //             width10,
-            //             Expanded(
-            //               child: ClipRRect(
-            //                 borderRadius: BorderRadius.circular(10),
-            //                 child: CustomElevatedButtons(
-            //                     fontWeight: FontWeight.w600,
-            //                     isBorder: true,
-            //                     buttoncolor: blackColor,
-            //                     height: Get.height * 0.070,
-            //                     width: Get.width * 0.93,
-            //                     textcolor: whiteColor,
-            //                     textButton: "Delete",
-            //                     ontap: () {
-            //                       showDilouge(context);
-            //                     }),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
           ],
         ),
-        // : Center(
-        //     child: CircularProgressIndicator(
-        //     color: brownColor,
-        //   )),
         bottomNavigationBar: SizedBox(
           height: Get.height * 0.07,
           child: BottomAppBar(
@@ -465,10 +388,10 @@ class ProductDetailScreen extends GetView<HomepageController> {
         childrenPadding: EdgeInsets.only(
           left: getHorizontalSize(17),
         ),
-        title: const AppText(
+        title: AppText(
           text: "About Our Lenses",
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
         ),
         children: [
           Padding(
@@ -533,10 +456,10 @@ class ProductDetailScreen extends GetView<HomepageController> {
         childrenPadding: EdgeInsets.only(
           left: getHorizontalSize(17),
         ),
-        title: const AppText(
+        title: AppText(
           text: "Suitable For Presciption",
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
         ),
         children: [
           Container(
@@ -553,8 +476,6 @@ class ProductDetailScreen extends GetView<HomepageController> {
   }
 
   productDescriptionDeatil() {
-    //  homepageController.getRatingReview(homepageController.uploadedList[index!]["docsId"]);
-    // homepageController.getProfileDetails();
     return Container(
       width: Get.width,
       decoration: BoxDecoration(
@@ -564,18 +485,15 @@ class ProductDetailScreen extends GetView<HomepageController> {
         )),
       ),
       child: ExpansionTile(
-        // tilePadding: EdgeInsets.symmetric(vertical: getVerticalSize(1)),
-        // collapsedBackgroundColor: blackColor,
-        // backgroundColor: blackColor,
         textColor: AppColor.blackColor,
         iconColor: AppColor.blackColor,
         childrenPadding: EdgeInsets.only(
           left: getHorizontalSize(17),
         ),
-        title: const AppText(
+        title: AppText(
           text: "Details",
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
         ),
         children: [
           Row(
@@ -756,8 +674,8 @@ class ProductDetailScreen extends GetView<HomepageController> {
         ),
         title: AppText(
           text: title,
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w600,
         ),
         children: [
           Column(
@@ -838,297 +756,8 @@ class ProductDetailScreen extends GetView<HomepageController> {
                         );
                       },
                       itemCount: 5)),
-              // ...Iterable.generate(homepageController.productDetailList.length).map(
-              //   (e) => Padding(
-              //     padding: EdgeInsets.only(bottom: getVerticalSize(8)),
-              //     child: Row(
-              //       children: [
-              //         AppText(
-              //           text:
-              //               homepageController.productDetailList[e]["title"].toString(),
-              //           fontSize: 13,
-              //           fontWeight: FontWeight.w700,
-              //         ),
-              //         SizedBox(
-              //           width: getHorizontalSize(100),
-              //         ),
-              //         AppText(
-              //           textAlign: TextAlign.start,
-              //           text: homepageController.productDetailList[e]["subtitle"]
-              //               .toString(),
-              //           fontSize: 13,
-              //           fontWeight: FontWeight.w400,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
               InkWell(
-                onTap: (() {
-                  // showMaterialModalBottomSheet(
-                  //   backgroundColor: Colors.transparent,
-                  //   context: context,
-                  //   builder: (context) => Container(
-                  //     decoration: BoxDecoration(
-                  //         color: whiteColor,
-                  //         border: Border.all(color: divColor, width: 0.5),
-                  //         borderRadius: const BorderRadius.only(
-                  //             topLeft: Radius.circular(30),
-                  //             topRight: Radius.circular(30))),
-                  //     height: Get.height * 0.92,
-                  //     child: Stack(
-                  //       children: [
-                  //         Column(
-                  //           children: [
-                  //             Padding(
-                  //               padding:
-                  //                   EdgeInsets.only(top: getVerticalSize(5)),
-                  //               child: Row(
-                  //                 mainAxisAlignment:
-                  //                     MainAxisAlignment.spaceBetween,
-                  //                 children: [
-                  //                   Padding(
-                  //                     padding: EdgeInsets.only(
-                  //                         left: getHorizontalSize(30)),
-                  //                     child: const AppText(
-                  //                       text: "Product Rating & Review",
-                  //                       fontSize: 16,
-                  //                       fontWeight: FontWeight.bold,
-                  //                     ),
-                  //                   ),
-                  //                   Padding(
-                  //                     padding: EdgeInsets.only(
-                  //                         right: getHorizontalSize(10)),
-                  //                     child: IconButton(
-                  //                         onPressed: () {
-                  //                           Navigator.pop(context);
-                  //                         },
-                  //                         icon: const Icon(
-                  //                             Icons.keyboard_arrow_down)),
-                  //                   )
-                  //                 ],
-                  //               ),
-                  //             ),
-                  //             const Divider(
-                  //               thickness: 1,
-                  //             ),
-
-                  //             Padding(
-                  //                 padding: EdgeInsets.only(
-                  //                     left: getHorizontalSize(20),
-                  //                     top: getVerticalSize(10)),
-                  //                 child: RatingSummary(
-                  //                   color: brownColor,
-                  //                   counter: homepageController.sellerRatingList.length,
-                  //                   average: homepageController.sum,
-                  //                   showAverage: true,
-                  //                   counterFiveStars: 5,
-                  //                   counterFourStars: 4,
-                  //                   counterThreeStars: 2,
-                  //                   counterTwoStars: 1,
-                  //                   counterOneStars: 1,
-                  //                 )
-                  //                 // child: Row(
-                  //                 //   mainAxisAlignment:
-                  //                 //       MainAxisAlignment.spaceBetween,
-                  //                 //   children: [
-                  //                 //     Column(
-                  //                 //       children: [
-                  //                 //         Row(
-                  //                 //           children: [
-                  //                 //             const AppText(
-                  //                 //               text: "5.0",
-                  //                 //               fontSize: 32,
-                  //                 //               fontWeight: FontWeight.w700,
-                  //                 //             ),
-                  //                 //             Icon(
-                  //                 //               Icons.star,
-                  //                 //               color: brownColor,
-                  //                 //             )
-                  //                 //           ],
-                  //                 //         ),
-                  //                 //         Padding(
-                  //                 //           padding: EdgeInsets.only(
-                  //                 //               right: getHorizontalSize(10),
-                  //                 //               top: getVerticalSize(8)),
-                  //                 //           child: Column(
-                  //                 //             mainAxisAlignment:
-                  //                 //                 MainAxisAlignment.center,
-                  //                 //             children: const [
-                  //                 //               AppText(
-                  //                 //                 textDecoration:
-                  //                 //                     TextDecoration.underline,
-                  //                 //                 text: "23 Ratings",
-                  //                 //                 fontSize: 12,
-                  //                 //                 fontWeight: FontWeight.w400,
-                  //                 //               ),
-                  //                 //               AppText(
-                  //                 //                 textDecoration:
-                  //                 //                     TextDecoration.underline,
-                  //                 //                 text: "25 Review",
-                  //                 //                 fontSize: 12,
-                  //                 //                 fontWeight: FontWeight.w400,
-                  //                 //               ),
-                  //                 //             ],
-                  //                 //           ),
-                  //                 //         )
-                  //                 //       ],
-                  //                 //     ),
-                  //                 //     SizedBox(
-                  //                 //       width: getHorizontalSize(20),
-                  //                 //     ),
-                  //                 //     Padding(
-                  //                 //       padding: EdgeInsets.only(
-                  //                 //           top: getVerticalSize(10)),
-                  //                 //       child: Container(
-                  //                 //         height: Get.height * 0.15,
-                  //                 //         width: getHorizontalSize(0.5),
-                  //                 //         color: divColor,
-                  //                 //       ),
-                  //                 //     ),
-                  //                 //     SizedBox(
-                  //                 //       width: getHorizontalSize(20),
-                  //                 //     ),
-                  //                 //     Padding(
-                  //                 //       padding: EdgeInsets.only(
-                  //                 //           top: getVerticalSize(20)),
-                  //                 //       child: Column(
-                  //                 //         crossAxisAlignment:
-                  //                 //             CrossAxisAlignment.end,
-                  //                 //         children: [
-                  //                 //           ratingBarWidget("Excellent"),
-                  //                 //           ratingBarWidget("Very Good"),
-                  //                 //           ratingBarWidget("Good"),
-                  //                 //           ratingBarWidget("Average"),
-                  //                 //           ratingBarWidget("Poor"),
-                  //                 //         ],
-                  //                 //       ),
-                  //                 //     )
-                  //                 //   ],
-                  //                 // ),
-                  //                 ),
-                  //             SizedBox(
-                  //               height: getVerticalSize(30),
-                  //             ),
-                  //             Divider(
-                  //               thickness: 0.3,
-                  //               color: divColor,
-                  //               endIndent: getHorizontalSize(10),
-                  //               indent: getHorizontalSize(10),
-                  //             ),
-
-                  //             Padding(
-                  //                 padding: EdgeInsets.only(
-                  //                     left: getHorizontalSize(10)),
-                  //                 child: Align(
-                  //                   alignment: Alignment.centerLeft,
-                  //                   child: SizedBox(
-                  //                     height: Get.height * 0.59,
-                  //                     child: homepageController.getReviewList.isNotEmpty
-                  //                         ? ListView.builder(
-                  //                             shrinkWrap: true,
-                  //                             itemBuilder: (context, index) {
-                  //                               return reviewWidget(
-                  //                                   homepageController.getReviewList[
-                  //                                       index]["ReviewText"],
-                  //                                   homepageController.getReviewList[
-                  //                                       index]["reviewCount"],
-                  //                                   homepageController.getReviewList[
-                  //                                       index]["userName"],
-                  //                                   homepageController.getReviewList[
-                  //                                       index]["dateandtime"]);
-                  //                             },
-                  //                             itemCount: homepageController
-                  //                                 .getReviewList.length,
-                  //                           )
-                  //                         : const Center(
-                  //                             child: AppText(
-                  //                               text: "No rating",
-                  //                               fontSize: 16,
-                  //                               fontWeight: FontWeight.w400,
-                  //                             ),
-                  //                           ),
-                  //                   ),
-                  //                 ))
-
-                  //             // BottomAppBar(
-                  //             //     child: Column(
-                  //             //   children: [],
-                  //             // )
-                  //             // Padding(
-                  //             //   padding: EdgeInsets.only(
-                  //             //       left: getHorizontalSize(10),
-                  //             //       right: getHorizontalSize(10),
-                  //             //       top: getVerticalSize(8)),
-                  //             //   child: Row(
-                  //             //     children: [
-                  //             //       Expanded(
-                  //             //         child: ClipRRect(
-                  //             //           borderRadius: BorderRadius.circular(10),
-                  //             //           child: CustomElevatedButtons(
-                  //             //               fontWeight: FontWeight.w600,
-                  //             //               isBorder: true,
-                  //             //               buttoncolor: blackColor,
-                  //             //               height: Get.height * 0.050,
-                  //             //               width: Get.width * 0.93,
-                  //             //               textcolor: whiteColor,
-                  //             //               textButton: "Edit",
-                  //             //               ontap: () {}),
-                  //             //         ),
-                  //             //       ),
-                  //             //       width8,
-                  //             //       Expanded(
-                  //             //         child: ClipRRect(
-                  //             //           borderRadius: BorderRadius.circular(10),
-                  //             //           child: CustomElevatedButtons(
-                  //             //               fontWeight: FontWeight.w600,
-                  //             //               isBorder: true,
-                  //             //               buttoncolor: blackColor,
-                  //             //               height: Get.height * 0.050,
-                  //             //               width: Get.width * 0.93,
-                  //             //               textcolor: whiteColor,
-                  //             //               textButton: "Delete",
-                  //             //               ontap: () {}),
-                  //             //         ),
-                  //             //       ),
-                  //             //     ],
-                  //             //   ),
-                  //             // ),
-                  //             // )
-                  //           ],
-                  //         ),
-                  //         Align(
-                  //           alignment: Alignment.bottomCenter,
-                  //           child: Container(
-                  //             height: 80,
-                  //             width: Get.width,
-                  //             color: Colors.white,
-                  //             child: Padding(
-                  //               padding: EdgeInsets.symmetric(
-                  //                   horizontal: getVerticalSize(10),
-                  //                   vertical: getHorizontalSize(16)),
-                  //               child: CustomElevatedButtons(
-                  //                   fontWeight: FontWeight.w600,
-                  //                   isBorder: true,
-                  //                   buttoncolor: blackColor,
-                  //                   height: 0,
-                  //                   width: Get.width * 0.93,
-                  //                   textcolor: whiteColor,
-                  //                   textButton: "Rate This Product",
-                  //                   ontap: () {
-                  //                     Get.to(RatingAndReviewPage(
-                  //                       index: index!,
-                  //                       reviewList: detailProduct,
-                  //                     ));
-                  //                   }),
-                  //             ),
-                  //           ),
-                  //         )
-                  //       ],
-                  //     ),
-                  //   ),
-                  // );
-                }),
+                onTap: (() {}),
                 child: Padding(
                   padding: EdgeInsets.only(
                       bottom: getVerticalSize(10),
@@ -1156,35 +785,6 @@ class ProductDetailScreen extends GetView<HomepageController> {
       ),
     );
   }
-
-  // reviewDetail(
-  //   String title,
-  // ) {
-  //   return Card(
-  //     elevation: 1,
-  //     child: ExpansionTile(
-  //       childrenPadding: EdgeInsets.only(
-  //         left: getHorizontalSize(17),
-  //       ),
-  //       title: AppText(
-  //         text: title,
-  //         fontSize: 15,
-  //         fontWeight: FontWeight.w700,
-  //       ),
-  //       children: [
-  //         SizedBox(
-  //           height: Get.height * 0.60,
-  //           child: ListView.builder(
-  //             itemBuilder: (context, index) {
-  //               return reviewWidget();
-  //             },
-  //             itemCount: 10,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   ratingBarWidget(String text) {
     return SizedBox(
@@ -1259,17 +859,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
       height: Get.height * 0.14,
       width: Get.width * 0.94,
       decoration: BoxDecoration(
-        boxShadow: const [
-          // BoxShadow(
-          //   color: Color.fromARGB(255, 199, 197, 197),
-          //   blurRadius: 7.0,
-          //   spreadRadius: 1,
-          //   offset: Offset(
-          //     5,
-          //     5,
-          //   ),
-          // )
-        ],
+        boxShadow: const [],
         border: Border.all(color: AppColor.greyColor, width: 0.6),
         borderRadius: BorderRadius.circular(26),
         color: AppColor.whiteColor,
@@ -1283,10 +873,6 @@ class ProductDetailScreen extends GetView<HomepageController> {
               children: [
                 Row(
                   children: [
-                    // const CircleAvatar(
-                    //   radius: 24,
-                    //   backgroundImage: AssetImage("assets/images/Carousel.png"),
-                    // ),
                     Column(
                       children: [
                         Padding(
@@ -1310,17 +896,10 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                     color: AppColor.whiteColor,
                                   ),
                                   image: DecorationImage(
-                                      fit: BoxFit.cover, image: AssetImage("")
-                                      // FileImage(File(homepageController
-                                      //     .userDetailList[index!]["Image"]))
-                                      ),
+                                      fit: BoxFit.cover, image: AssetImage("")),
                                   shape: BoxShape.circle,
                                   color: AppColor.blackColor,
                                 ),
-                                // child: Container(
-                                //   height: Get.height * 0.22,
-                                //   width: Get.width * 0.22,
-                                // ),
                               )),
                         ),
                         SizedBox(
@@ -1374,13 +953,6 @@ class ProductDetailScreen extends GetView<HomepageController> {
                         size: 18,
                       ),
                     )
-
-                    // width13,
-                    // Row(
-                    //   children: [
-
-                    //   ],
-                    // )
                   ],
                 ),
               ],
@@ -1486,11 +1058,4 @@ class ProductDetailScreen extends GetView<HomepageController> {
       ),
     );
   }
-
-//   void modalBottomSheetMenu(context) {
-//    return showMaterialModalBottomSheet(
-//   context: context,
-//   builder: (context) => Container(),
-// )
-//   }
 }
