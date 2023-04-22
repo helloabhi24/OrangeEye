@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
 import 'package:orangeeye/bindins/binding.dart';
 import 'package:orangeeye/routes/appPages.dart';
+import 'package:orangeeye/utils/sharedPref.dart';
+import 'package:orangeeye/view.dart/mainpage.dart';
 import 'package:orangeeye/view.dart/onboardingScreen.dart';
 
 void main() {
@@ -11,17 +13,23 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  Pref sharedPref = Get.put(Pref());
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(360, 690),
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: ((context, child) => GetMaterialApp(
+    sharedPref.getUserId();
+    return Obx(() => ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: ((context, child) => GetMaterialApp(
             initialBinding: GetXbindings(),
             getPages: AppPage.routes,
             debugShowCheckedModeBanner: false,
@@ -29,8 +37,10 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: OnboardingScreen(),
-          )),
-    );
+            home: child)),
+        child:
+            sharedPref.userToken.value.isEmpty ? OnboardingScreen() : MainPage()
+        // MainPage(),
+        ));
   }
 }

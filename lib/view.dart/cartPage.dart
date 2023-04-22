@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/cartPageController.dart';
 import 'package:orangeeye/routes/approutes.dart';
-import 'package:orangeeye/utils/customeAppBar.dart';
-
+import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/widgets/cartPageWidget.dart';
-
 import '../utils/appColor.dart';
+import '../utils/customeAppBar.dart';
 import '../utils/customeElevatedButton.dart';
 
 class CartPage extends GetView<CartpageController> {
@@ -17,8 +15,8 @@ class CartPage extends GetView<CartpageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar:
-      //     CustomAppbar.customeAppbar(title: "Cart", color: AppColor.blackColor),
+      appBar:
+          CustomAppbar.customeAppbar(title: "Cart", color: AppColor.blackColor),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Column(
@@ -26,8 +24,8 @@ class CartPage extends GetView<CartpageController> {
             getheight(context, 0.010),
             const ProductReturnPolicy(),
             getheight(context, 0.010),
-            const Productdesc(),
-            getheight(context, 0.010),
+            Productdesc(),
+            getheight(context, 0.020),
             Coupouns(),
             getheight(context, 0.010),
             const ProductPaymentDetails(),

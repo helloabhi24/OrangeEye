@@ -7,6 +7,8 @@ import 'package:orangeeye/utils/customTextformfiled.dart';
 import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/customeElevatedButton.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
+import 'package:orangeeye/widgets/homepageWidget.dart';
+import '../controller.dart/whishlistController.dart';
 import '../utils/appText.dart';
 
 class Productdesc extends GetView<CartpageController> {
@@ -14,10 +16,11 @@ class Productdesc extends GetView<CartpageController> {
 
   @override
   Widget build(BuildContext context) {
+    // WishlistPageController wishlistPageController = Get.find();
     return Align(
       alignment: Alignment.topCenter,
       child: Container(
-        height: Get.height * 0.38,
+        height: Get.height * 0.40,
         width: Get.width * 0.95,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
@@ -39,7 +42,7 @@ class Productdesc extends GetView<CartpageController> {
                 Padding(
                   padding: EdgeInsets.only(right: getHorizontalSize(10)),
                   child: AppText(
-                    text: "₹4000",
+                    text: "₹2000",
                     fontSize: 14.sp,
                     fontWeight: FontWeight.w600,
                   ),
@@ -163,6 +166,8 @@ class Productdesc extends GetView<CartpageController> {
                 ],
               ),
             ),
+            getheight(context, 0.020),
+            // fileSelectedWidget(context),
             Divider(
               thickness: 1,
               color: AppColor.greyColor.withOpacity(0.3),
@@ -198,7 +203,7 @@ class ProductReturnPolicy extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Get.height * 0.21,
+      height: Get.height * 0.20,
       width: Get.width * 0.95,
       decoration: BoxDecoration(
           color: AppColor.blackColor.withOpacity(0.1),
@@ -209,7 +214,7 @@ class ProductReturnPolicy extends StatelessWidget {
           children: [
             getheight(context, 0.010),
             AppText(
-              text: "14 Days Return",
+              text: "7 Days Return",
               color: AppColor.blackColor,
               fontSize: 15.sp,
               fontWeight: FontWeight.w600,
@@ -220,23 +225,23 @@ class ProductReturnPolicy extends StatelessWidget {
               fontSize: 12.sp,
               fontWeight: FontWeight.w400,
               text:
-                  "Frames and lenses are both eligible for 14-day exchange/return. if you are not comfortable, we will refunded amount for both",
+                  "Spectacle Frame with Prescription lenses and zero power lenses installes are final sale and it cannot be cancelled or returned. sunglasses can be cancelled before shipment and you can returned only the sunglasses",
             ),
-            getheight(context, 0.015),
-            AppText(
-              text: "365 Day Warranty",
-              color: AppColor.blackColor,
-              fontSize: 15.sp,
-              fontWeight: FontWeight.w600,
-            ),
-            getheight(context, 0.006),
-            AppText(
-              color: AppColor.blackColor.withOpacity(0.6),
-              fontSize: 12.sp,
-              fontWeight: FontWeight.w400,
-              text:
-                  "In case of ant manufacturing defect during warrenty period. we will send a brand new pair angain",
-            )
+            // getheight(context, 0.015),
+            // AppText(
+            //   text: "365 Day Warranty",
+            //   color: AppColor.blackColor,
+            //   fontSize: 15.sp,
+            //   fontWeight: FontWeight.w600,
+            // ),
+            // getheight(context, 0.006),
+            // AppText(
+            //   color: AppColor.blackColor.withOpacity(0.6),
+            //   fontSize: 12.sp,
+            //   fontWeight: FontWeight.w400,
+            //   text:
+            //       "In case of ant manufacturing defect during warrenty period. we will send a brand new pair angain",
+            // )
           ],
         ),
       ),

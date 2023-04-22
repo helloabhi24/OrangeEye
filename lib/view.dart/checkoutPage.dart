@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/customeAppBar.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
-
 import '../routes/approutes.dart';
 import '../utils/customeElevatedButton.dart';
 

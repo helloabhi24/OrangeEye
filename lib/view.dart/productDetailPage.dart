@@ -1,45 +1,114 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
+import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
+import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/customeElevatedButton.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/widgets/homepageWidget.dart';
 import 'package:orangeeye/widgets/productDetailPage.dart';
 
+import '../utils/showDialouge.dart';
+
 class ProductDetailScreen extends GetView<HomepageController> {
-  ProductDetailScreen({super.key});
-  HomepageController homepagehomepageController = Get.put(HomepageController());
+  const ProductDetailScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    HomepageController homepagehomepageController = Get.find();
+    print("homepage list lenght ");
+    print(homepagehomepageController.imageList.length);
+    return Obx(
+      () => Scaffold(
         body: Stack(
           children: [
             SingleChildScrollView(
               child: Column(children: [
                 Stack(
                   children: [
-                    SizedBox(
-                      height: Get.height * 0.72,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, int) {
-                          return Container(
-                            height: Get.height * 0.72,
-                            width: Get.width,
-                            decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                    fit: BoxFit.cover,
-                                    image:
-                                        AssetImage("assets/image/model1.png"))),
-                          );
-                        },
-                        itemCount: 3,
+                    Obx(
+                      () => SizedBox(
+                        height: Get.height * 0.40,
+                        width: Get.width,
+                        child: controller.productDetailList![0]
+                                .productAttributes!.isEmpty
+                            ? Center(
+                                child: AppText(
+                                  text: "No images!",
+                                  fontSize: 18.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return Obx(
+                                    () => CarouselSlider(
+                                        items: controller
+                                            .productDetailList![0]
+                                            .productAttributes![
+                                                controller.colorDotsIndex.value]
+                                            .images!
+                                            .map((element) =>
+                                                CachedNetworkImage(
+                                                  imageBuilder: (context,
+                                                          imageProvider) =>
+                                                      Container(
+                                                    height: Get.height * 0.40,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      image: DecorationImage(
+                                                          image: imageProvider,
+                                                          fit: BoxFit.contain),
+                                                    ),
+                                                  ),
+                                                  imageUrl:
+                                                      "https://orangeeye.skardtech.com/public/uploads/products/${element}",
+                                                  placeholder: (context, url) =>
+                                                      const Center(
+                                                          child:
+                                                              CircularProgressIndicator()),
+                                                  errorWidget: (context, url,
+                                                          error) =>
+                                                      const Icon(Icons.error),
+                                                  memCacheHeight: 300,
+                                                ))
+                                            .toList(),
+                                        options: CarouselOptions(
+                                          height: Get.height * 0.40,
+                                          aspectRatio: 16 / 8,
+                                          viewportFraction: 1,
+                                          initialPage: 0,
+                                          enableInfiniteScroll: true,
+                                          reverse: false,
+                                          autoPlay: false,
+                                          autoPlayInterval:
+                                              const Duration(seconds: 3),
+                                          autoPlayAnimationDuration:
+                                              const Duration(milliseconds: 800),
+                                          autoPlayCurve: Curves.fastOutSlowIn,
+                                          enlargeFactor: 0.2,
+                                          enlargeCenterPage: true,
+                                          onPageChanged: (v, c) {
+                                            controller.dotIndex.value = v;
+                                          },
+                                          scrollDirection: Axis.horizontal,
+                                        )),
+                                  );
+                                },
+                                itemCount: controller.productDetailList![0]
+                                    .productAttributes!.length,
+                              ),
                       ),
                     ),
                     Padding(
@@ -126,58 +195,90 @@ class ProductDetailScreen extends GetView<HomepageController> {
                       ),
                     ),
                     Positioned(
-                      top: Get.height * 0.65,
-                      left: getHorizontalSize(335),
-                      child: Container(
-                        height: Get.height * 0.042,
-                        width: Get.width * 0.18,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: AppColor.whiteColor),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: const [
-                              Icon(
-                                Icons.favorite,
-                                size: 25,
-                                color: AppColor.redColor,
-                              ),
-                              width2,
-                              // customIconButtom(() {}, Icons.favorite, 10, redColor),
-                              AppText(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                                color: AppColor.blackColor,
-                                text: "5.0k",
-                              )
-                            ],
+                        top: Get.height * 0.65,
+                        child: Container(
+                          width: Get.width,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: getHorizontalSize(10)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  alignment: Alignment.center,
+                                  height: Get.height * 0.042,
+                                  width: Get.width * 0.18,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: AppColor.whiteColor),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      AppText(
+                                        text: "4.8",
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      Icon(
+                                        Icons.star,
+                                        size: 25,
+                                        color: AppColor.greyColor,
+                                      ),
+                                      // customIconButtom(() {}, Icons.favorite, 10, redColor),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  height: Get.height * 0.042,
+                                  width: Get.width * 0.20,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: AppColor.whiteColor),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: const [
+                                      Icon(
+                                        Icons.favorite_outline,
+                                        size: 25,
+                                        color: AppColor.greyColor,
+                                      ),
+                                      Icon(
+                                        Icons.share_outlined,
+                                        size: 25,
+                                        color: AppColor.greyColor,
+                                      ),
+                                      // customIconButtom(() {}, Icons.favorite, 10, redColor),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: Get.height * 0.68,
-                      left: getHorizontalSize(12),
-                      child: const AppText(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: AppColor.greyColor,
-                          text: ""),
-                    )
+                        )),
                   ],
                 ),
+
                 height10,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ...Iterable.generate(3).map((e) => Padding(
-                          padding: const EdgeInsets.all(2.0),
-                          child: CircleAvatar(
-                              radius: getHorizontalSize(4.5),
-                              backgroundColor: AppColor.greyColor),
-                        )),
+                    ...Iterable.generate(controller.productDetailList![0]
+                                .productAttributes!.isEmpty
+                            ? 0
+                            : controller.productDetailList![0]
+                                .productAttributes![0].images!.length)
+                        .map((e) => Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: CircleAvatar(
+                                  radius: getHorizontalSize(4.5),
+                                  backgroundColor:
+                                      controller.dotIndex.value == e
+                                          ? AppColor.orangeColor
+                                          : AppColor.greyColor),
+                            )),
                   ],
                 ),
                 Padding(
@@ -190,9 +291,9 @@ class ProductDetailScreen extends GetView<HomepageController> {
                         children: [
                           AppText(
                               fontSize: 16.sp,
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               color: AppColor.blackColor,
-                              text: "Tecla"),
+                              text: controller.productDetailList![0].name!),
                           GestureDetector(
                             onTap: () {},
                             child: Padding(
@@ -209,12 +310,26 @@ class ProductDetailScreen extends GetView<HomepageController> {
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: const [
-                          AppText(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: AppColor.blackColor,
-                              text: "₹4000"),
+                        children: [
+                          Row(
+                            children: [
+                              AppText(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: AppColor.blackColor,
+                                text:
+                                    "₹ ${controller.productDetailList![0].mrp.toString()}",
+                                textDecoration: TextDecoration.lineThrough,
+                              ),
+                              width10,
+                              AppText(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColor.blackColor,
+                                  text: controller.productDetailList![0].price
+                                      .toString()),
+                            ],
+                          ),
                           AppText(
                             textDecoration: TextDecoration.underline,
                             fontSize: 10,
@@ -224,101 +339,251 @@ class ProductDetailScreen extends GetView<HomepageController> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: getVerticalSize(20)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const AppText(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                      getheight(context, 0.010),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              AppText(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w600,
                                 color: AppColor.blackColor,
-                                text: "Brown&black"),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Row(
-                                  children: const [
-                                    AppText(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColor.blackColor,
-                                      text: "5.0",
-                                    ),
-                                    width5,
-                                    Icon(
-                                      Icons.star,
-                                      color: AppColor.brownColor,
-                                      size: 16,
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
+                                text: "Frame shape :",
+                              ),
+                              width10,
+                              AppText(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColor.blackColor,
+                                  text: controller
+                                      .productDetailList![0].frameshape!.name!),
+                            ],
+                          ),
+                          SizedBox(
+                            width: Get.width * 0.28,
+                            height: Get.height * 0.04,
+                            child: AppText(
+                                textAlign: TextAlign.right,
+                                fontSize: 10.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColor.blackColor,
+                                text: "Including Premium Anti Glare Lens"),
+                          ),
+                        ],
                       ),
+                      Row(
+                        children: [
+                          AppText(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                            color: AppColor.blackColor,
+                            text: "Frame size :",
+                          ),
+                          width10,
+                          AppText(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: AppColor.blackColor,
+                              text: controller
+                                  .productDetailList![0].frameSize![0].name
+                                  .toString()),
+                        ],
+                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.start,
+                      //   children: [
+                      //     ...Iterable.generate(
+                      //             controller.productDetailList[0].)
+                      //         .map(
+                      //       (e) => Padding(
+                      //         padding: const EdgeInsets.all(4.0),
+                      //         child: AppText(
+                      //           fontSize: 13.sp,
+                      //           fontWeight: FontWeight.w600,
+                      //           color: AppColor.blackColor,
+                      //           text: "",
+                      //           // controller
+                      //           //     .productColorList[e].colorName,
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       getheight(context, 0.010),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            children: const [
-                              ColorDots(
-                                dotsColor: AppColor.blackColor,
-                              ),
-                              width10,
-                              ColorDots(
-                                dotsColor: AppColor.redColor,
-                              ),
-                              width10,
-                              ColorDots(
-                                dotsColor: AppColor.brownColor,
-                              ),
-                              width10,
-                              ColorDots(
-                                dotsColor: AppColor.orangeColor,
-                              ),
-                            ],
+                          Obx(
+                            () => Row(
+                              children: [
+                                ...Iterable.generate(controller
+                                        .productDetailList![0]
+                                        .productAttributes!
+                                        .length)
+                                    .map(
+                                  (e) => Padding(
+                                    padding: EdgeInsets.only(
+                                        right: getHorizontalSize(20)),
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        controller.colorDotsIndex.value = e;
+                                        print("index");
+                                        print(controller.colorDotsIndex.value);
+                                      },
+                                      child: ColorDots(
+                                        dotsColor: Color(int.parse(
+                                            "0xff${controller.productDetailList![0].productAttributes![e].colorCode!.replaceFirst(r'#', "")}")),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          const AppText(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                            text: "Size Guide",
+                          GestureDetector(
+                            onTap: () {
+                              sizeGuideDialouge(context);
+                            },
+                            child: const AppText(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                              text: "Size Guide",
+                            ),
                           )
                         ],
                       )
                     ])),
                 Container(
                   width: Get.width,
-                  color: AppColor.brownColor,
+                  color: AppColor.greyColor.withOpacity(0.7),
+                  height: Get.height * 0.06,
+                  child: Row(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        height: Get.height * 0.06,
+                        width: Get.width * 0.40,
+                        color: AppColor.brownColor,
+                        child: AppText(
+                          fontWeight: FontWeight.w700,
+                          color: AppColor.whiteColor,
+                          text: "SPECIAL PRICES",
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: Get.height * 0.06,
+                          child: Padding(
+                            padding:
+                                EdgeInsets.only(left: getHorizontalSize(15)),
+                            child: AppText(
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w500,
+                              color: AppColor.whiteColor,
+                              text:
+                                  "EYEWEAR AT FLAT ₹2000 + COMPLIMEMTARY ANTI GLARE LENSES.",
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: Get.width,
+                  color: AppColor.greyColor,
                   height: 0.3,
                 ),
-                SizedBox(
-                  height: getVerticalSize(10),
-                ),
+
                 productDescriptionDeatil(),
-                SizedBox(
-                  height: getVerticalSize(28),
-                ),
-                description(),
-                SizedBox(
-                  height: getVerticalSize(28),
-                ),
-                address(),
-                SizedBox(
-                  height: getVerticalSize(28),
-                ),
+                details(),
                 productDetail("Dimensions", context, () {}),
+                exchangeAndReturn("Exchange & Return Policy", context, () {}),
                 SizedBox(
                   height: getVerticalSize(18),
                 ),
-                productDetail("Exchange & Return", context, () {}),
+                // productDetail("Exchange & Return", context, () {}),
+                getheight(context, 0.030),
+
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: getHorizontalSize(40)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          CustomAssetsImage(
+                            height: Get.height * 0.07,
+                            imagePath: "assets/image/truck.png",
+                          ),
+                          AppText(
+                            text: "Free shipping",
+                            fontSize: 11.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          CustomAssetsImage(
+                            height: Get.height * 0.07,
+                            imagePath: "assets/image/delivery.png",
+                          ),
+                          AppText(
+                            text: "10 Day Delivery",
+                            fontSize: 11.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                getheight(context, 0.030),
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: getHorizontalSize(40)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          CustomAssetsImage(
+                            height: Get.height * 0.07,
+                            imagePath: "assets/image/return.png",
+                          ),
+                          AppText(
+                            text: "7 day return",
+                            fontSize: 11.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          CustomAssetsImage(
+                            height: Get.height * 0.07,
+                            imagePath: "assets/image/warrenty.png",
+                          ),
+                          AppText(
+                            text: "1 year warrenty",
+                            fontSize: 11.sp,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
                 getheight(context, 0.030),
                 AppText(
                   text: "Similar Styles",
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500,
                 ),
                 getheight(context, 0.030),
                 GogleSlider(),
@@ -326,50 +591,54 @@ class ProductDetailScreen extends GetView<HomepageController> {
             ),
           ],
         ),
-        bottomNavigationBar: SizedBox(
-          height: Get.height * 0.07,
-          child: BottomAppBar(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  left: getHorizontalSize(10),
-                  right: getHorizontalSize(10),
-                  top: getVerticalSize(8)),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: CustomElevatedButtons(
-                          fontWeight: FontWeight.w600,
-                          isBorder: false,
-                          buttoncolor: AppColor.blackColor,
-                          height: Get.height * 0.050,
-                          width: Get.width * 0.93,
-                          textcolor: AppColor.whiteColor,
-                          textButton: "Lets Chat",
-                          ontap: () {}),
-                    ),
-                  ),
-                  width8,
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: CustomElevatedButtons(
-                          fontWeight: FontWeight.w600,
-                          isBorder: false,
-                          buttoncolor: AppColor.blackColor,
-                          height: Get.height * 0.050,
-                          width: Get.width * 0.93,
-                          textcolor: AppColor.whiteColor,
-                          textButton: "Select Lenses",
-                          ontap: () {}),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ));
+        // bottomNavigationBar: SizedBox(
+        //   height: Get.height * 0.07,
+        //   child: BottomAppBar(
+        //     child: Padding(
+        //       padding: EdgeInsets.only(
+        //           left: getHorizontalSize(10),
+        //           right: getHorizontalSize(10),
+        //           top: getVerticalSize(8)),
+        //       child: Row(
+        //         children: [
+        //           Expanded(
+        //             child: ClipRRect(
+        //               borderRadius: BorderRadius.circular(10),
+        //               child: CustomElevatedButtons(
+        //                   fontWeight: FontWeight.w500,
+        //                   isBorder: false,
+        //                   buttoncolor: AppColor.orangeColor,
+        //                   height: Get.height * 0.050,
+        //                   width: Get.width * 0.93,
+        //                   textcolor: AppColor.whiteColor,
+        //                   textButton: "Lets Chat",
+        //                   ontap: () {}),
+        //             ),
+        //           ),
+        //           width5,
+        //           Expanded(
+        //             child: ClipRRect(
+        //               borderRadius: BorderRadius.circular(10),
+        //               child: CustomElevatedButtons(
+        //                   fontWeight: FontWeight.w500,
+        //                   isBorder: false,
+        //                   buttoncolor: AppColor.orangeColor,
+        //                   height: Get.height * 0.050,
+        //                   width: Get.width * 0.94,
+        //                   textcolor: AppColor.whiteColor,
+        //                   textButton: "Select Lenses",
+        //                   ontap: () {
+        //                     Get.toNamed(Routes.SELECTPRESCRIPTIONPAGE);
+        //                   }),
+        //             ),
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   ),
+        // )
+      ),
+    );
   }
 
   address() {
@@ -378,7 +647,8 @@ class ProductDetailScreen extends GetView<HomepageController> {
     return Container(
       width: Get.width,
       decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: AppColor.greyColor))),
+          border: Border(
+              bottom: BorderSide(color: AppColor.greyColor.withOpacity(0.2)))),
       child: ExpansionTile(
         // tilePadding: EdgeInsets.symmetric(vertical: getVerticalSize(1)),
         // collapsedBackgroundColor: blackColor,
@@ -390,7 +660,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
         ),
         title: AppText(
           text: "About Our Lenses",
-          fontSize: 16.sp,
+          fontSize: 14.sp,
           fontWeight: FontWeight.w600,
         ),
         children: [
@@ -445,7 +715,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
       decoration: BoxDecoration(
           border: Border(
               bottom: BorderSide(
-        color: AppColor.greyColor,
+        color: AppColor.greyColor.withOpacity(0.2),
       ))),
       child: ExpansionTile(
         // tilePadding: EdgeInsets.symmetric(vertical: getVerticalSize(1)),
@@ -458,7 +728,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
         ),
         title: AppText(
           text: "Suitable For Presciption",
-          fontSize: 16.sp,
+          fontSize: 14.sp,
           fontWeight: FontWeight.w600,
         ),
         children: [
@@ -481,7 +751,53 @@ class ProductDetailScreen extends GetView<HomepageController> {
       decoration: BoxDecoration(
         border: Border(
             bottom: BorderSide(
-          color: AppColor.greyColor,
+          color: AppColor.greyColor.withOpacity(0.2),
+        )),
+      ),
+      child: ExpansionTile(
+        textColor: AppColor.blackColor,
+        iconColor: AppColor.blackColor,
+        childrenPadding: EdgeInsets.only(
+          left: getHorizontalSize(17),
+        ),
+        title: AppText(
+          text: "Description",
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w600,
+        ),
+        children: [
+          Html(
+            data: controller.productDetailList![0].description,
+            style: {
+              "table": Style(
+                backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
+              ),
+              "tr": Style(
+                border: const Border(bottom: BorderSide(color: Colors.grey)),
+              ),
+              "th": Style(
+                padding: const EdgeInsets.all(6),
+                backgroundColor: Colors.grey,
+              ),
+              "td": Style(
+                padding: const EdgeInsets.all(6),
+                alignment: Alignment.topLeft,
+              ),
+              'h5': Style(maxLines: 2, textOverflow: TextOverflow.ellipsis),
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  details() {
+    return Container(
+      width: Get.width,
+      decoration: BoxDecoration(
+        border: Border(
+            bottom: BorderSide(
+          color: AppColor.greyColor.withOpacity(0.2),
         )),
       ),
       child: ExpansionTile(
@@ -492,7 +808,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
         ),
         title: AppText(
           text: "Details",
-          fontSize: 16.sp,
+          fontSize: 14.sp,
           fontWeight: FontWeight.w600,
         ),
         children: [
@@ -503,70 +819,46 @@ class ProductDetailScreen extends GetView<HomepageController> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       AppText(
-                        text: "Product type",
-                        fontSize: 16,
+                        text: "Model Number",
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
                         text: "Brand",
-                        fontSize: 16,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
-                        text: "Material",
-                        fontSize: 16,
+                        text: "Frame Color",
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
-                        text: "Color",
-                        fontSize: 16,
+                        text: "Frame size",
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
-                        text: "Size",
-                        fontSize: 16,
+                        text: "Frame Type",
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
-                        text: "Min Qty",
-                        fontSize: 16,
+                        text: "Frame Material",
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
-                        text: "Seller name",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      height2,
-                      AppText(
-                        text: "Seller type",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      height2,
-                      AppText(
-                        text: "Shopname",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      height2,
-                      AppText(
-                        text: "Posted on",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      height2,
-                      AppText(
-                        text: "Product Id",
-                        fontSize: 16,
+                        text: "Frame shape",
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ],
@@ -579,76 +871,63 @@ class ProductDetailScreen extends GetView<HomepageController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText(
-                        text: "No category name",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                        text: controller.productDetailList![0].modelNumber!,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
-                        text: "No Brand name",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                        text: controller.productDetailList![0].brand ??
+                            "No brand",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
-                        text: "No Material name",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                        text: controller.productDetailList![0].frameColor ??
+                            "No Color",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
-                        text: "No Material name",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                        text: controller
+                                .productDetailList![0].frameSize![0].name ??
+                            "No size",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
-                        text: "No Size ",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                        text:
+                            controller.productDetailList![0].frametype!.name ??
+                                "No type",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
-                        text: "No Quantity",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                        text: controller
+                                .productDetailList![0].framematerial!.name ??
+                            "No material",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
                       ),
                       height2,
                       AppText(
-                        text: "No Username",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      height2,
-                      AppText(
-                        text: "No SellerType",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      height2,
-                      AppText(
-                        text: "ShopName",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      height2,
-                      AppText(
-                        text: "no dates",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                      ),
-                      height2,
-                      AppText(
-                        text: "No docsId",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
+                        text:
+                            controller.productDetailList![0].frameshape!.name ??
+                                "No material",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
                       ),
                     ],
                   ),
                 ),
               )
             ],
-          )
+          ),
+          height18,
         ],
       ),
     );
@@ -661,7 +940,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
       decoration: BoxDecoration(
           border: Border(
               bottom: BorderSide(
-        color: AppColor.greyColor,
+        color: AppColor.greyColor.withOpacity(0.2),
       ))),
       child: ExpansionTile(
         // tilePadding: EdgeInsets.symmetric(vertical: getVerticalSize(1)),
@@ -674,113 +953,112 @@ class ProductDetailScreen extends GetView<HomepageController> {
         ),
         title: AppText(
           text: title,
-          fontSize: 16.sp,
+          fontSize: 14.sp,
           fontWeight: FontWeight.w600,
         ),
         children: [
           Column(
             children: [
-              height10,
               Row(
                 children: [
-                  const AppText(
-                    text: "5.0",
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: SizedBox(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppText(
+                            text: "Temple",
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          height2,
+                          AppText(
+                            text: "Bridge",
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  width10,
-                  Icon(
-                    Icons.star,
-                    color: AppColor.brownColor,
-                    size: 22,
-                  ),
-                  width2,
-                  Icon(
-                    Icons.star,
-                    color: AppColor.brownColor,
-                    size: 22,
-                  ),
-                  width2,
-                  Icon(
-                    Icons.star,
-                    color: AppColor.brownColor,
-                  ),
-                  width2,
-                  Icon(
-                    Icons.star,
-                    color: AppColor.brownColor,
-                    size: 22,
-                  ),
-                  width2,
-                  Icon(
-                    Icons.star,
-                    color: AppColor.brownColor,
-                    size: 22,
-                  ),
-                  width2,
-                  const AppText(
-                    text: "(23)",
-                    fontSize: 13,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppText(
+                            text: controller.productDetailList![0].temple! +
+                                " cm",
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          height2,
+                          AppText(
+                            text: controller.productDetailList![0].bridge! +
+                                " cm",
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
-              Divider(
-                color: AppColor.greyColor,
-                thickness: 0.6,
-                endIndent: 200,
-              ),
-              SizedBox(
-                height: getVerticalSize(20),
-              ),
-              Align(
-                alignment: Alignment.topLeft,
-                child: AppText(
-                  text: "Customer Reviews",
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: getVerticalSize(20),
-              ),
-              SizedBox(
-                  height: Get.height * 0.34,
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          height: Get.height * 0.10,
-                          width: Get.width * 0.10,
-                        );
-                      },
-                      itemCount: 5)),
-              InkWell(
-                onTap: (() {}),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                      bottom: getVerticalSize(10),
-                      left: getHorizontalSize(15),
-                      right: getHorizontalSize(25)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      AppText(
-                        text: "See all review",
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        size: 16,
-                      )
-                    ],
-                  ),
-                ),
-              )
             ],
           )
+        ],
+      ),
+    );
+  }
+
+  exchangeAndReturn(String title, context, Function ontap) {
+    // homepageController.getRatingReview(homepageController.uploadedList[index!]["docsId"]);
+    return Container(
+      width: Get.width,
+      decoration: BoxDecoration(
+          border: Border(
+              bottom: BorderSide(
+        color: AppColor.greyColor.withOpacity(0.2),
+      ))),
+      child: ExpansionTile(
+        // tilePadding: EdgeInsets.symmetric(vertical: getVerticalSize(1)),
+        // collapsedBackgroundColor: blackColor,
+        // backgroundColor: blackColor,
+        textColor: AppColor.blackColor,
+        iconColor: AppColor.blackColor,
+        childrenPadding: EdgeInsets.only(
+          left: getHorizontalSize(17),
+        ),
+        title: AppText(
+          text: title,
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w600,
+        ),
+        children: [
+          Column(
+            children: [
+              AppText(
+                text:
+                    "* Easy no question ask 14- days return & exchnage policy ",
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              AppText(
+                text: "* Shop worry free with one year warrenty on all frames ",
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
+              ),
+              AppText(
+                text:
+                    "* click here for show all terms and conditions policies ",
+                fontSize: 13.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            ],
+          ),
+          height13,
         ],
       ),
     );

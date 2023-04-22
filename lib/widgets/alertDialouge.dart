@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
+import 'package:orangeeye/utils/sharedPref.dart';
+import '../routes/approutes.dart';
 
 Future<void> showMyDialog(context) async {
   return showDialog<void>(
@@ -36,8 +38,8 @@ Future<void> showMyDialog(context) async {
               fontWeight: FontWeight.bold,
             ),
             onPressed: () async {
-              Get.back();
-              // SharedPref().deleteToken();
+              await Pref().deleteToken();
+              Get.offNamed(Routes.LOGIN, preventDuplicates: true);
               // Get.snackbar("logout".tr, "");
               // Get.to(LoginPage());
               // await FirebaseAuth.instance.signOut();

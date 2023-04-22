@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/onboardingController.dart';
-import 'package:orangeeye/utils/appText.dart';
-import 'package:orangeeye/widgets/onboardingPageWidget.dart';
-
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../utils/appColor.dart';
+import '../utils/appText.dart';
 import '../utils/customeElevatedButton.dart';
 import '../utils/sizeHelper.dart';
+import '../widgets/onboardingPageWidget.dart';
 
 class OnboardingScreen extends GetView<OnboardingController> {
   OnboardingScreen({super.key});
@@ -33,42 +34,50 @@ class OnboardingScreen extends GetView<OnboardingController> {
                   itemCount: controller.onboardingList.length,
                 )),
             Align(
-              alignment: Alignment.bottomCenter,
-              child: controller.dots.value == 2
-                  ? Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.only(bottom: Get.height * 0.040),
-                        child: CustomElevatedButtons(
-                            isBorder: false,
-                            buttoncolor: AppColor.orangeColor,
-                            height: Get.height * 0.060,
-                            width: Get.width * 0.90,
-                            textcolor: AppColor.whiteColor,
-                            textButton: "Let’s get Started",
-                            ontap: () {
-                              Get.toNamed("/login");
-                              // Get.to(const Signin(),
-                              //     transition: Transition.zoom);
-                            }),
-                      ),
-                    )
-                  : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ...Iterable.generate(3).map((e) => Padding(
-                              padding: EdgeInsets.only(
-                                  left: 4, bottom: getVerticalSize(30)),
-                              child: CircleAvatar(
-                                backgroundColor: controller.dots.value == e
-                                    ? AppColor.orangeColor
-                                    : AppColor.whiteColor,
-                                radius: 6,
-                              ),
-                            ))
-                      ],
-                    ),
-            ),
+                alignment: Alignment.bottomCenter,
+                child: controller.dots.value == 2
+                    ? Padding(
+                        padding: EdgeInsets.only(bottom: getVerticalSize(10)),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.toNamed("/login");
+                          },
+                          child: CustomElevatedButtons(
+                              isBorder: false,
+                              buttoncolor: AppColor.orangeColor,
+                              height: Get.height * 0.060,
+                              width: Get.width * 0.90,
+                              textcolor: AppColor.whiteColor,
+                              textButton: "Let’s get Started",
+                              ontap: () {
+                                Get.toNamed("/login");
+                                // Get.to(const Signin(),
+                                //     transition: Transition.zoom);
+                              }),
+                        ),
+                      )
+                    : Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                            padding:
+                                EdgeInsets.only(bottom: Get.height * 0.040),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ...Iterable.generate(3).map((e) => Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 4, bottom: getVerticalSize(30)),
+                                      child: CircleAvatar(
+                                        backgroundColor:
+                                            controller.dots.value == e
+                                                ? AppColor.orangeColor
+                                                : AppColor.whiteColor,
+                                        radius: 6,
+                                      ),
+                                    ))
+                              ],
+                            )),
+                      )),
           ],
         ),
       ),

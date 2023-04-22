@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/onboardingController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
-import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
+
+import '../utils/customeAssetsImage.dart';
 
 class OnboardingPageViewWidget extends GetView<OnboardingController> {
   int? index;
@@ -12,14 +14,14 @@ class OnboardingPageViewWidget extends GetView<OnboardingController> {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [
+      children: <Widget>[
+        RepaintBoundary(child: Center(child: CircularProgressIndicator())),
         Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-                fit: BoxFit.fitHeight,
-                image: AssetImage(
-                    controller.onboardingList[index!]["images"].toString())),
-          ),
+          child: FadeInImage(
+              fit: BoxFit.fitHeight,
+              placeholder: AssetImage("assets/image/whitePage.png"),
+              image: AssetImage(
+                  controller.onboardingList[index!]["images"].toString())),
           height: Get.height,
         ),
         Align(
