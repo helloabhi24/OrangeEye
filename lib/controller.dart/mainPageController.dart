@@ -17,6 +17,7 @@ class MainpageController extends GetxController {
   var selectedImagePath = "".obs;
   Pref sharedPref = Get.find();
   RxString phoneNumber = "".obs;
+  RxBool isshowAppbar = false.obs;
 
   List pages = [
     HomePage(),

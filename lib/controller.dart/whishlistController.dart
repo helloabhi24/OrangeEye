@@ -37,6 +37,7 @@ class WishlistPageController extends GetxController {
 
   @override
   void onInit() async {
+    print("ariunwhislist");
     await getWishlistProduct();
 
     super.onInit();

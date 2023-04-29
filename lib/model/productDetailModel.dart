@@ -56,16 +56,16 @@ class ProductDetailModel {
   final String? slug;
   final String? modelNumber;
   final Category? category;
-  final dynamic? brand;
-  final int? productType;
-  final int? frameMaterial;
-  final int? frameType;
-  final int? frameShape;
-  final dynamic? frameColor;
+  final dynamic brand;
+  final String? productType;
+  final String? frameMaterial;
+  final String? frameType;
+  final String? frameShape;
+  final dynamic frameColor;
   final List<Category>? lens;
   final List<Category>? frameSize;
-  final int? mrp;
-  final int? price;
+  final String? mrp;
+  final String? price;
   final String? shortDescription;
   final String? description;
   final dynamic exraDescription;
@@ -78,7 +78,7 @@ class ProductDetailModel {
   final dynamic cgst;
   final dynamic sgst;
   final dynamic igst;
-  final int? extraPrice;
+  final String? extraPrice;
   final String? status;
   final DateTime? createdAt;
   final DateTime? updatedAt;
@@ -194,8 +194,8 @@ class Category {
   final String? status;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  final int? mrp;
-  final int? price;
+  final String? mrp;
+  final String? price;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],
@@ -232,7 +232,7 @@ class ProductAttribute {
   });
 
   final int? id;
-  final int? productId;
+  final String? productId;
   final String? colorName;
   final String? colorCode;
   final DateTime? createdAt;

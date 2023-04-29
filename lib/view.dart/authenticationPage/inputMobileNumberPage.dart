@@ -111,6 +111,13 @@ class LoginScreen extends GetView<LoginPageController>
                                       vertical: getVerticalSize(10)),
                                   isPrefix: false,
                                   controller: controller.otpController,
+                                  onChanged: (v) {
+                                    print("otpv");
+                                    print(v);
+                                    return (v!.isNotEmpty)
+                                        ? controller.verifyOtp()
+                                        : customeToast("Please Enter OTP");
+                                  },
                                 ),
                                 OtpTimerButton(
                                   buttonType: ButtonType.text_button,

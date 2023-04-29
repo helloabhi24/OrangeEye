@@ -16,9 +16,9 @@ class WhislistModel {
     required this.product,
   });
 
-  final int id;
-  final int productId;
-  final List<Product> product;
+  final int? id;
+  final String? productId;
+  final List<Product>? product;
 
   factory WhislistModel.fromJson(Map<String, dynamic> json) => WhislistModel(
         id: json["id"],
@@ -30,16 +30,17 @@ class WhislistModel {
   Map<String, dynamic> toJson() => {
         "id": id,
         "product_id": productId,
-        "product": List<dynamic>.from(product.map((x) => x.toJson())),
+        "product": List<dynamic>.from(product!.map((x) => x.toJson())),
       };
 }
 
 class Product {
   Product({
     required this.id,
+    required this.colorName,
+    required this.colorCode,
     required this.name,
     required this.slug,
-    this.frameColor,
     required this.lens,
     required this.frameSize,
     required this.mrp,
@@ -48,20 +49,22 @@ class Product {
   });
 
   final int id;
-  final String name;
-  final String slug;
-  final dynamic frameColor;
-  final List<String> lens;
-  final List<FrameSize> frameSize;
-  final int mrp;
-  final int price;
-  final List<ProductAttribute> productAttributes;
+  final String? colorName;
+  final String? colorCode;
+  final String? name;
+  final String? slug;
+  final List<String>? lens;
+  final List<FrameSize>? frameSize;
+  final String? mrp;
+  final String? price;
+  final List<ProductAttribute>? productAttributes;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
+        colorName: json["color_name"],
+        colorCode: json["color_code"],
         name: json["name"],
         slug: json["slug"],
-        frameColor: json["frame_color"],
         lens: List<String>.from(json["lens"].map((x) => x)),
         frameSize: List<FrameSize>.from(
             json["frame_size"].map((x) => FrameSize.fromJson(x))),
@@ -74,15 +77,16 @@ class Product {
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "color_name": colorName,
+        "color_code": colorCode,
         "name": name,
         "slug": slug,
-        "frame_color": frameColor,
-        "lens": List<dynamic>.from(lens.map((x) => x)),
-        "frame_size": List<dynamic>.from(frameSize.map((x) => x.toJson())),
+        "lens": List<dynamic>.from(lens!.map((x) => x)),
+        "frame_size": List<dynamic>.from(frameSize!.map((x) => x.toJson())),
         "mrp": mrp,
         "price": price,
         "product_attributes":
-            List<dynamic>.from(productAttributes.map((x) => x.toJson())),
+            List<dynamic>.from(productAttributes!.map((x) => x.toJson())),
       };
 }
 
@@ -95,11 +99,11 @@ class FrameSize {
     required this.updatedAt,
   });
 
-  final int id;
-  final String name;
-  final String status;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final int? id;
+  final String? name;
+  final String? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   factory FrameSize.fromJson(Map<String, dynamic> json) => FrameSize(
         id: json["id"],
@@ -113,8 +117,8 @@ class FrameSize {
         "id": id,
         "name": name,
         "status": status,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
       };
 }
 
@@ -130,12 +134,12 @@ class ProductAttribute {
   });
 
   final int id;
-  final int productId;
-  final String colorName;
-  final String colorCode;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final List<String> images;
+  final String? productId;
+  final String? colorName;
+  final String? colorCode;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final List<String>? images;
 
   factory ProductAttribute.fromJson(Map<String, dynamic> json) =>
       ProductAttribute(
@@ -153,8 +157,8 @@ class ProductAttribute {
         "product_id": productId,
         "color_name": colorName,
         "color_code": colorCode,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "images": List<dynamic>.from(images.map((x) => x)),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
+        "images": List<dynamic>.from(images!.map((x) => x)),
       };
 }

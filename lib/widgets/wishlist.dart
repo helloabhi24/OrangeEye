@@ -40,8 +40,8 @@ class WishlistWidget extends GetView<WishlistPageController> {
               children: [
                 Column(
                   children: [
-                    controller.whislistProductList![index].product[0]
-                            .productAttributes.isEmpty
+                    controller.whislistProductList![index].product![0]
+                            .productAttributes!.isEmpty
                         ? Container(
                             alignment: Alignment.center,
                             height: Get.height * 0.30,
@@ -63,8 +63,8 @@ class WishlistWidget extends GetView<WishlistPageController> {
                                   print("length of product attributes");
                                   print(controller
                                       .whislistProductList![index]
-                                      .product[0]
-                                      .productAttributes[index1]
+                                      .product![0]
+                                      .productAttributes![index1]
                                       .colorName);
                                   return Column(
                                     children: [
@@ -74,9 +74,9 @@ class WishlistWidget extends GetView<WishlistPageController> {
                                         child: CarouselSlider(
                                             items: controller
                                                 .whislistProductList![index]
-                                                .product[0]
-                                                .productAttributes[index1]
-                                                .images
+                                                .product![0]
+                                                .productAttributes![index1]
+                                                .images!
                                                 .map((element) =>
                                                     CachedNetworkImage(
                                                       imageBuilder: (context,
@@ -139,8 +139,8 @@ class WishlistWidget extends GetView<WishlistPageController> {
                                             ...Iterable.generate(
                                               controller
                                                   .whislistProductList![index]
-                                                  .product[0]
-                                                  .productAttributes
+                                                  .product![0]
+                                                  .productAttributes!
                                                   .length,
                                             ).map((e) => Padding(
                                                   padding: EdgeInsets.only(
@@ -158,7 +158,7 @@ class WishlistWidget extends GetView<WishlistPageController> {
                                                     },
                                                     child: ColorDots(
                                                       dotsColor: Color(int.parse(
-                                                          "0xff${controller.whislistProductList![index].product[0].productAttributes[e].colorCode.replaceFirst(r'#', "")}")),
+                                                          "0xff${controller.whislistProductList![index].product![0].productAttributes![e].colorCode!.replaceFirst(r'#', "")}")),
                                                     ),
                                                   ),
                                                 ))
@@ -171,8 +171,8 @@ class WishlistWidget extends GetView<WishlistPageController> {
                                 shrinkWrap: true,
                                 itemCount: controller
                                     .whislistProductList![index]
-                                    .product[0]
-                                    .productAttributes
+                                    .product![0]
+                                    .productAttributes!
                                     .length,
                               ),
                             ),
@@ -193,13 +193,13 @@ class WishlistWidget extends GetView<WishlistPageController> {
               ],
             ),
             AppText(
-              text: controller.whislistProductList![index].product[0].name,
+              text: controller.whislistProductList![index].product![0].name!,
               fontSize: 15.sp,
               fontWeight: FontWeight.w600,
             ),
             AppText(
               text:
-                  "₹ ${controller.whislistProductList![index].product[0].price.toString()}",
+                  "₹ ${controller.whislistProductList![index].product![0].price.toString()}",
               fontSize: 15.sp,
               fontWeight: FontWeight.w600,
             ),

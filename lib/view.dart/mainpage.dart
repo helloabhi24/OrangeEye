@@ -75,7 +75,10 @@ class MainPage extends GetView<MainpageController> {
               showUnselectedLabels: true,
               // selectedLabelStyle: const TextStyle(color: AppColor.orangeColor),
               // unselectedLabelStyle: const TextStyle(color: AppColor.blackColor),
-              onTap: (value) => controller.bottomNavbarIndex.value = value,
+              onTap: (value) {
+                controller.bottomNavbarIndex.value = value;
+                controller.isshowAppbar.value = true;
+              },
               items: [
                 BottomNavigationBarItem(
                     label: "Home",

@@ -21,7 +21,7 @@ class LoginPage extends GetView<LoginPageController> {
           CustomAssetsImage(
             boxFit: BoxFit.cover,
             height: Get.height,
-            imagePath: "assets/image/img10.png",
+            imagePath: "assets/image/model3.jpg",
           ),
           Center(
               child: Column(

@@ -21,13 +21,13 @@ class HomePageSliderModel {
     required this.updatedAt,
   });
 
-  final int id;
-  final String title;
-  final String image;
-  final String description;
-  final String status;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final int? id;
+  final String? title;
+  final String? image;
+  final String? description;
+  final String? status;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   factory HomePageSliderModel.fromJson(Map<String, dynamic> json) =>
       HomePageSliderModel(
@@ -46,7 +46,7 @@ class HomePageSliderModel {
         "image": image,
         "description": description,
         "status": status,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
+        "created_at": createdAt!.toIso8601String(),
+        "updated_at": updatedAt!.toIso8601String(),
       };
 }

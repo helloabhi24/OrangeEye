@@ -107,33 +107,6 @@ Future privacyDialog(context) async {
           ),
         );
       });
-  // showDialog<void>(
-  //   context: context,
-  //   barrierDismissible: false, // user must tap button!
-  //   builder: (BuildContext context) {
-  //     return Container(
-  //       height: Get.height,
-  //       width: Get.width * 0.95,
-  //       child: AppText(
-  //         text: loginPageController.privacyPolicies.value,
-  //         fontWeight: FontWeight.w600,
-  //         fontSize: 14.sp,
-  //       ),
-  //     );
-  //     //  AlertDialog(
-  //     //     title: SingleChildScrollView(
-  //     //   child: Column(
-  //     //     children: [
-  //     //       AppText(
-  //     //         text: loginPageController.privacyPolicies.value,
-  //     //         fontWeight: FontWeight.w600,
-  //     //         fontSize: 14.sp,
-  //     //       ),
-  //     //     ],
-  //     //   ),
-  //     // ));
-  //   },
-  // );
 }
 
 sizeGuideDialouge(context) {

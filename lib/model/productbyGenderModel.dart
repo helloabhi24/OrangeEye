@@ -28,10 +28,10 @@ class ProductByGenderModel {
   final int id;
   final String? name;
   final String? slug;
-  final int? mrp;
-  final int? price;
+  final String? mrp;
+  final String? price;
   final String? availability;
-  final int? extraPrice;
+  final String? extraPrice;
   final String? productName;
   final String? categoriesName;
   final List<String>? images;

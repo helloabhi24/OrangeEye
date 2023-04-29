@@ -5,7 +5,7 @@ class Api {
   final Dio _dio = Dio();
 
   Api() {
-    _dio.options.baseUrl = "https://skardtech.com/orangeeye";
+    _dio.options.baseUrl = "https://orangeeyewearindia.com/";
     // "https://orangeeye.atally.com";
     _dio.interceptors.add(PrettyDioLogger(
       request: true,

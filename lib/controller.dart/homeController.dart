@@ -13,6 +13,7 @@ import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/customToast.dart';
 import 'package:orangeeye/view.dart/cartPage.dart';
 import '../model/differentTypeCategoryModel.dart';
+import '../model/getLensesCategoryModel.dart';
 import '../model/homePageSliderModel.dart';
 import '../model/ourCollectionModel.dart';
 import '../model/productAttriModel.dart';
@@ -33,6 +34,7 @@ class HomepageController extends GetxController {
   RxBool isLoading = false.obs;
   RxInt dotIndex = 0.obs;
   RxInt colorDotsIndex = 0.obs;
+  RxInt indexOfGetLenses = 0.obs;
   RxBool isAddWishlist = false.obs;
   RxBool isLensType = false.obs;
   RxBool isPrescriptionType = false.obs;
@@ -44,10 +46,13 @@ class HomepageController extends GetxController {
   WishlistPageController wishlistPageController = Get.find();
   // RxBool IsBestSeller = false.obs
 
-  RxList<HomePageSliderModel> homePageSliderList = <HomePageSliderModel>[].obs;
+  RxList<HomePageSliderModel>? homePageSliderList = <HomePageSliderModel>[].obs;
 
   RxList<DifferentTypeCategoryModel> getDifferentTypeProduct =
       <DifferentTypeCategoryModel>[].obs;
+
+  RxList<GetLensesByCategoryModel> getLensesByCategorey =
+      <GetLensesByCategoryModel>[].obs;
 
   // RxList<ProductAttribute> productColorList = <ProductAttribute>[].obs;
 
@@ -80,7 +85,9 @@ class HomepageController extends GetxController {
       File imagefile = File(selectedImagePath.value); //convert Path to File
       Uint8List imagebytes = await imagefile.readAsBytes(); //convert to bytes
       base64string.value =
-          base64.encode(imagebytes); //convert bytes to base64 string
+          "data:image/jpeg;base64," + base64.encode(imagebytes);
+      print("byteImage");
+      print(base64string.value); //convert bytes to base64 string
       // await editPageController.getUpdateProfile(base64string.value);
       // await convertImageIntoByte();
 
@@ -90,28 +97,6 @@ class HomepageController extends GetxController {
           snackPosition: SnackPosition.BOTTOM);
     }
   }
-
-  // getEditImage(ImageSource imageSource) async {
-  //   XFile? pickeImage = await ImagePicker().pickImage(source: imageSource);
-  //   if (pickeImage != null) {
-  //     print("arun");
-  //     File? img = await getCroppedImage(pickeImage);
-  //     print(pickeImage);
-  //     selectedImagePath.value = await img!.path;
-  //     // await convertImageIntoByte();
-
-  //     // print(editSliderList.length);
-  //   } else {
-  //     Get.snackbar("No Image Selected", "",
-  //         snackPosition: SnackPosition.BOTTOM);
-  //   }
-  // }
-
-  // Future convertImageIntoByte() async {
-  //   Uint8List imageByte = await File(selectedImagePath.value).readAsBytesSync();
-  //   base64string.value = base64.encode(imageByte);
-  //   return base64string;
-  // }
 
   getCroppedImage(XFile image) async {
     CroppedFile? croppedFile =
@@ -124,10 +109,10 @@ class HomepageController extends GetxController {
     print("sliderLIST");
     try {
       await ApiRepo().getHomeSlider().then((value) {
-        homePageSliderList.value = (value["data"] as List)
+        homePageSliderList!.value = (value["data"] as List)
             .map((e) => HomePageSliderModel.fromJson(e))
             .toList();
-        print("sliderLISRSD");
+        print("sliderLISRSD**********************");
         print(homePageSliderList);
       });
     } catch (e) {
@@ -143,6 +128,20 @@ class HomepageController extends GetxController {
             .toList();
         print("sliderLISRSD");
         print(getDifferentTypeProduct);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  getLensesByCategory() async {
+    try {
+      await ApiRepo().getLensesByCategory().then((value) {
+        getLensesByCategorey.value = (value["data"] as List)
+            .map((e) => GetLensesByCategoryModel.fromJson(e))
+            .toList();
+        print("GETLENSESEBYCATEGORY");
+        print(getLensesByCategorey);
       });
     } catch (e) {
       print(e);
@@ -265,6 +264,7 @@ class HomepageController extends GetxController {
 
       await ApiRepo().updatedWishlist(data).then((value) {
         if (value["status"] == "success") {
+          print("get,shdkhsfdkhkfh");
           print(value);
           // isWhislist.value = true;
         }
@@ -284,6 +284,7 @@ class HomepageController extends GetxController {
     Map<String, dynamic> data = {};
     data["user_id"] = sharedPref.userToken.value;
     data["size"] = size;
+
     data["color"] = "";
     data["product_id"] = productId;
     data["lens"] = "12";
@@ -303,18 +304,13 @@ class HomepageController extends GetxController {
       showloadingIndicators();
       await ApiRepo().addToCart(data).then((value) {
         if (value["status"] == "success") {
+          Get.to(CartPage());
           print("value");
           print(value);
           customeToast(value["message"]);
         } else {
           customeToast("something went wrong");
         }
-
-        // finalHomepageProductList!.value = (value["data"] as List)
-        //     .map((e) => ProductCategoryModel.fromJson(e))
-        //     .toList();
-        // print("foinalhomepagelist");
-        // print(finalHomepageProductList![0].productAttributes![0].colorCode);
       });
     } catch (e) {
       print(e);
@@ -329,6 +325,7 @@ class HomepageController extends GetxController {
     await getOurRecommendation("");
     await getOurCollection();
     await getDifferntTypeProduct();
+    await getLensesByCategory();
     await sharedPref.getUserId();
 
     super.onInit();

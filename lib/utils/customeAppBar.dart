@@ -83,3 +83,10 @@ class CustomAppbar {
     );
   }
 }
+
+PreferredSizeWidget cartPage() {
+  return AppBar(
+    toolbarHeight: 0,
+    backgroundColor: AppColor.whiteColor,
+  );
+}

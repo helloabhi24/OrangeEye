@@ -1,6 +1,5 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
+
 import 'package:get/get.dart';
 
 class OnboardingController extends GetxController {
@@ -15,27 +14,17 @@ class OnboardingController extends GetxController {
   List<Map<String, dynamic>> onboardingList = [
     {
       "title": "Picks Your Favourite Frames",
-      "images": "assets/image/img11.png",
+      "images": "assets/image/image4.jpg",
     },
     {
       "title": "Cool Specs and gogle",
-      "images": "assets/image/threegirls.png",
+      "images": "assets/image/model2.jpg",
     },
     {
       "title": "Eyewear for everyone & every need",
-      "images": "assets/image/img10.png",
+      "images": "assets/image/model4.jpg",
     },
   ];
 
   RxInt dots = 0.obs;
-
-  imageCompress(int index) {
-    return FlutterImageCompress.compressAssetImage(
-      onboardingList[index]["images"].toString(),
-      minHeight: 1920,
-      minWidth: 1080,
-      quality: 96,
-      rotate: 180,
-    );
-  }
 }

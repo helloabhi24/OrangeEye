@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/controller.dart/whishlistController.dart';
+import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/appText.dart';
+import 'package:orangeeye/utils/cachedNetworkImage.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/view.dart/cartPage.dart';
 import '../../utils/appColor.dart';
@@ -16,8 +19,9 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
   SelectPrescriptionPage({this.index, super.key});
   @override
   Widget build(BuildContext context) {
-    pageView("0", context);
+    // pageView("0", context);
     //  int index =  Get.arguments["detailPage"];
+    WishlistPageController wishlistPageController = Get.find();
     return Obx(
       () => Scaffold(
         appBar: CustomAppbar.customeAppbar(
@@ -36,18 +40,23 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                           IconButton(
                               onPressed: () {
                                 controller.isLensType.value = false;
-                                controller.isPrescriptionType.value = false;
-                                controller.isLens.value = "1";
-                                pageView(controller.isLens.value, context);
+                                // controller.isPrescriptionType.value = false;
+                                // controller.isLens.value = "1";
+                                // pageView(controller.isLens.value, context);
                               },
                               icon: Icon(Icons.arrow_back)),
                           AppText(
-                            text: controller.isLensType.value == true
-                                ? controller.isPrescriptionType.value == true
-                                    ? "Prescription Details"
-                                    : "Select a lens type"
-                                : "Select a prescription type ",
+                            text: "Lense",
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
                           ),
+                          // AppText(
+                          //   text: controller.isLensType.value == true
+                          //       ? controller.isPrescriptionType.value == true
+                          //           ? "Prescription Details"
+                          //           : "Select a lens type"
+                          //       : "Select a prescription type",
+                          // ),
                           IconButton(
                               onPressed: () {
                                 Get.back();
@@ -81,11 +90,138 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                       // ),
                     ],
                   )),
-              pageView(
-                  controller.isLens.value.isEmpty
-                      ? "0"
-                      : controller.isLens.value,
-                  context)
+
+              controller.isLensType.value == false
+                  ? Column(
+                      children: [
+                        ...Iterable.generate(
+                                controller.getLensesByCategorey.length)
+                            .map((e) => prescriptionWidget(
+                                  context,
+                                  controller.getLensesByCategorey[e].name!,
+                                  "no subtile",
+                                  "",
+                                  AppColor.whiteColor,
+                                  () {
+                                    print("arundhg");
+                                    controller.isLensType.value = true;
+                                    controller.indexOfGetLenses.value = e;
+                                    controller.isZeroPower.value = false;
+                                  },
+                                  controller.getLensesByCategorey[e].image!,
+                                ))
+                      ],
+                    )
+                  : controller.isZeroPower.value == false
+                      ? controller
+                              .getLensesByCategorey[
+                                  controller.indexOfGetLenses.value]
+                              .lenses!
+                              .isEmpty
+                          ? SizedBox(
+                              height: Get.height * 0.80,
+                              width: Get.width,
+                              child: Center(
+                                child: AppText(
+                                  text: "No Lenses",
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            )
+                          : Column(
+                              children: [
+                                ...Iterable.generate(controller
+                                        .getLensesByCategorey[
+                                            controller.indexOfGetLenses.value]
+                                        .lenses!
+                                        .length)
+                                    .map((e) => Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: GestureDetector(
+                                            onTap: () async {
+                                              controller.isZeroPower.value =
+                                                  true;
+                                            },
+                                            child: Container(
+                                              height: Get.height * 0.25,
+                                              width: Get.width,
+                                              color: AppColor.whiteColor,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  AppText(
+                                                    text: controller
+                                                        .getLensesByCategorey[
+                                                            controller
+                                                                .indexOfGetLenses
+                                                                .value]
+                                                        .lenses![e]
+                                                        .name!,
+                                                    fontSize: 20.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                  getWidth(context, 0.030),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      AppText(
+                                                        text: controller
+                                                            .getLensesByCategorey[
+                                                                controller
+                                                                    .indexOfGetLenses
+                                                                    .value]
+                                                            .lenses![e]
+                                                            .mrp!,
+                                                        fontSize: 20.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        textDecoration:
+                                                            TextDecoration
+                                                                .lineThrough,
+                                                      ),
+                                                      getWidth(context, 0.020),
+                                                      AppText(
+                                                        text: controller
+                                                            .getLensesByCategorey[
+                                                                controller
+                                                                    .indexOfGetLenses
+                                                                    .value]
+                                                            .lenses![e]
+                                                            .price!,
+                                                        fontSize: 20.sp,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                      )
+                                                    ],
+                                                  ),
+                                                  getWidth(context, 0.010),
+                                                  CachedNetworkImage(
+                                                      imageUrl: "https://orangeeyewearindia.com/public/uploads/lenses/" +
+                                                          controller
+                                                              .getLensesByCategorey[
+                                                                  controller
+                                                                      .indexOfGetLenses
+                                                                      .value]
+                                                              .lenses![e]
+                                                              .image!),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ))
+                              ],
+                            )
+                      : proceedCartWidget(context)
+
+              // pageView(
+              //     controller.isLens.value.isEmpty
+              //         ? "0"
+              //         : controller.isLens.value,
+              //     context)
             ],
           ),
         ),
@@ -201,7 +337,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
 
               await controller.getAddToCart(
                 wishlistPageController
-                    .whislistProductList![index!].product[0].frameSize[0].id
+                    .whislistProductList![index!].product![0].frameSize![0].id
                     .toString(),
                 "#00FF00",
                 wishlistPageController.whislistProductList![index!].productId
@@ -209,6 +345,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                 "4",
                 controller.base64string.value,
               );
+
               Get.to(CartPage());
 
               // Get.toNamed(Routes.CARTPAGE);
@@ -283,7 +420,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
           controller.isLensType.value = true;
           controller.isLens.value = "0";
           pageView(controller.isLens.value, context);
-        }),
+        }, ""),
         prescriptionWidget(
             context,
             "Zero Power",
@@ -294,7 +431,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
           controller.isLensType.value = true;
           controller.isLens.value = "2";
           pageView(controller.isLens.value, context);
-        }),
+        }, ""),
         prescriptionWidget(
             context,
             "Progressive or Bifocal",
@@ -305,7 +442,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
           controller.isLensType.value = true;
           controller.isLens.value = "3";
           pageView(controller.isLens.value, context);
-        }),
+        }, ""),
       ],
     );
   }
@@ -322,7 +459,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
           controller.isPrescriptionType.value = true;
           controller.isLens.value = "5";
           pageView(controller.isLens.value, context);
-        }),
+        }, ""),
         prescriptionWidget(
             context,
             "Zero Power Blu Anti - Fog Lenses",
@@ -332,7 +469,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
           controller.isPrescriptionType.value = true;
           controller.isLens.value = "5";
           pageView(controller.isLens.value, context);
-        }),
+        }, ""),
       ],
     );
   }
@@ -349,7 +486,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
           controller.isPrescriptionType.value = true;
           controller.isLens.value = "5";
           pageView(controller.isLens.value, context);
-        }),
+        }, ""),
         prescriptionWidget(
             context,
             "Normal Corridor Progressive",
@@ -359,7 +496,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
           controller.isPrescriptionType.value = true;
           controller.isLens.value = "5";
           pageView(controller.isLens.value, context);
-        }),
+        }, ""),
         prescriptionWidget(
             context,
             "Wide Corridor Progressive",
@@ -369,7 +506,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
           controller.isPrescriptionType.value = true;
           controller.isLens.value = "5";
           pageView(controller.isLens.value, context);
-        }),
+        }, ""),
       ],
     );
   }
@@ -387,7 +524,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
           controller.isLens.value = "5";
           pageView(controller.isLens.value, context);
           // Get.to(ProceedCartPage);
-        }),
+        }, ""),
         prescriptionWidget(
             context,
             "BLU Essential Lenses",
@@ -397,7 +534,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
           controller.isPrescriptionType.value = true;
           controller.isLens.value = "5";
           pageView(controller.isLens.value, context);
-        }),
+        }, ""),
         prescriptionWidget(
             context,
             "BLU Thin Lenses ",
@@ -407,13 +544,13 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
           controller.isPrescriptionType.value = true;
           controller.isLens.value = "5";
           pageView(controller.isLens.value, context);
-        }),
+        }, ""),
       ],
     );
   }
 
   prescriptionWidget(context, String title, String subtitle, String price,
-      Color color, Function ontap) {
+      Color color, Function ontap, String image) {
     return Card(
       elevation: 1,
       child: GestureDetector(
@@ -433,6 +570,59 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                 text: title,
               ),
               getheight(context, 0.015),
+              CachedNetworkImage(
+                  imageUrl:
+                      "https://orangeeyewearindia.com/public/uploads/lenses/" +
+                          image),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: getHorizontalSize(15)),
+                child: AppText(
+                  textAlign: TextAlign.center,
+                  text: subtitle,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              getheight(context, 0.015),
+              AppText(
+                color: color,
+                text: price,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w600,
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  secondPrescriptionWidget(context, String title, String subtitle, String price,
+      Color color, Function ontap, String image) {
+    return Card(
+      elevation: 1,
+      child: GestureDetector(
+        onTap: () {
+          ontap();
+        },
+        child: Container(
+          height: Get.height * 0.24,
+          width: Get.width,
+          color: AppColor.whiteColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AppText(
+                fontSize: 16.sp,
+                fontWeight: FontWeight.w700,
+                text: title,
+              ),
+              getheight(context, 0.015),
+              CachedNetworkImage(
+                  imageUrl:
+                      "https://orangeeyewearindia.com/public/uploads/lenses/" +
+                          image),
               Padding(
                 padding:
                     EdgeInsets.symmetric(horizontal: getHorizontalSize(15)),

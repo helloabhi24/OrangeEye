@@ -7,15 +7,12 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
-import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/customeAssetsImage.dart';
-import 'package:orangeeye/utils/customeElevatedButton.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/widgets/homepageWidget.dart';
 import 'package:orangeeye/widgets/productDetailPage.dart';
-
 import '../utils/showDialouge.dart';
 
 class ProductDetailScreen extends GetView<HomepageController> {
@@ -50,61 +47,80 @@ class ProductDetailScreen extends GetView<HomepageController> {
                             : ListView.builder(
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
-                                  return Obx(
-                                    () => CarouselSlider(
-                                        items: controller
-                                            .productDetailList![0]
-                                            .productAttributes![
-                                                controller.colorDotsIndex.value]
-                                            .images!
-                                            .map((element) =>
-                                                CachedNetworkImage(
-                                                  imageBuilder: (context,
-                                                          imageProvider) =>
-                                                      Container(
-                                                    height: Get.height * 0.40,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                      image: DecorationImage(
-                                                          image: imageProvider,
-                                                          fit: BoxFit.contain),
-                                                    ),
-                                                  ),
-                                                  imageUrl:
-                                                      "https://orangeeye.skardtech.com/public/uploads/products/${element}",
-                                                  placeholder: (context, url) =>
-                                                      const Center(
-                                                          child:
-                                                              CircularProgressIndicator()),
-                                                  errorWidget: (context, url,
-                                                          error) =>
-                                                      const Icon(Icons.error),
-                                                  memCacheHeight: 300,
-                                                ))
-                                            .toList(),
-                                        options: CarouselOptions(
-                                          height: Get.height * 0.40,
-                                          aspectRatio: 16 / 8,
-                                          viewportFraction: 1,
-                                          initialPage: 0,
-                                          enableInfiniteScroll: true,
-                                          reverse: false,
-                                          autoPlay: false,
-                                          autoPlayInterval:
-                                              const Duration(seconds: 3),
-                                          autoPlayAnimationDuration:
-                                              const Duration(milliseconds: 800),
-                                          autoPlayCurve: Curves.fastOutSlowIn,
-                                          enlargeFactor: 0.2,
-                                          enlargeCenterPage: true,
-                                          onPageChanged: (v, c) {
-                                            controller.dotIndex.value = v;
-                                          },
-                                          scrollDirection: Axis.horizontal,
-                                        )),
-                                  );
+                                  return controller
+                                          .productDetailList![0]
+                                          .productAttributes![
+                                              controller.colorDotsIndex.value]
+                                          .images!
+                                          .isEmpty
+                                      ? AppText(
+                                          text: "No image",
+                                        )
+                                      : Obx(
+                                          () => CarouselSlider(
+                                              items: controller
+                                                  .productDetailList![0]
+                                                  .productAttributes![controller
+                                                      .colorDotsIndex.value]
+                                                  .images!
+                                                  .map((element) =>
+                                                      CachedNetworkImage(
+                                                        imageBuilder: (context,
+                                                                imageProvider) =>
+                                                            Container(
+                                                          height:
+                                                              Get.height * 0.40,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            image: DecorationImage(
+                                                                image:
+                                                                    imageProvider,
+                                                                fit: BoxFit
+                                                                    .contain),
+                                                          ),
+                                                        ),
+                                                        imageUrl:
+                                                            "https://orangeeye.skardtech.com/public/uploads/products/${element}",
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            const Center(
+                                                                child:
+                                                                    CircularProgressIndicator()),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            const Icon(
+                                                                Icons.error),
+                                                        memCacheHeight: 300,
+                                                      ))
+                                                  .toList(),
+                                              options: CarouselOptions(
+                                                height: Get.height * 0.40,
+                                                aspectRatio: 16 / 8,
+                                                viewportFraction: 1,
+                                                initialPage: 0,
+                                                enableInfiniteScroll: true,
+                                                reverse: false,
+                                                autoPlay: false,
+                                                autoPlayInterval:
+                                                    const Duration(seconds: 3),
+                                                autoPlayAnimationDuration:
+                                                    const Duration(
+                                                        milliseconds: 800),
+                                                autoPlayCurve:
+                                                    Curves.fastOutSlowIn,
+                                                enlargeFactor: 0.2,
+                                                enlargeCenterPage: true,
+                                                onPageChanged: (v, c) {
+                                                  controller.dotIndex.value = v;
+                                                },
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                              )),
+                                        );
                                 },
                                 itemCount: controller.productDetailList![0]
                                     .productAttributes!.length,

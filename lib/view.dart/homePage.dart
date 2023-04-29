@@ -29,10 +29,15 @@ class HomePage extends GetView<HomepageController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    AppText(
-                      text: "Discover All",
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w700,
+                    GestureDetector(
+                      onTap: () {
+                        controller.getOurCollection();
+                      },
+                      child: AppText(
+                        text: "Discover All",
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
                     height10,
                     Row(

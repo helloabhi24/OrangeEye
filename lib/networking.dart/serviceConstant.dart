@@ -30,4 +30,8 @@ class ServiceConstant {
   static const String GETADDTOCART = '/api/get_addCart';
 
   static const String privacypolicies = '/api/get_privacypolicy';
+
+  static const String GETCOUPOUNS = '/api/get_coupon';
+
+  static const String GETLENSESBYCATEGORY = '/api/lens_with_category';
 }

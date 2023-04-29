@@ -40,9 +40,6 @@ Future<void> showMyDialog(context) async {
             onPressed: () async {
               await Pref().deleteToken();
               Get.offNamed(Routes.LOGIN, preventDuplicates: true);
-              // Get.snackbar("logout".tr, "");
-              // Get.to(LoginPage());
-              // await FirebaseAuth.instance.signOut();
             },
           ),
         ],

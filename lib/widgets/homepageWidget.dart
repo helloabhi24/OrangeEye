@@ -76,7 +76,7 @@ class HomePageSlider extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      homepageController.homePageSliderList.isEmpty
+                      homepageController.homePageSliderList!.isEmpty
                           ? SizedBox(
                               height: Get.height * 0.30,
                               width: getHorizontalSize(5414),
@@ -87,7 +87,7 @@ class HomePageSlider extends StatelessWidget {
                               ),
                             )
                           : CarouselSlider(
-                              items: homepageController.homePageSliderList
+                              items: homepageController.homePageSliderList!
                                   .map((element) => CachedNetworkImage(
                                         imageBuilder:
                                             (context, imageProvider) =>
@@ -103,7 +103,7 @@ class HomePageSlider extends StatelessWidget {
                                           ),
                                         ),
                                         imageUrl:
-                                            "https://orangeeye.skardtech.com/public/uploads/${element.image.toString()}",
+                                            "https://orangeeyewearindia.com/public/uploads/${element.image.toString()}",
                                         placeholder: (context, url) =>
                                             const Center(
                                                 child:
@@ -114,7 +114,7 @@ class HomePageSlider extends StatelessWidget {
                                   .toList(),
                               options: CarouselOptions(
                                 height: homepageController
-                                        .homePageSliderList.isEmpty
+                                        .homePageSliderList!.isEmpty
                                     ? 0
                                     : Get.height * 0.50,
                                 aspectRatio: 16 / 8,
@@ -139,7 +139,7 @@ class HomePageSlider extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ...Iterable.generate(
-                                  homepageController.homePageSliderList.length)
+                                  homepageController.homePageSliderList!.length)
                               .map((e) => Padding(
                                   padding: const EdgeInsets.only(left: 6),
                                   child: Container(
@@ -441,7 +441,7 @@ class GogleWidget extends StatelessWidget {
                               color: AppColor.whiteColor,
                               child: cacheNetworkImage(
                                   imageUrl:
-                                      "https://orangeeye.skardtech.com/public/uploads/products/${homepageController.finalHomepageProductList![index!].images![index1]}",
+                                      "https://orangeeyewearindia.com/public/uploads/products/${homepageController.finalHomepageProductList![index!].images![index1]}",
                                   height: Get.height * 0.13,
                                   boxfit: BoxFit.cover,
                                   width: Get.width * 0.43,
@@ -562,9 +562,10 @@ class GogleWidget extends StatelessWidget {
                               loginDialouge(context);
                             } else {
                               await homepageController.updatedWhislist(
-                                  homepageController
-                                      .finalHomepageProductList![index!].id
-                                      .toString());
+                                homepageController
+                                    .finalHomepageProductList![index!].id
+                                    .toString(),
+                              );
 
                               homepageController.isSelected.value =
                                   homepageController
@@ -804,7 +805,7 @@ class GogleVariousCategory extends StatelessWidget {
                           // ),
                           cacheNetworkImage(
                               imageUrl:
-                                  "https://orangeeye.skardtech.com/public/uploads/frameshapes/${homepageController.getDifferentTypeProduct[index].image}",
+                                  "https://orangeeyewearindia.com/public/uploads/frameshapes/${homepageController.getDifferentTypeProduct[index].image}",
                               height: Get.height * 0.13,
                               boxfit: BoxFit.cover,
                               width: Get.width * 0.43,
@@ -871,7 +872,7 @@ class ShopOurCollectionWidget extends StatelessWidget {
                               // width: Get.width * 0.40,
                               child: cacheNetworkImage(
                                   imageUrl:
-                                      "https://orangeeye.skardtech.com/public/uploads/products/${homepageController.shopOurCollectionList[index].frameProduct.image1}",
+                                      "https://orangeeyewearindia.com/public/uploads/products/${homepageController.shopOurCollectionList[index].frameProduct!.image1}",
                                   height: Get.height * 0.13,
                                   boxfit: BoxFit.cover,
                                   width: Get.width * 0.43,
@@ -889,7 +890,7 @@ class ShopOurCollectionWidget extends StatelessWidget {
                           AppText(
                             textAlign: TextAlign.center,
                             text: homepageController
-                                .shopOurCollectionList[index].name,
+                                .shopOurCollectionList[index].name!,
                             fontSize: 13.sp,
                             fontWeight: FontWeight.w600,
                           )

@@ -7,8 +7,6 @@ import 'package:orangeeye/utils/customTextformfiled.dart';
 import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/customeElevatedButton.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
-import 'package:orangeeye/widgets/homepageWidget.dart';
-import '../controller.dart/whishlistController.dart';
 import '../utils/appText.dart';
 
 class Productdesc extends GetView<CartpageController> {
@@ -254,51 +252,211 @@ class Coupouns extends GetView<CartpageController> {
   final CartpageController cartpageController = Get.put(CartpageController());
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: getHorizontalSize(10)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          getheight(context, 0.010),
-          AppText(
-            text: "Enter Promo Code",
-            fontSize: 14.sp,
-            fontWeight: FontWeight.w600,
-            color: AppColor.blackColor,
-          ),
-          getheight(context, 0.017),
-          Row(
-            children: [
-              Expanded(
-                child: SizedBox(
-                  height: getVerticalSize(55),
-                  child: CustomFormField(
-                    controller: controller.coupounController,
-                    hint: "Apply Coupons",
-                  ),
-                ),
-              ),
-              width10,
-              CustomElevatedButtons(
-                  buttoncolor: AppColor.orangeColor,
-                  isBorder: true,
-                  height: getVerticalSize(54),
-                  width: getHorizontalSize(30),
-                  textcolor: AppColor.whiteColor,
-                  textButton: "Apply",
-                  ontap: () {})
-            ],
-          ),
-          getheight(context, 0.017),
-          GestureDetector(
-            onTap: () {},
-            child: AppText(
-              text: "View Available Offers",
-              fontSize: 15.sp,
+    return Obx(
+      () => Padding(
+        padding: EdgeInsets.symmetric(horizontal: getHorizontalSize(10)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            getheight(context, 0.010),
+            AppText(
+              text: "Enter Promo Code",
+              fontSize: 14.sp,
               fontWeight: FontWeight.w600,
+              color: AppColor.blackColor,
             ),
-          )
-        ],
+            getheight(context, 0.017),
+            Row(
+              children: [
+                Expanded(
+                  child: SizedBox(
+                      height: getVerticalSize(55),
+                      child: GestureDetector(
+                        onTap: () async {
+                          await controller.getCoupouns();
+                          controller.isShow.value = !controller.isShow.value;
+                          print("value");
+                          print(controller.isShow.value);
+                        },
+                        child: Container(
+                          height: Get.height * 0.10,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: AppColor.greyColor),
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: AppText(
+                              text: controller.selectCoupouns.value.isEmpty
+                                  ? "Coupouns"
+                                  : controller.selectCoupouns.value,
+                            ),
+                          ),
+                        ),
+                      )
+                      // CustomFormField(
+                      //   controller: controller.coupounController,
+                      //   hint: "Apply Coupons",
+                      //   readOnly: true,
+                      //   ontap: () {
+                      //     controller.isShow.value = !controller.isShow.value;
+                      //     print("value");
+                      //     print(controller.isShow.value);
+                      //   },
+                      // ),
+                      ),
+                ),
+                width10,
+                CustomElevatedButtons(
+                    buttoncolor: AppColor.orangeColor,
+                    isBorder: true,
+                    height: getVerticalSize(54),
+                    width: getHorizontalSize(30),
+                    textcolor: AppColor.whiteColor,
+                    textButton: "Apply",
+                    ontap: () {})
+              ],
+            ),
+            controller.isShow.value == true
+                ? ListView(primary: true, shrinkWrap: true, children: [
+                    getheight(context, 0.020),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: controller.coupounsList
+                          .map((element) => GestureDetector(
+                              onTap: () async {
+                                controller.selectedOption.value = element.type;
+                                controller.isShow.value = false;
+
+                                //             latAddressType.value =
+                                //     value["data"]
+                                //         ["lat"];
+                                // longAddressType
+                                //         .value =
+                                //     value["data"]
+                                //         ["lng"];
+                              },
+                              child: GestureDetector(
+                                onTap: () {
+                                  controller.selectCoupouns.value =
+                                      element.value;
+                                  controller.isShow.value = false;
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.all(2),
+                                  padding: EdgeInsets.all(10),
+                                  height: Get.height * 0.16,
+                                  width: Get.width,
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                          color: AppColor.greyColor
+                                              .withOpacity(0.4))),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          AppText(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 12,
+                                            color: AppColor.blackColor,
+                                            textAlign: TextAlign.center,
+                                            text: "Coupouns Code",
+                                          ),
+                                          AppText(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13.sp,
+                                            color: AppColor.greyColor,
+                                            text: element.code,
+                                          ),
+                                        ],
+                                      ),
+                                      getheight(context, 0.005),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          AppText(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13.sp,
+                                            color: AppColor.blackColor,
+                                            textAlign: TextAlign.center,
+                                            text: "Coupouns Name",
+                                          ),
+                                          AppText(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13.sp,
+                                            color: AppColor.greyColor,
+                                            text: element.title,
+                                          ),
+                                        ],
+                                      ),
+                                      getheight(context, 0.005),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          AppText(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13.sp,
+                                            color: AppColor.blackColor,
+                                            text: "Discount",
+                                          ),
+                                          AppText(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13.sp,
+                                            color: AppColor.greyColor,
+                                            text: "₹${element.value}",
+                                          ),
+                                        ],
+                                      ),
+                                      getheight(context, 0.005),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          AppText(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13.sp,
+                                            color: AppColor.blackColor,
+                                            textAlign: TextAlign.center,
+                                            text: "Mini order amount",
+                                          ),
+                                          AppText(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13.sp,
+                                            color: AppColor.greyColor,
+                                            text: element.minOrderAmt,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  // AppText(
+                                  //   text: element.title,
+                                  //   fontSize: 16.sp,
+                                  //   fontWeight: FontWeight.w600,
+                                  //   color: AppColor.blackColor,
+                                  // ),
+                                ),
+                              )))
+                          .toList(),
+                    ),
+                    getheight(context, 0.020),
+                  ])
+                : const SizedBox(),
+            getheight(context, 0.017),
+            GestureDetector(
+              onTap: () {},
+              child: AppText(
+                text: "View Available Offers",
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w600,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

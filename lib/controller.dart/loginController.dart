@@ -35,7 +35,6 @@ class LoginPageController extends GetxController {
     data["signature"] = appSignature.value;
 
     try {
-      // isLoading.value = true;
       showloadingIndicator();
       await ApiRepo().signInUser(data).then((value) async {
         if (value["status"] == 1) {
@@ -44,11 +43,6 @@ class LoginPageController extends GetxController {
           responseappSignature.value = value["signature"];
           responseOtp.value = value["data"].toString();
           customeToast("Otp send Succefully");
-
-          // otpController.text =
-          // await Get.toNamed(Routes.OTP);
-          // await sharedPref.setUserPhoneNumber(text);
-          // checkloginController.clear();
         } else {
           customeToast("something went worng please try again");
         }
@@ -56,8 +50,7 @@ class LoginPageController extends GetxController {
     } catch (e) {
       print(e);
     }
-    // isLoading.value = false;
-    // mobileController.clear();
+
     hideLoading();
   }
 

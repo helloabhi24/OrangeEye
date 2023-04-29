@@ -13,15 +13,18 @@ class WishlistPage extends GetView<WishlistPageController> {
 
   @override
   Widget build(BuildContext context) {
+    controller.getWishlistProduct();
     return Scaffold(
         appBar: CustomAppbar.customeAppbar(
             title: "Wishlist", color: AppColor.blackColor),
         body: controller.whislistProductList!.isEmpty
-            ? AppText(
-                text: "Create Wallet",
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColor.blackColor,
+            ? Center(
+                child: AppText(
+                  text: "No data found!",
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColor.blackColor,
+                ),
               )
             : ListView.builder(
                 shrinkWrap: true,

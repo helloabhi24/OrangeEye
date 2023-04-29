@@ -143,7 +143,7 @@ class ApiRepo {
   Future categoryWiseProduct(String type, String category) async {
     try {
       Response response = await _api.request.get(
-        "https://skardtech.com/orangeeye/api/get_product?type=${int.parse(type)}&category=${int.parse(category)}",
+        "https://orangeeyewearindia.com/api/get_product?type=${int.parse(type)}&category=${int.parse(category)}",
         options: options,
       );
 
@@ -207,7 +207,7 @@ class ApiRepo {
   Future getWishlistProduct(String userId) async {
     try {
       Response response = await _api.request.get(
-        "https://orangeeye.skardtech.com/api/get_wishlist?user_id=${userId}}",
+        "https://orangeeyewearindia.com/api/get_wishlist?user_id=${userId}}",
         options: options,
       );
 
@@ -274,6 +274,40 @@ class ApiRepo {
     try {
       Response response = await _api.request.get(
         ServiceConstant.privacypolicies,
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future getCoupun() async {
+    try {
+      Response response = await _api.request.get(
+        ServiceConstant.GETCOUPOUNS,
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future getLensesByCategory() async {
+    try {
+      Response response = await _api.request.get(
+        ServiceConstant.GETLENSESBYCATEGORY,
         options: options,
       );
 

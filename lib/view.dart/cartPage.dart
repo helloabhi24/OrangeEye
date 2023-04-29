@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/cartPageController.dart';
+import 'package:orangeeye/controller.dart/mainPageController.dart';
 import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
@@ -14,9 +15,12 @@ class CartPage extends GetView<CartpageController> {
 
   @override
   Widget build(BuildContext context) {
+    MainpageController mainpageController = Get.find();
     return Scaffold(
-      appBar:
-          CustomAppbar.customeAppbar(title: "Cart", color: AppColor.blackColor),
+      appBar: mainpageController.isshowAppbar.value == true
+          ? cartPage()
+          : CustomAppbar.customeAppbar(
+              title: "Cart", color: AppColor.blackColor),
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Column(
