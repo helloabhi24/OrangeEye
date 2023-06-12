@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "793518582278",
+    "project_id": "orangeeye-220d7",
+    "storage_bucket": "orangeeye-220d7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:793518582278:android:87b8d28a214f97de533187",
+        "android_client_info": {
+          "package_name": "com.example.orangeeye"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "793518582278-urb3cdhg8nhvgvrua5i38ctsdm66v632.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTW67Lb7jOyGn9fO52tFr34KZTDFnS-SM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "793518582278-urb3cdhg8nhvgvrua5i38ctsdm66v632.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

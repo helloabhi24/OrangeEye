@@ -97,8 +97,10 @@ SizedBox getheight(context, double height) {
   );
 }
 
-double getwidth(context) {
-  return MediaQuery.of(context).size.width;
+SizedBox getWidth(context, double width) {
+  return SizedBox(
+    width: Get.width * width,
+  );
 }
 
 Size size = WidgetsBinding.instance.window.physicalSize /
