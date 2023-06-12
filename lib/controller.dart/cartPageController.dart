@@ -1,8 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/model/coupounsModel.dart';
 
 import '../networking.dart/apiRepo.dart';
+import '../utils/customToast.dart';
+import '../utils/sharedPref.dart';
+import '../utils/showLoadingIndicator.dart';
+import '../view.dart/cartPage.dart';
 
 class CartpageController extends GetxController {
   late TextEditingController coupounController;
@@ -11,6 +16,8 @@ class CartpageController extends GetxController {
   RxList<CoupounsModel> coupounsList = <CoupounsModel>[].obs;
   RxString selectedOption = "".obs;
   RxString selectCoupouns = "".obs;
+  Pref sharedPref = Get.find();
+  HomepageController homepageController = Get.find();
 
   countdecs() {
     --i;
@@ -20,14 +27,33 @@ class CartpageController extends GetxController {
     ++i;
   }
 
-  getAddtocart() async {
+  removeProductFromCart(id) async {
+    // await sharedPref.getUserId();
+    Map<String, dynamic> data = {};
+    data["id"] = id;
+    print("productid");
+    print(data["id"]);
     try {
-      await ApiRepo().getAddtocart().then((value) {
-        print(value);
+      // showloadingIndicators();
+      await ApiRepo().removeProductFromCart(data).then((value) async {
+        if (value["status"] == "success") {
+          // Get.to(CartPage());
+          await homepageController.getCarts();
+          print("value");
+          print(value);
+          customeToast(value["message"]);
+
+          // hideLoading();
+        } else {
+          customeToast(value["msg"]);
+          // customeToast("something went wrong");
+        }
       });
     } catch (e) {
       print(e);
     }
+
+    hideLoading();
   }
 
   getCoupouns() async {
@@ -49,7 +75,8 @@ class CartpageController extends GetxController {
   @override
   void onInit() async {
     coupounController = TextEditingController();
-    getAddtocart();
+    await homepageController.sum();
+    // await getCarts();
 
     super.onInit();
   }

@@ -2,23 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/catByGenderController.dart';
+import 'package:orangeeye/controller.dart/mainPageController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/customeAppBar.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
-import '../widgets/homepageWidget.dart';
 
 class CategoryByGenderPage extends GetView<CategoryByGenderController> {
   const CategoryByGenderPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // final HomepageController homepageController = Get.find();
+    MainpageController mainpageController = Get.find();
     CategoryByGenderController categoryByGenderController = Get.find();
     return Obx(
       () => Scaffold(
         appBar: CustomAppbar.customeAppbar(
-            title: Get.arguments["type"], color: AppColor.blackColor),
+            title: controller.nameOfGlass.value == "Sunglasses"
+                ? "Sunglasses"
+                : "Eyeglasses",
+            color: AppColor.blackColor),
+        // Get.arguments["type"]
         body: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: getHorizontalSize(10), vertical: getVerticalSize(20)),
@@ -26,7 +30,9 @@ class CategoryByGenderPage extends GetView<CategoryByGenderController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               AppText(
-                text: "Eyeglasses",
+                text: controller.nameOfGlass.value == "Sunglasses"
+                    ? "Sunglasses"
+                    : "Eyeglasses",
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w500,
               ),
@@ -41,33 +47,46 @@ class CategoryByGenderPage extends GetView<CategoryByGenderController> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    ...Iterable.generate(controller.genderImgeList.length)
+                    ...Iterable.generate(
+                            mainpageController.getCategoryName.length)
                         .map((e) => Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
                                 GestureDetector(
                                   onTap: () {
-                                    controller.oninit.value = false;
-                                    controller.getCategoryAndProduct(
-                                        Get.arguments["id"],
-                                        controller.genderImgeList[e]["id"]
+                                    categoryByGenderController.getallCategory(
+                                        Get.arguments["id"].toString(),
+                                        mainpageController.getCategoryName[e].id
                                             .toString());
+                                    categoryByGenderController
+                                        .whichGlassesDataShow.value = e;
                                   },
                                   child: CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage: AssetImage(controller
-                                        .genderImgeList[e]["image"]
-                                        .toString()),
+                                    radius: 32.h,
+                                    backgroundColor: e ==
+                                            categoryByGenderController
+                                                .whichGlassesDataShow.value
+                                        ? AppColor.orangeColor
+                                        : AppColor.whiteColor,
+                                    child: CircleAvatar(
+                                      radius: 30.h,
+                                      backgroundImage: NetworkImage(
+                                          "https://orangeeyewearindia.com/public/uploads/categories/" +
+                                              mainpageController
+                                                  .getCategoryName[e].image
+                                                  .toString()),
+                                    ),
                                   ),
                                 ),
                                 height10,
                                 AppText(
-                                  text: controller.genderImgeList[e]["title"]
+                                  text: mainpageController
+                                      .getCategoryName[e].name
                                       .toString(),
                                   fontSize: 14.sp,
                                   fontWeight: FontWeight.w500,
-                                )
+                                ),
                               ],
                             )))
                   ],
@@ -76,8 +95,7 @@ class CategoryByGenderPage extends GetView<CategoryByGenderController> {
               Expanded(
                 child: SizedBox(
                     // height: Get.height * 0.60,
-                    child: categoryByGenderController
-                            .allProductByGenderList.isEmpty
+                    child: categoryByGenderController.getallCategoryList.isEmpty
                         ? Center(
                             child: AppText(
                               text: "No Data!",
@@ -96,9 +114,9 @@ class CategoryByGenderPage extends GetView<CategoryByGenderController> {
                                     crossAxisSpacing: 1,
                                     mainAxisSpacing: 0),
                             itemCount: categoryByGenderController
-                                .allProductByGenderList.length,
+                                .getallCategoryList.length,
                             itemBuilder: (BuildContext ctx, index) {
-                              return GogleWidget(
+                              return GogleCategoryWiseWidget(
                                 index: index,
                               );
                             })),

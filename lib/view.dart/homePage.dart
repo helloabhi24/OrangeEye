@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:orangeeye/controller.dart/catByGenderController.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
+import 'package:orangeeye/controller.dart/mainPageController.dart';
 import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
+import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/customeDrawer.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/widgets/homepageWidget.dart';
+
+import '../controller.dart/whishlistController.dart';
 
 class HomePage extends GetView<HomepageController> {
   HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    MainpageController mainpageController = Get.find();
+    CategoryByGenderController categoryByGenderController = Get.find();
+    WishlistPageController wishlistPageController = Get.find();
     return Obx(
       () => Scaffold(
-        // floatingActionButton: CircularFavMenu(),
         drawer: const CustomDrawer(),
         body: SingleChildScrollView(
           child: Column(
@@ -31,7 +38,7 @@ class HomePage extends GetView<HomepageController> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        controller.getOurCollection();
+                        wishlistPageController.getWishlistProduct();
                       },
                       child: AppText(
                         text: "Discover All",
@@ -43,41 +50,45 @@ class HomePage extends GetView<HomepageController> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GlassCategory(
-                          ontap: () => Get.toNamed(Routes.CATEGORYBYGENDERPAGE,
-                              arguments: {
-                                "type": "Shop Eyeglasses",
-                                "id": "1"
-                              }),
-                          image: "assets/image/eyeglass.png",
-                          title: "Shop Eyeglasses",
-                        ),
-                        GlassCategory(
-                          ontap: () => Get.toNamed(Routes.CATEGORYBYGENDERPAGE,
-                              arguments: {
-                                "type": "Shop Sunglasses",
-                                "id": "2"
-                              }),
-                          image: "assets/image/sunglass2.png",
-                          title: "Shop Sunglasses",
-                        )
+                        ...Iterable.generate(mainpageController
+                                .getglassesHomePageList.length)
+                            .map((e) => GlassCategory(
+                                  title: mainpageController
+                                      .getglassesHomePageList[e]["name"],
+                                  image:
+                                      "https://orangeeyewearindia.com/public/" +
+                                          mainpageController
+                                                  .getglassesHomePageList[e]
+                                              ["glass"],
+                                  ontap: () async {
+                                    await categoryByGenderController.getallCategory(
+                                        mainpageController
+                                                        .getglassesHomePageList[
+                                                    e]["name"] ==
+                                                "Sunglasses"
+                                            ? "2"
+                                            : "1",
+                                        mainpageController
+                                            .getglassesHomePageList[e]["id"]
+                                            .toString());
+
+                                    categoryByGenderController
+                                            .nameOfGlass.value =
+                                        mainpageController
+                                            .getglassesHomePageList[e]["name"];
+                                    // categoryByGenderController
+                                    //         .whichGlassesDataShow.value =
+                                    //     mainpageController
+                                    //         .getglassesHomePageList[e]["name"];
+                                    Get.toNamed(Routes.CATEGORYBYGENDERPAGE,
+                                        arguments: {
+                                          "id": mainpageController
+                                              .getglassesHomePageList[e]["id"],
+                                        });
+                                  },
+                                ))
                       ],
                     ),
-                    // getheight(context, 0.040),
-                    // AppText(
-                    //   text: "What's New",
-                    //   fontSize: 18.sp,
-                    //   fontWeight: FontWeight.w700,
-                    // ),
-                    // height5,
-                    // AppText(
-                    //   text:
-                    //       "Fall in love at first sight with rich hues and bolder than ever silhouettes this autumn",
-                    //   fontSize: 13.sp,
-                    //   fontWeight: FontWeight.w400,
-                    //   color: AppColor.greyColor,
-                    // ),
-                    // BannerAd(),
                     getheight(context, 0.030),
                     AppText(
                       text: "Our Recommendation",
@@ -106,7 +117,6 @@ class HomePage extends GetView<HomepageController> {
                             )
                           ],
                         ),
-
                         Row(
                           children: [
                             Radio(
@@ -125,15 +135,6 @@ class HomePage extends GetView<HomepageController> {
                             )
                           ],
                         )
-
-                        // filterCategory("New Launches", (bool v) {
-                        //   controller.IsNewLaunches.value = v;
-                        //   print(controller.IsNewLaunches.value);
-                        // }),
-                        // filterCategory("Best Seller", (bool v) {
-                        //   controller.IsNewLaunches.value = v;
-                        //   print(controller.IsBestSeller.value);
-                        // }),
                       ],
                     ),
                   ],
@@ -157,6 +158,83 @@ class HomePage extends GetView<HomepageController> {
                 ),
               ),
               ShopOurCollectionWidget(),
+              CustomAssetsImage(
+                imagePath: "assets/image/contactimg.png",
+              ),
+              // Container(
+              //   alignment: Alignment.topCenter,
+              //   width: Get.width,
+              //   child: Wrap(
+              //     runAlignment: WrapAlignment.center,
+              //     spacing: 10,
+              //     children: [
+              //       ...Iterable.generate(controller.homepageImageList.length)
+              //           .map((e) => Container(
+              //                 margin: EdgeInsets.all(5),
+              //                 height: Get.height * 0.20,
+              //                 width: Get.width * 0.42,
+              //                 decoration: BoxDecoration(
+              //                     borderRadius: BorderRadius.circular(0),
+              //                     border: Border.all(
+              //                         color:
+              //                             AppColor.greyColor.withOpacity(0.4)),
+              //                     image: DecorationImage(
+              //                         image: AssetImage(
+              //                             controller.homepageImageList[e]))),
+              //               ))
+              //     ],
+              //   ),
+              // ),
+              Container(
+                height: Get.height * 0.04,
+                width: Get.width,
+                decoration: BoxDecoration(
+                    border:
+                        Border.all(color: AppColor.greyColor.withOpacity(0.4))),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.alternate_email,
+                              size: 12.sp,
+                            ),
+                            width3,
+                            AppText(
+                              text: "support@orangeeye.com",
+                              fontSize: 11.sp,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    VerticalDivider(
+                      thickness: 1,
+                    ),
+                    Expanded(
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.phone,
+                              size: 14,
+                            ),
+                            AppText(
+                              text: "+911234567895",
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),

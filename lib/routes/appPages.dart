@@ -9,9 +9,11 @@ import 'package:orangeeye/view.dart/categoryWiseProductPage.dart';
 import 'package:orangeeye/view.dart/checkoutPage.dart';
 import 'package:orangeeye/view.dart/coupounRedeemPage.dart';
 import 'package:orangeeye/view.dart/coupounsPage.dart';
+import 'package:orangeeye/view.dart/genderWiseProductPage.dart';
 import 'package:orangeeye/view.dart/homePage.dart';
 import 'package:orangeeye/view.dart/authenticationPage/inputMobileNumberPage.dart';
 import 'package:orangeeye/view.dart/authenticationPage/authtypePage.dart';
+import 'package:orangeeye/view.dart/invoice.dart';
 import 'package:orangeeye/view.dart/mainpage.dart';
 import 'package:orangeeye/view.dart/notificationPage.dart';
 import 'package:orangeeye/view.dart/onboardingScreen.dart';
@@ -25,6 +27,7 @@ import 'package:orangeeye/view.dart/wishlistPage.dart';
 import 'package:orangeeye/widgets/cartPageWidget.dart';
 import '../view.dart/myOrderPage.dart';
 import '../view.dart/productDetailPage.dart';
+import '../view.dart/selectAddress.dart';
 
 class AppPage {
   AppPage._();
@@ -116,6 +119,18 @@ class AppPage {
     GetPage(
         name: "/checkoutpage",
         page: (() => CartPage()),
-        binding: GetXbindings())
+        binding: GetXbindings()),
+    GetPage(
+        name: "/selctaddress",
+        page: (() => SelectAddress()),
+        binding: GetXbindings()),
+    GetPage(
+        name: "/genderwiseproductpage",
+        page: (() => GenderWiseProductPage()),
+        binding: GetXbindings()),
+    GetPage(
+        name: "/invoicepage",
+        page: (() => InvoicePage()),
+        binding: GetXbindings()),
   ];
 }

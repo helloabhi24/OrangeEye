@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/onboardingController.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import '../utils/appColor.dart';
-import '../utils/appText.dart';
 import '../utils/customeElevatedButton.dart';
 import '../utils/sizeHelper.dart';
 import '../widgets/onboardingPageWidget.dart';

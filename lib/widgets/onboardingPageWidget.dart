@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/onboardingController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
-import 'package:orangeeye/utils/sizeHelper.dart';
+import 'package:orangeeye/utils/sizeHelper.dart'; 
 
 import '../utils/customeAssetsImage.dart';
 
 class OnboardingPageViewWidget extends GetView<OnboardingController> {
   int? index;
-  OnboardingPageViewWidget({this.index, super.key});
+ OnboardingPageViewWidget({this.index, super.key});
   @override
   Widget build(BuildContext context) {
     return Stack(

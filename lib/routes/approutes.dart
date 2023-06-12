@@ -23,4 +23,7 @@ abstract class Routes {
   static const CATEGORYWISEPRODUCT = "/categorywiseproduct";
   static const SELECTPRESCRIPTIONPAGE = "/selectprescriptionpage";
   static const GETADDTOCART = "/api/get_addCart";
+  static const SELECTADDRESS = "/selctaddress";
+  static const GENDERWISEPRODUCTPAGE = "/genderwiseproductpage";
+  static const INVOICEPAGE = "/invoicepage";
 }

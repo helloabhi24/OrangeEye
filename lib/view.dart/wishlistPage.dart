@@ -13,25 +13,28 @@ class WishlistPage extends GetView<WishlistPageController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.getWishlistProduct();
-    return Scaffold(
-        appBar: CustomAppbar.customeAppbar(
-            title: "Wishlist", color: AppColor.blackColor),
-        body: controller.whislistProductList!.isEmpty
-            ? Center(
-                child: AppText(
-                  text: "No data found!",
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColor.blackColor,
-                ),
-              )
-            : ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, index) {
-                  return WishlistWidget(index: index);
-                },
-                itemCount: controller.whislistProductList!.length,
-              ));
+    // controller.getWishlistProduct();
+    return Obx(
+      () => Scaffold(
+          appBar: CustomAppbar.customeAppbar(
+              title: "Wishlist", color: AppColor.blackColor),
+          body: controller.whistList.isEmpty
+              ? Center(
+                  child: AppText(
+                    text: "No data found!",
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.blackColor,
+                  ),
+                )
+              : ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, index) {
+                    return WishlistWidget(index: index);
+                  },
+                  itemCount: controller.whistList.length,
+                )),
+    );
   }
 }

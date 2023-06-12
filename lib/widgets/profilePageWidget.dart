@@ -17,7 +17,7 @@ class ProfileImage extends GetView<ProfilepageController> {
         Container(
           height: Get.height * 0.30,
           width: Get.width,
-          color: AppColor.orangeColor,
+          color: AppColor.greyColor.withOpacity(0.5),
         ),
         Column(
           children: [

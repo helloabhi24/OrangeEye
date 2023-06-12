@@ -45,7 +45,7 @@ class CheckoutPage extends StatelessWidget {
                 textcolor: AppColor.whiteColor,
                 textButton: "Continue",
                 ontap: () {
-                  Get.toNamed(Routes.MAINPAGE);
+                  Get.toNamed(Routes.PAYMENTPAGE);
                   // Get.to(const Signin(),
                   //     transition: Transition.zoom);
                 }),

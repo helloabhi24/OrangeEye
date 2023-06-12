@@ -14,6 +14,8 @@ class Pref extends GetxController {
 
   RxList<String> walletAmountList = <String>[].obs;
 
+  RxList<String> addressList = <String>[].obs;
+
   Future setUserPhoneNumber(String number) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString("Usernumber", number);
@@ -57,5 +59,18 @@ class Pref extends GetxController {
     print("app signature");
     print(appssignature.value);
     return appssignature.value;
+  }
+
+  Future setUserAddressDetail(List<String> addressList) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setStringList("address", addressList);
+  }
+
+  getUserAddressDetail() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    addressList.value = pref.getStringList("address")!;
+    print("app signature");
+    print(addressList);
+    return addressList;
   }
 }

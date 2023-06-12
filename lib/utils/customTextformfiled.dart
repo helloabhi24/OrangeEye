@@ -68,6 +68,7 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: inputFormator,
       enableSuggestions: true,
       readOnly: readOnly,
       autovalidateMode: autovalidateMode,

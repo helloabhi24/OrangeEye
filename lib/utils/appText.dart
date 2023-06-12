@@ -10,8 +10,10 @@ class AppText extends StatelessWidget {
   final TextAlign? textAlign;
   final double? wordSpacing;
   final TextDecoration? textDecoration;
+  final TextOverflow? overFlow;
   const AppText(
-      {this.textDecoration,
+      {this.overFlow,
+      this.textDecoration,
       this.wordSpacing,
       this.textAlign,
       this.fontStyle,
@@ -35,6 +37,7 @@ class AppText extends StatelessWidget {
         fontStyle: fontStyle,
       ),
       textAlign: textAlign,
+      overflow: overFlow,
     );
   }
 }

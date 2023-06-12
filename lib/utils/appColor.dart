@@ -15,7 +15,7 @@ abstract class AppColor {
 
   static const Color authLogoBackColor = Color(0xffF0E5D5);
 
-  static const Color orangeColor = Color(0xffF26808);
+  static const Color orangeColor = Colors.black;
 
   static const Color greyColor = Color(0xff969393);
 

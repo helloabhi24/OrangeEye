@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:orangeeye/controller.dart/mainPageController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/sharedPref.dart';
 import '../routes/approutes.dart';
 
 Future<void> showMyDialog(context) async {
+  MainpageController mainpageController = Get.find();
+  Pref pref = Get.find();
   return showDialog<void>(
     context: context,
     barrierDismissible: false, // user must tap button!
@@ -39,7 +42,12 @@ Future<void> showMyDialog(context) async {
             ),
             onPressed: () async {
               await Pref().deleteToken();
-              Get.offNamed(Routes.LOGIN, preventDuplicates: true);
+              await pref.setUserId("");
+              // await mainpageController.getProfile();
+              mainpageController.phoneNumber.value = "";
+              Get.toNamed(
+                Routes.OTPPHONENUMBERPAGE,
+              );
             },
           ),
         ],

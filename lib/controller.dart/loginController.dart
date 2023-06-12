@@ -1,12 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/networking.dart/apiRepo.dart';
-import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/sharedPref.dart';
+import 'package:orangeeye/utils/showLoadingIndicator.dart';
+import 'package:orangeeye/view.dart/mainpage.dart';
 import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:sms_autofill/sms_autofill.dart';
 import '../utils/customToast.dart';
-import '../utils/loadingIndicator.dart';
 
 class LoginPageController extends GetxController {
   late TextEditingController mobileController;
@@ -16,7 +16,8 @@ class LoginPageController extends GetxController {
   OtpTimerButtonController OtpController = OtpTimerButtonController();
   RxBool isOtpSend = false.obs;
   RxBool isLogin = false.obs;
-  final formKey = GlobalKey<FormState>();
+  // final formKey = GlobalKey<FormState>();
+
   RxBool isCheck = false.obs;
   RxString smsCode = "".obs;
   RxString privacyPolicies = "".obs;
@@ -35,7 +36,7 @@ class LoginPageController extends GetxController {
     data["signature"] = appSignature.value;
 
     try {
-      showloadingIndicator();
+      showloadingIndicators();
       await ApiRepo().signInUser(data).then((value) async {
         if (value["status"] == 1) {
           isOtpSend.value = true;
@@ -44,7 +45,7 @@ class LoginPageController extends GetxController {
           responseOtp.value = value["data"].toString();
           customeToast("Otp send Succefully");
         } else {
-          customeToast("something went worng please try again");
+          customeToast(value["msg"]);
         }
       });
     } catch (e) {
@@ -71,14 +72,17 @@ class LoginPageController extends GetxController {
     print(data["oldotp"]);
 
     try {
-      showloadingIndicator();
+      showloadingIndicators();
       await ApiRepo().otpVerify(data).then((value) async {
         if (value["status"] == 1) {
           customeToast(value["message"]);
           Id.value = value["data"]["id"].toString();
           await sharedPref.setUserId(Id.value);
-
-          Get.offNamed(Routes.MAINPAGE);
+          // await sharedPref.getUserId();
+          Get.to(MainPage());
+          // Get.toNamed(Routes.MAINPAGE);
+          otpController.clear();
+          mobileController.clear();
         } else {
           customeToast("something went worng please try again");
         }
@@ -101,7 +105,7 @@ class LoginPageController extends GetxController {
     print(data["oldotp"]);
 
     try {
-      showloadingIndicator();
+      showloadingIndicators();
       await ApiRepo().otpVerify(data).then((value) async {
         if (value["status"] == 1) {
           customeToast(value["message"]);
@@ -131,7 +135,7 @@ class LoginPageController extends GetxController {
     print(data["phone"]);
 
     try {
-      showloadingIndicator();
+      showloadingIndicators();
       await ApiRepo().resendOtp(data).then((value) {
         if (value["status"] == 1) {
           responseappSignature.value = value["signature"];
@@ -154,7 +158,7 @@ class LoginPageController extends GetxController {
 
   Future getPrivacy() async {
     try {
-      showloadingIndicator();
+      showloadingIndicators();
       await ApiRepo().getPrivacyPolicies().then((value) {
         if (value["status"] == "success") {
           privacyPolicies.value = value["data"];

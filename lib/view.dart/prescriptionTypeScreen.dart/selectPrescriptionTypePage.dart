@@ -1,12 +1,17 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/controller.dart/whishlistController.dart';
-import 'package:orangeeye/routes/approutes.dart';
+
 import 'package:orangeeye/utils/appText.dart';
-import 'package:orangeeye/utils/cachedNetworkImage.dart';
+
+import 'package:orangeeye/utils/customToast.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/view.dart/cartPage.dart';
 import '../../utils/appColor.dart';
@@ -142,6 +147,16 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                                             onTap: () async {
                                               controller.isZeroPower.value =
                                                   true;
+                                              controller.lensesid.value =
+                                                  controller
+                                                      .getLensesByCategorey[
+                                                          controller
+                                                              .indexOfGetLenses
+                                                              .value]
+                                                      .lenses![e]
+                                                      .id;
+                                              print("lensesId");
+                                              print(controller.lensesid.value);
                                             },
                                             child: Container(
                                               height: Get.height * 0.25,
@@ -314,15 +329,6 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
         ),
         getheight(context, 0.020),
         fileSelectedWidget(context),
-        // getheight(context, 0.010),
-        // Container(
-        //   height: Get.height * 0.20,
-        //   width: Get.width * 0.93,
-        //   decoration: BoxDecoration(
-        //     borderRadius: BorderRadius.circular(10),
-        //     color: AppColor.redColor,
-        //   ),
-        // ),
         getheight(context, 0.020),
         CustomElevatedButtons(
             isBorder: false,
@@ -332,21 +338,27 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
             textcolor: AppColor.whiteColor,
             textButton: "Proceed to cart",
             ontap: () async {
-              // Get.to(CartPage());
-              //     arguments: {"productDetail": Get.arguments["detailPage"]});
-
-              await controller.getAddToCart(
-                wishlistPageController
-                    .whislistProductList![index!].product![0].frameSize![0].id
-                    .toString(),
-                "#00FF00",
-                wishlistPageController.whislistProductList![index!].productId
-                    .toString(),
-                "4",
-                controller.base64string.value,
-              );
-
-              Get.to(CartPage());
+              // File imagefile =
+              //     File(Get.arguments["image"]); //convert Path to File
+              // Uint8List imagebytes =
+              //     await imagefile.readAsBytes(); //convert to bytes
+              // controller.base64Images.value =
+              //     "data:image/jpeg;base64," + base64.encode(imagebytes);
+              // // Get.to(CartPage());
+              // //     arguments: {"productDetail": Get.arguments["detailPage"]});
+              if (controller.selectedImagePath.value.isNotEmpty) {
+                // controller.productDetailList![0].name!
+                await controller.getAddToCart(
+                  controller.productDetailList![0].frameSize![0].id.toString(),
+                  Get.arguments["colorCode"],
+                  controller.productDetailList![0].id.toString(),
+                  "1",
+                  controller.base64string.value,
+                );
+                Get.to(CartPage());
+              } else {
+                return customeToast("Please select image");
+              }
 
               // Get.toNamed(Routes.CARTPAGE);
               // Get.to(const Signin(),

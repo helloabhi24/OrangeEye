@@ -80,7 +80,7 @@ class ApiRepo {
       if (response.statusCode == 200) {
         return response.data;
       } else {
-        customeToast("Something went wrong");
+        // customeToast("Something went wrong");
       }
     } on DioError catch (e) {
       DioExceptions.fromDioError(e);
@@ -140,10 +140,61 @@ class ApiRepo {
     }
   }
 
+  Future categoryFilterData(String category) async {
+    try {
+      Response response = await _api.request.get(
+        "https://orangeeyewearindia.com/api/get_product?category=${int.parse(category)}",
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
   Future categoryWiseProduct(String type, String category) async {
     try {
       Response response = await _api.request.get(
         "https://orangeeyewearindia.com/api/get_product?type=${int.parse(type)}&category=${int.parse(category)}",
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future bestseller(String type, String category) async {
+    try {
+      Response response = await _api.request.get(
+        "https://orangeeyewearindia.com/api/get_product?category=${int.parse(type)}&best_seller=${int.parse(category)}",
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future newLaunches(String type, String category) async {
+    try {
+      Response response = await _api.request.get(
+        "https://orangeeyewearindia.com/api/get_product?category=${int.parse(type)}&latest=${int.parse(category)}",
         options: options,
       );
 
@@ -253,12 +304,10 @@ class ApiRepo {
     }
   }
 
-  Future getAddtocart() async {
+  Future getAddtocart(Map<String, dynamic> data) async {
     try {
-      Response response = await _api.request.get(
-        ServiceConstant.GETADDTOCART,
-        options: options,
-      );
+      Response response = await _api.request
+          .post(ServiceConstant.GETADDTOCART, options: options, data: data);
 
       if (response.statusCode == 200) {
         return response.data;
@@ -308,6 +357,269 @@ class ApiRepo {
     try {
       Response response = await _api.request.get(
         ServiceConstant.GETLENSESBYCATEGORY,
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future removeProductFromCart(Map<String, dynamic> data) async {
+    try {
+      Response response = await _api.request.post(
+          ServiceConstant.REMOVEPRODUCTFROMCART,
+          options: options,
+          data: data);
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future getState(Map<String, dynamic> data) async {
+    try {
+      Response response = await _api.request
+          .post(ServiceConstant.GETSTATE, options: options, data: data);
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future getCity(Map<String, dynamic> data) async {
+    try {
+      Response response = await _api.request
+          .post(ServiceConstant.GETCITY, options: options, data: data);
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future adsVideo() async {
+    try {
+      Response response = await _api.request.get(
+        ServiceConstant.GETADSURL,
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future updatePhoneNumber(Map<String, dynamic> data) async {
+    try {
+      Response response = await _api.request.post(
+          ServiceConstant.UPDATEPHONENUMBER,
+          options: options,
+          data: data);
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future shippingPolicies() async {
+    try {
+      Response response = await _api.request.get(
+        ServiceConstant.SHIPPINGPOLICIES,
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future returnPolicies() async {
+    try {
+      Response response = await _api.request.get(
+        ServiceConstant.RETURNPOLICIES,
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future socialMedia() async {
+    try {
+      Response response = await _api.request.get(
+        ServiceConstant.SOCIALMEDIA,
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future prescription(String id) async {
+    try {
+      Response response = await _api.request.get(
+        "https://orangeeyewearindia.com/api/prescription?user_id=${id}",
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future placeOrder(Map<String, dynamic> data) async {
+    try {
+      Response response = await _api.request
+          .post(ServiceConstant.PLACEORDER, options: options, data: data);
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future getPlaceOrder(id) async {
+    try {
+      Response response = await _api.request.get(
+        "https://orangeeyewearindia.com/api/get_order_list?user_id=${id}",
+        options: options,
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future getInvoice(Map<String, dynamic> data) async {
+    try {
+      Response response = await _api.request
+          .post(ServiceConstant.GETINVOICE, options: options, data: data);
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future getGlasses() async {
+    try {
+      Response response = await _api.request.get(
+        ServiceConstant.GETGLASSES,
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future getCategoryName() async {
+    try {
+      Response response = await _api.request.post(
+        ServiceConstant.GETCATEGORYNAME,
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future getGlassesHomePage() async {
+    try {
+      Response response = await _api.request.get(
+        ServiceConstant.GETGLASSESHOMEPAGE,
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+  Future payment() async {
+    try {
+      Response response = await _api.request.post(
+        "https://orangeeyewearindia.com/api/payment_gateway?order_id=ORDS028&user_id=28",
         options: options,
       );
 

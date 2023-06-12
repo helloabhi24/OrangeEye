@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -9,12 +8,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
-import 'package:orangeeye/utils/showDialouge.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
+import 'package:orangeeye/view.dart/otherProductModel.dart';
 import 'package:orangeeye/widgets/productDetailPage.dart';
 import '../routes/approutes.dart';
 import '../utils/cachedNetworkImage.dart';
-import '../utils/customeAssetsImage.dart';
 
 class HomePageSlider extends StatelessWidget {
   const HomePageSlider({super.key});
@@ -25,60 +23,15 @@ class HomePageSlider extends StatelessWidget {
     return Obx((() => Padding(
           padding: EdgeInsets.only(top: getVerticalSize(2)),
           child: SizedBox(
-              height: Get.height * 0.60,
+              height: Get.height * 0.35,
               child: Stack(
                 children: [
-                  Column(
-                    children: [
-                      // Container(
-                      //     color: AppColor.whiteColor,
-                      //     height: getVerticalSize(510),
-                      //     width: Get.width,
-                      //     child: homepageController.sliderIndex.value ==
-                      //             homepageController.sliderIndex.value
-                      //         ? Image.network(
-                      //             "https://orangeeye.skardtech.com/public/uploads/${homepageController.homePageSliderList[homepageController.sliderIndex.value].image}",
-                      //             fit: BoxFit.cover,
-                      //           )
-                      //         // CustomAssetsImage(
-                      //         //     boxFit: BoxFit.cover,
-                      //         //     imagePath:
-                      //         //         homepageController.backgroudSliderList[
-                      //         //             homepageController.sliderIndex.value])
-                      //         : null),
-                      // getheight(context, 0.030),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     ...Iterable.generate(
-                      //             homepageController.homePageSliderList.length)
-                      //         .map((e) => Padding(
-                      //             padding: const EdgeInsets.only(left: 6),
-                      //             child: Container(
-                      //               height: 6,
-                      //               width:
-                      //                   homepageController.sliderIndex.value ==
-                      //                           e
-                      //                       ? 15
-                      //                       : 8,
-                      //               decoration: BoxDecoration(
-                      //                   borderRadius: BorderRadius.circular(30),
-                      //                   color: homepageController
-                      //                               .sliderIndex.value ==
-                      //                           e
-                      //                       ? AppColor.orangeColor
-                      //                       : AppColor.greyColor),
-                      //             )))
-                      //   ],
-                      // )
-                    ],
-                  ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       homepageController.homePageSliderList!.isEmpty
                           ? SizedBox(
-                              height: Get.height * 0.30,
+                              // height: Get.height * 0.20,
                               width: getHorizontalSize(5414),
                               child: const Center(
                                 child: AppText(
@@ -92,14 +45,14 @@ class HomePageSlider extends StatelessWidget {
                                         imageBuilder:
                                             (context, imageProvider) =>
                                                 Container(
-                                          width: getHorizontalSize(5414),
-                                          height: Get.height * 0.30,
+                                          width: getHorizontalSize(4000),
+                                          // height: Get.height * 0.20,
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(0),
                                             image: DecorationImage(
                                                 image: imageProvider,
-                                                fit: BoxFit.cover),
+                                                fit: BoxFit.fitWidth),
                                           ),
                                         ),
                                         imageUrl:
@@ -116,9 +69,9 @@ class HomePageSlider extends StatelessWidget {
                                 height: homepageController
                                         .homePageSliderList!.isEmpty
                                     ? 0
-                                    : Get.height * 0.50,
-                                aspectRatio: 16 / 8,
-                                viewportFraction: 1,
+                                    : Get.height * 0.29,
+                                aspectRatio: 16 / 9,
+                                viewportFraction: 1.6,
                                 initialPage: 0,
                                 enableInfiniteScroll: true,
                                 reverse: false,
@@ -134,7 +87,7 @@ class HomePageSlider extends StatelessWidget {
                                 },
                                 scrollDirection: Axis.horizontal,
                               )),
-                      getheight(context, 0.020),
+                      getheight(context, 0.030),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -143,11 +96,11 @@ class HomePageSlider extends StatelessWidget {
                               .map((e) => Padding(
                                   padding: const EdgeInsets.only(left: 6),
                                   child: Container(
-                                    height: 6,
+                                    height: 5,
                                     width:
                                         homepageController.sliderIndex.value ==
                                                 e
-                                            ? 15
+                                            ? 16
                                             : 8,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(30),
@@ -203,10 +156,14 @@ fileSelectedWidget(context) {
                     ),
                   ),
                   getWidth(context, 0.030),
-                  AppText(
-                    text: homepageController.pathName.value.isEmpty
-                        ? "No file selected"
-                        : homepageController.pathName.value,
+                  SizedBox(
+                    width: Get.width * 0.60,
+                    child: AppText(
+                      overFlow: TextOverflow.ellipsis,
+                      text: homepageController.pathName.value.isEmpty
+                          ? "No file selected"
+                          : homepageController.pathName.value,
+                    ),
                   )
                 ],
               ),
@@ -323,9 +280,7 @@ class GlassCategory extends StatelessWidget {
             width: 164.w,
             decoration: BoxDecoration(
               image: DecorationImage(
-                fit: BoxFit.cover,
-                image: AssetImage(image),
-              ),
+                  fit: BoxFit.cover, image: NetworkImage(image)),
               borderRadius: BorderRadius.circular(10),
               color: AppColor.whiteColor,
               border: Border.all(color: AppColor.whiteColor),
@@ -345,10 +300,11 @@ class GlassCategory extends StatelessWidget {
 }
 
 class BannerAd extends StatelessWidget {
-  BannerAd({super.key});
-  HomepageController homepageController = Get.put(HomepageController());
+  const BannerAd({super.key});
+
   @override
   Widget build(BuildContext context) {
+    HomepageController homepageController = Get.find();
     return CarouselSlider(
         items: homepageController.sliderList2,
         options: CarouselOptions(
@@ -421,7 +377,7 @@ class GogleWidget extends StatelessWidget {
           child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: AppColor.greyColor, width: 0.4)),
+                  border: Border.all(color: AppColor.greyColor, width: 0.3)),
               // height: 172.h,
               width: 150.w,
               child: Stack(
@@ -431,21 +387,21 @@ class GogleWidget extends StatelessWidget {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: Get.height * 0.15,
+                        height: Get.height * 0.17,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (cnt, index1) {
                             return Container(
                               margin: EdgeInsets.only(top: getVerticalSize(40)),
-                              height: Get.height * 0.10,
+                              height: Get.height * 0.18,
                               color: AppColor.whiteColor,
                               child: cacheNetworkImage(
                                   imageUrl:
                                       "https://orangeeyewearindia.com/public/uploads/products/${homepageController.finalHomepageProductList![index!].images![index1]}",
-                                  height: Get.height * 0.13,
+                                  height: Get.height * 0.20,
                                   boxfit: BoxFit.cover,
-                                  width: Get.width * 0.43,
-                                  memCacheHeight: 200,
+                                  width: Get.width * 0.37,
+                                  memCacheHeight: 220,
                                   ontap: () async {
                                     // Get.toNamed("/mainpage");
                                   }),
@@ -457,19 +413,6 @@ class GogleWidget extends StatelessWidget {
                         ),
                       ),
 
-                      // Container(
-                      //   height: Get.height * 0.10,
-                      //   width: Get.width * 0.30,
-                      //   child: Image.network(
-                      //     "https://orangeeye.atally.com/public/uploads/products/${homepageController.allProduct[index!]["image1"]}",
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // ),
-                      // CustomAssetsImage(
-                      //   height: 130.h,
-                      //   width: 135.w,
-                      //   imagePath: homepageController.gogleList[index!],
-                      // ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -508,28 +451,45 @@ class GogleWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-
                       // height18,
-                      SizedBox(
-                        height: Get.height * 0.06,
-                        // width: Get.width * 0.20,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index2) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: getHorizontalSize(10)),
-                              child: ColorDots(
-                                dotsColor: Color(int.parse(
-                                    "0xff${homepageController.finalHomepageProductList![index!].productAttributes![index2].colorCode!.replaceFirst(r'#', "")}")),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            homepageController.finalHomepageProductList![index!]
+                                        .colorCode ==
+                                    null
+                                ? SizedBox()
+                                : ColorDots(
+                                    borderColor: AppColor.greyColor,
+                                    dotsColor: Color(int.parse(
+                                        "0xff${homepageController.finalHomepageProductList![index!].colorCode!.replaceFirst(r'#', "")}")),
+                                  ),
+                            SizedBox(
+                              height: Get.height * 0.05,
+                              // width: Get.width * 0.20,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index2) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: getHorizontalSize(10)),
+                                    child: ColorDots(
+                                      borderColor: AppColor.greyColor,
+                                      dotsColor: Color(int.parse(
+                                          "0xff${homepageController.finalHomepageProductList![index!].productAttributes![index2].colorCode!.replaceFirst(r'#', "")}")),
+                                    ),
+                                  );
+                                },
+                                itemCount: homepageController
+                                    .finalHomepageProductList![index!]
+                                    .productAttributes!
+                                    .length,
+                                shrinkWrap: true,
                               ),
-                            );
-                          },
-                          itemCount: homepageController
-                              .finalHomepageProductList![index!]
-                              .productAttributes!
-                              .length,
-                          shrinkWrap: true,
+                            ),
+                          ],
                         ),
                       )
                       // Row(
@@ -559,18 +519,38 @@ class GogleWidget extends StatelessWidget {
                           onTap: () async {
                             if (homepageController
                                 .sharedPref.userToken.value.isEmpty) {
-                              loginDialouge(context);
-                            } else {
-                              await homepageController.updatedWhislist(
-                                homepageController
-                                    .finalHomepageProductList![index!].id
-                                    .toString(),
+                              Get.toNamed(
+                                Routes.OTPPHONENUMBERPAGE,
                               );
-
-                              homepageController.isSelected.value =
+                              // Get.to(LoginScreen());
+                              // loginDialouge(context);
+                            } else {
+                              if (homepageController.likeUpdatedList.contains(
+                                  homepageController
+                                      .finalHomepageProductList![index!].id)) {
+                                homepageController.likeUpdatedList.remove(
+                                    homepageController
+                                        .finalHomepageProductList![index!].id);
+                                await homepageController.updatedWhislist(
                                   homepageController
                                       .finalHomepageProductList![index!].id
-                                      .toString();
+                                      .toString(),
+                                );
+                              } else {
+                                homepageController.likeUpdatedList.add(
+                                    homepageController
+                                        .finalHomepageProductList![index!].id);
+                                await homepageController.updatedWhislist(
+                                  homepageController
+                                      .finalHomepageProductList![index!].id
+                                      .toString(),
+                                );
+                              }
+
+                              // homepageController.isSelected.value =
+                              //     homepageController
+                              //         .finalHomepageProductList![index!].id
+                              //         .toString();
                             }
 
                             // if (homepageController
@@ -593,15 +573,23 @@ class GogleWidget extends StatelessWidget {
                             //     !homepageController.isAddWishlist.value;
                           },
                           child: Icon(
-                              homepageController
-                                              .finalHomepageProductList![index!]
-                                              .wishlist ==
-                                          true ||
-                                      homepageController.isSelected.value ==
+                              // homepageController
+                              //                 .finalHomepageProductList![index!]
+                              //                 .wishlist ==
+                              //             true ||
+                              //         homepageController.isSelected.value ==
+                              //             homepageController
+                              //                 .finalHomepageProductList![index!]
+                              //                 .id
+                              //                 .toString()
+                              homepageController.likeUpdatedList.contains(
                                           homepageController
                                               .finalHomepageProductList![index!]
-                                              .id
-                                              .toString()
+                                              .id) ||
+                                      homepageController
+                                              .finalHomepageProductList![index!]
+                                              .wishlist ==
+                                          true
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                               color: AppColor.orangeColor),
@@ -786,41 +774,34 @@ class GogleVariousCategory extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Column(
-                        children: [
-                          // CachedNetworkImage(
-                          //   imageUrl:
-                          //       "https://orangeeye.skardtech.com/public/uploads/frameshapes/${homepageController.getDifferentTypeProduct[index].image}",
-                          //   imageBuilder: (context, imageProvider) {
-                          //     return CircleAvatar(
-                          //       // radius: 60,
-                          //       backgroundImage: imageProvider,
-                          //     );
-                          //   },
-                          //   height: Get.height * 0.12,
-                          //   fit: BoxFit.cover,
-                          //   width: Get.width * 0.30,
-                          // ),
-                          cacheNetworkImage(
-                              imageUrl:
-                                  "https://orangeeyewearindia.com/public/uploads/frameshapes/${homepageController.getDifferentTypeProduct[index].image}",
-                              height: Get.height * 0.13,
-                              boxfit: BoxFit.cover,
-                              width: Get.width * 0.43,
-                              ontap: () async {
-                                // Get.toNamed("/mainpage");
-                              },
-                              memCacheHeight: 350),
-                          AppText(
-                            text: homepageController
-                                .getDifferentTypeProduct[index].name,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          )
-                        ],
-                      ));
+                  return Container(
+                    height: Get.height * 0.13,
+                    width: Get.width * 0.44,
+                    child: Column(
+                      children: [
+                        cacheNetworkImage(
+                            imageUrl:
+                                "https://orangeeyewearindia.com/public/uploads/frameshapes/${homepageController.getDifferentTypeProduct[index].image}",
+                            height: Get.height * 0.13,
+                            boxfit: BoxFit.cover,
+                            width: Get.width * 0.43,
+                            ontap: () async {
+                              await homepageController.getAllData("1");
+                              Get.to(OtherProductShapePage(), arguments: {
+                                "title": homepageController
+                                    .getDifferentTypeProduct[index].name
+                              });
+                            },
+                            memCacheHeight: 350),
+                        AppText(
+                          text: homepageController
+                              .getDifferentTypeProduct[index].name,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        )
+                      ],
+                    ),
+                  );
                 },
                 itemCount: homepageController.getDifferentTypeProduct.length),
       ),
@@ -857,7 +838,8 @@ class ShopOurCollectionWidget extends StatelessWidget {
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColor.greyColor)),
+                          border: Border.all(
+                              color: AppColor.greyColor.withOpacity(0.2))),
                       height: Get.height * 0.20,
                       width: Get.width * 0.45,
                       child: Column(

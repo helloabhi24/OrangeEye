@@ -11,6 +11,8 @@ class WishlistPageController extends GetxController {
 
   Pref sharedPref = Get.find();
 
+  RxList whistList = [].obs;
+
   getWishlistProduct() async {
     await sharedPref.getUserId();
     // print(sharedPref.userToken.value);
@@ -22,11 +24,13 @@ class WishlistPageController extends GetxController {
           .getWishlistProduct(sharedPref.userToken.value)
           .then((value) {
         if (value["status"] == "success") {
-          whislistProductList!.value = (value["data"] as List)
-              .map((e) => WhislistModel.fromJson(e))
-              .toList();
+          whistList.clear();
+          whistList.addAll(value["data"]);
+          // whislistProductList!.value = (value["data"] as List)
+          //     .map((e) => WhislistModel.fromJson(e))
+          //     .toList();
           print("whislist");
-          print(whislistProductList!);
+          print(whistList);
         }
       });
     } catch (e) {

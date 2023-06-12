@@ -12,7 +12,6 @@ import '../utils/customeElevatedButton.dart';
 
 class CoupounRedeemPage extends GetView<CoupounspageController> {
   const CoupounRedeemPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -34,4 +34,34 @@ class ServiceConstant {
   static const String GETCOUPOUNS = '/api/get_coupon';
 
   static const String GETLENSESBYCATEGORY = '/api/lens_with_category';
+
+  static const String REMOVEPRODUCTFROMCART = '/api/deleteCart';
+
+  static const String GETSTATE = '/api/getState';
+
+  static const String GETCITY = '/api/getCity';
+
+  static const String GETADSURL = '/api/video_urls';
+
+  static const String UPDATEPHONENUMBER = '/api/UpdateMobile';
+
+  static const String SHIPPINGPOLICIES = '/api/get_shippingpolicy';
+
+  static const String RETURNPOLICIES = '/api/get_Returnpolicy';
+
+  static const String SOCIALMEDIA = '/api/siteDetails';
+
+  static const String PLACEORDER = '/api/AddOrder';
+
+  static const String GETPLACEORDER = '/api/get_order_list';
+
+  static const String GETINVOICE = '/api/get_invoice/';
+
+  static const String GETGLASSES = '/api/getProductGlass';
+
+  static const String GETCATEGORYNAME = '/api/getCategory';
+
+  static const String GETGLASSESHOMEPAGE = '/api/getProductGlass';
+
+  static const String PAYMENT = '/api/payment_gateway';
 }

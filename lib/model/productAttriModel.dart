@@ -28,7 +28,7 @@ class ProductCategoryModel {
   final String? mrp;
   final String? price;
   final String? availability;
-  final String? extraPrice;
+  final dynamic extraPrice;
   final String? productName;
   final String? categoriesName;
   final List<String>? images;
@@ -88,8 +88,8 @@ class ProductAttribute {
 
   final int id;
   final String productId;
-  final String? colorName;
-  final String? colorCode;
+  final dynamic colorName;
+  final dynamic colorCode;
   final String? image1;
   final String? image2;
   final String? image3;

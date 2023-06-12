@@ -9,11 +9,19 @@ import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
+import 'package:orangeeye/utils/customToast.dart';
 import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/widgets/homepageWidget.dart';
 import 'package:orangeeye/widgets/productDetailPage.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../routes/approutes.dart';
+import '../utils/customeElevatedButton.dart';
 import '../utils/showDialouge.dart';
+import 'dart:convert';
+import 'dart:io';
 
 class ProductDetailScreen extends GetView<HomepageController> {
   const ProductDetailScreen({super.key});
@@ -29,6 +37,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
           children: [
             SingleChildScrollView(
               child: Column(children: [
+                height20,
                 Stack(
                   children: [
                     Obx(
@@ -45,6 +54,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                 ),
                               )
                             : ListView.builder(
+                                // scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   return controller
@@ -148,7 +158,17 @@ class ProductDetailScreen extends GetView<HomepageController> {
                           Row(
                             children: [
                               InkWell(
-                                onTap: () async {},
+                                onTap: () async {
+                                  // print("arun");
+                                  // final temp = await getTemporaryDirectory();
+                                  // final path = "${temp.path}/image.jpg";
+                                  // print(path);
+                                  // File(path).writeAsBytesSync(
+                                  //     detailProduct![index!]["images"]);
+                                  await controller.createDynamicLink(
+                                      false, "1");
+                                  Share.share('check out my website');
+                                },
                                 child: CircleAvatar(
                                     backgroundColor: Colors.white60,
                                     radius: Get.height * 0.022,
@@ -356,57 +376,61 @@ class ProductDetailScreen extends GetView<HomepageController> {
                         ],
                       ),
                       getheight(context, 0.010),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              AppText(
-                                fontSize: 15.sp,
-                                fontWeight: FontWeight.w600,
-                                color: AppColor.blackColor,
-                                text: "Frame shape :",
-                              ),
-                              width10,
-                              AppText(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.blackColor,
-                                  text: controller
-                                      .productDetailList![0].frameshape!.name!),
-                            ],
-                          ),
-                          SizedBox(
-                            width: Get.width * 0.28,
-                            height: Get.height * 0.04,
-                            child: AppText(
-                                textAlign: TextAlign.right,
-                                fontSize: 10.sp,
-                                fontWeight: FontWeight.w500,
-                                color: AppColor.blackColor,
-                                text: "Including Premium Anti Glare Lens"),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          AppText(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColor.blackColor,
-                            text: "Frame size :",
-                          ),
-                          width10,
-                          AppText(
-                              fontSize: 14,
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: SizedBox(
+                          width: Get.width * 0.28,
+                          height: Get.height * 0.04,
+                          child: AppText(
+                              textAlign: TextAlign.right,
+                              fontSize: 10.sp,
                               fontWeight: FontWeight.w500,
                               color: AppColor.blackColor,
-                              text: controller
-                                  .productDetailList![0].frameSize![0].name
-                                  .toString()),
-                        ],
+                              text: "Including Premium Anti Glare Lens"),
+                        ),
                       ),
+                      // Row(
+                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Row(
+                      //       children: [
+                      //         AppText(
+                      //           fontSize: 15.sp,
+                      //           fontWeight: FontWeight.w600,
+                      //           color: AppColor.blackColor,
+                      //           text: "Frame shape :",
+                      //         ),
+                      //         width10,
+                      //         AppText(
+                      //             fontSize: 14,
+                      //             fontWeight: FontWeight.w500,
+                      //             color: AppColor.blackColor,
+                      //             text: controller
+                      //                 .productDetailList![0].frameshape!.name!),
+                      //       ],
+                      //     ),
+
+                      //   ],
+                      // ),
+                      // Row(
+                      //   children: [
+                      //     AppText(
+                      //       fontSize: 15.sp,
+                      //       fontWeight: FontWeight.w600,
+                      //       color: AppColor.blackColor,
+                      //       text: "Frame size :",
+                      //     ),
+                      //     width10,
+                      //     AppText(
+                      //         fontSize: 14,
+                      //         fontWeight: FontWeight.w500,
+                      //         color: AppColor.blackColor,
+                      //         text: controller
+                      //             .productDetailList![0].frameSize![0].name
+                      //             .toString()),
+                      //   ],
+                      // ),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.start,
                       //   children: [
@@ -447,8 +471,17 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                         controller.colorDotsIndex.value = e;
                                         print("index");
                                         print(controller.colorDotsIndex.value);
+
+                                        controller.selectColorCode.value =
+                                            controller.productDetailList![0]
+                                                .productAttributes![e].id
+                                                .toString();
                                       },
                                       child: ColorDots(
+                                        borderColor:
+                                            e == controller.colorDotsIndex.value
+                                                ? AppColor.greyColor
+                                                : AppColor.whiteColor,
                                         dotsColor: Color(int.parse(
                                             "0xff${controller.productDetailList![0].productAttributes![e].colorCode!.replaceFirst(r'#', "")}")),
                                       ),
@@ -462,10 +495,16 @@ class ProductDetailScreen extends GetView<HomepageController> {
                             onTap: () {
                               sizeGuideDialouge(context);
                             },
-                            child: const AppText(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              text: "Size Guide",
+                            child: Row(
+                              children: [
+                                const AppText(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15,
+                                  text: "Size Guide",
+                                ),
+                                width5,
+                                Icon(Icons.report_outlined)
+                              ],
                             ),
                           )
                         ],
@@ -607,52 +646,84 @@ class ProductDetailScreen extends GetView<HomepageController> {
             ),
           ],
         ),
-        // bottomNavigationBar: SizedBox(
-        //   height: Get.height * 0.07,
-        //   child: BottomAppBar(
-        //     child: Padding(
-        //       padding: EdgeInsets.only(
-        //           left: getHorizontalSize(10),
-        //           right: getHorizontalSize(10),
-        //           top: getVerticalSize(8)),
-        //       child: Row(
-        //         children: [
-        //           Expanded(
-        //             child: ClipRRect(
-        //               borderRadius: BorderRadius.circular(10),
-        //               child: CustomElevatedButtons(
-        //                   fontWeight: FontWeight.w500,
-        //                   isBorder: false,
-        //                   buttoncolor: AppColor.orangeColor,
-        //                   height: Get.height * 0.050,
-        //                   width: Get.width * 0.93,
-        //                   textcolor: AppColor.whiteColor,
-        //                   textButton: "Lets Chat",
-        //                   ontap: () {}),
-        //             ),
-        //           ),
-        //           width5,
-        //           Expanded(
-        //             child: ClipRRect(
-        //               borderRadius: BorderRadius.circular(10),
-        //               child: CustomElevatedButtons(
-        //                   fontWeight: FontWeight.w500,
-        //                   isBorder: false,
-        //                   buttoncolor: AppColor.orangeColor,
-        //                   height: Get.height * 0.050,
-        //                   width: Get.width * 0.94,
-        //                   textcolor: AppColor.whiteColor,
-        //                   textButton: "Select Lenses",
-        //                   ontap: () {
-        //                     Get.toNamed(Routes.SELECTPRESCRIPTIONPAGE);
-        //                   }),
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ),
-        //   ),
-        // )
+        bottomNavigationBar: SizedBox(
+          height: Get.height * 0.07,
+          child: BottomAppBar(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: getHorizontalSize(10),
+                  right: getHorizontalSize(10),
+                  top: getVerticalSize(8)),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CustomElevatedButtons(
+                          fontWeight: FontWeight.w600,
+                          isBorder: false,
+                          buttoncolor: AppColor.orangeColor,
+                          height: Get.height * 0.050,
+                          width: Get.width * 0.93,
+                          textcolor: AppColor.whiteColor,
+                          textButton: "Lets Chat",
+                          ontap: () async {
+                            var whatsappAndroid = Uri.parse(
+                                "whatsapp://send?phone=6296157088&text=Hi, I need some help");
+                            if (await canLaunchUrl(whatsappAndroid)) {
+                              await launchUrl(whatsappAndroid);
+                            } else {
+                              customeToast(
+                                  "WhatsApp is not installed on the device");
+                            }
+                          }),
+                    ),
+                  ),
+                  width8,
+                  Expanded(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CustomElevatedButtons(
+                          fontWeight: FontWeight.w600,
+                          isBorder: false,
+                          buttoncolor: AppColor.orangeColor,
+                          height: Get.height * 0.050,
+                          width: Get.width * 0.93,
+                          textcolor: AppColor.whiteColor,
+                          textButton: "Select Lenses",
+                          ontap: () {
+                            if (homepagehomepageController
+                                .sharedPref.userToken.value.isEmpty) {
+                              Get.toNamed(
+                                Routes.OTPPHONENUMBERPAGE,
+                              );
+                              // Get.to(LoginScreen());
+                              // loginDialouge(context);
+                            } else {
+                              if (controller.selectColorCode.value.isEmpty) {
+                                customeToast("Choose color of frames");
+                              } else {
+                                Get.toNamed(Routes.SELECTPRESCRIPTIONPAGE,
+                                    arguments: {
+                                      "colorCode":
+                                          controller.selectColorCode.value,
+                                      "image": controller
+                                          .productDetailList![0]
+                                          .productAttributes![
+                                              controller.colorDotsIndex.value]
+                                          .images![0]
+                                          .toString()
+                                    });
+                              }
+                            }
+                          }),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
