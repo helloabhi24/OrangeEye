@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:orangeeye/controller.dart/addNewAddressController.dart';
 import 'package:orangeeye/controller.dart/whishlistController.dart';
 import 'package:orangeeye/model/getCartModel.dart';
 import 'package:orangeeye/model/otherProductShapeModel.dart';
@@ -58,6 +59,7 @@ class HomepageController extends GetxController {
 
   Pref sharedPref = Get.find();
   WishlistPageController wishlistPageController = Get.find();
+  AddNewAddressController addNewAddressController =  Get.find();
   // RxBool IsBestSeller = false.obs
 
   RxList<HomePageSliderModel>? homePageSliderList = <HomePageSliderModel>[].obs;
@@ -71,7 +73,7 @@ class HomepageController extends GetxController {
   RxList<GetLensesByCategoryModel> getLensesByCategorey =
       <GetLensesByCategoryModel>[].obs;
 
-  // RxList<ProductAttribute> productColorList = <ProductAttribute>[].obs;
+  // RxList<ProductAttribute> productColorList = <ProductAttribute>[].obs;getCartList
 
   RxList<OtherProductShapeModel>? finalHomepageProductList =
       <OtherProductShapeModel>[].obs;
@@ -84,6 +86,7 @@ class HomepageController extends GetxController {
   RxList<ProductDetailModel>? productDetailList = <ProductDetailModel>[].obs;
 
   RxList likeUpdatedList = [].obs;
+  RxList genderLikeUpdatedList = [].obs;
 
   RxList allProduct = [].obs;
   RxList imageList = [].obs;
@@ -98,11 +101,8 @@ class HomepageController extends GetxController {
     if (pickeImage != null) {
       File? img = await getCroppedImage(pickeImage);
       pathName.value = pickeImage.name;
-      print("pathname");
-      print(pathName.value);
       selectedImagePath.value = await img!.path;
-      print("arunpath");
-      print(selectedImagePath);
+      
       File imagefile = File(selectedImagePath.value); //convert Path to File
       Uint8List imagebytes = await imagefile.readAsBytes(); //convert to bytes
       base64string.value =
@@ -114,8 +114,8 @@ class HomepageController extends GetxController {
 
       // print(selectedImagePath.value);
     } else {
-      Get.snackbar("No Image Selected", "",
-          snackPosition: SnackPosition.BOTTOM);
+      customeToast("No Image Selected");
+     
     }
   }
 
@@ -245,12 +245,13 @@ class HomepageController extends GetxController {
   }
 
   getProductDetail(String value) async {
+    print("slug");
+    print(value);
     Map<String, dynamic> data = {};
     data["slug"] = value;
     try {
       isLoading.value = true;
       showloadingIndicators();
-
       await ApiRepo().getProductDetail(data).then((value) {
         if (value["status"] == "success") {
           productDetailList!.value = (value["data"] as List)
@@ -258,11 +259,9 @@ class HomepageController extends GetxController {
               .toList();
           print("productDetailModel");
           print(productDetailList);
-
           selectColorCode.value =
               productDetailList![0].productAttributes![0].id.toString();
-          print("selctedColorCodesssssssssssssssxxx");
-          print(selectColorCode);
+        
           // allimageList.clear();
           // imageList.clear();
           // imageList.addAll(value["data"]);
@@ -385,12 +384,12 @@ class HomepageController extends GetxController {
 
     try {
       // isLoading.value = true;
-      // showloadingIndicators();
+       showloadingIndicators();
       await ApiRepo().addToCart(data).then((value) async {
         if (value["status"] == "success") {
           await getCarts();
           // subtotal();
-          Get.to(CartPage());
+         await Get.to(CartPage());
 
           // sum();
           customeToast(value["msg"]);
@@ -403,7 +402,7 @@ class HomepageController extends GetxController {
       print(e);
     }
     // isLoading.value = false;
-    // hideLoading();
+     hideLoading();
   }
 
   getProductIncreement(
@@ -541,10 +540,10 @@ class HomepageController extends GetxController {
     await getOurCollection();
     await getDifferntTypeProduct();
     await getLensesByCategory();
-    await sharedPref.getUserId();
     await getCarts();
     await getAdsUrl();
     initDynamicLinks();
+    // await addNewAddressController.getProfileAddress();
 
     super.onInit();
   }

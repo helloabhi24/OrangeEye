@@ -24,7 +24,7 @@ import 'package:orangeeye/view.dart/profileSettingPage.dart';
 import 'package:orangeeye/view.dart/authenticationPage/signupPage.dart';
 import 'package:orangeeye/view.dart/walletPage.dart';
 import 'package:orangeeye/view.dart/wishlistPage.dart';
-import 'package:orangeeye/widgets/cartPageWidget.dart';
+import '../view.dart/blogDetailPage.dart';
 import '../view.dart/myOrderPage.dart';
 import '../view.dart/productDetailPage.dart';
 import '../view.dart/selectAddress.dart';
@@ -131,6 +131,11 @@ class AppPage {
     GetPage(
         name: "/invoicepage",
         page: (() => InvoicePage()),
+        binding: GetXbindings()),
+
+        GetPage(
+        name: "/blogdetailpage",
+        page: (() => BlogDetailPage()),
         binding: GetXbindings()),
   ];
 }

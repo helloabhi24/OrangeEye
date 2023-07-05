@@ -71,25 +71,21 @@ class MainPage extends GetView<MainpageController> {
                               "0", "1");
                           Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
                               arguments: {"type": "Bestseller", "id": "1"});
+                              
                         }, () async {
                           await categoryByGenderController.getBestseller(
-                              "1", "1");
+                              "2", "1");
                           Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
                               arguments: {"type": "Bestseller", "id": "2"});
                         }, () async {
                           await categoryByGenderController.getBestseller(
-                              "2", "1");
+                              "3", "1");
                           Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
                               arguments: {"type": "Bestseller", "id": "3"});
                         }),
                         customExpansionTile(
                             "New launches", "Men", "Women", "Kids", () async {
                           await categoryByGenderController.getNewLaunches(
-                              "0", "1");
-                          Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
-                              arguments: {"type": "New Launches", "id": "1"});
-                        }, () async {
-                          await categoryByGenderController.getNewLaunches(
                               "1", "1");
                           Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
                               arguments: {"type": "New Launches", "id": "1"});
@@ -97,19 +93,24 @@ class MainPage extends GetView<MainpageController> {
                           await categoryByGenderController.getNewLaunches(
                               "2", "1");
                           Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
-                              arguments: {"type": "New Launches", "id": "1"});
+                              arguments: {"type": "New Launches", "id": "2"});
+                        }, () async {
+                          await categoryByGenderController.getNewLaunches(
+                              "3", "1");
+                          Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
+                              arguments: {"type": "New Launches", "id": "3"});
                         }),
                         ...Iterable.generate(controller.drawerList.length).map(
                           (e) => drawerTitles(
                               "${controller.drawerList[e]["images"]}",
-                              "${controller.drawerList[e]["title"]}", () {
-                            e == 6
+                              "${controller.drawerList[e]["title"]}", () async{
+                             await  orderpageController.getPlacedOrder();
+                            e == 5
                                 ? showSocialMediaDialog(context)
                                 : Get.to(controller.drawerList[e]["page"]);
-
-                            e == 3
-                                ? orderpageController.getPrescription()
-                                : null;
+                          await orderpageController.getPrescription();
+                                
+                              
                           }),
                         )
                       ],
@@ -132,6 +133,8 @@ class MainPage extends GetView<MainpageController> {
               // unselectedLabelStyle: const TextStyle(color: AppColor.blackColor),
               onTap: (value) {
                 controller.bottomNavbarIndex.value = value;
+                print("index");
+                print(controller.bottomNavbarIndex.value);
                 controller.isshowAppbar.value = true;
               },
               items: [
@@ -150,7 +153,7 @@ class MainPage extends GetView<MainpageController> {
                 BottomNavigationBarItem(
                     label: "Account", icon: Icon(Icons.person))
               ]),
-          body: controller.pages.elementAt(controller.bottomNavbarIndex.value),
+          body: controller.pages[controller.bottomNavbarIndex.value]
         ),
       ),
     );
@@ -164,9 +167,6 @@ class MainPage extends GetView<MainpageController> {
           border: Border(
               bottom: BorderSide(color: AppColor.greyColor.withOpacity(0.0)))),
       child: ExpansionTile(
-        // tilePadding: EdgeInsets.symmetric(vertical: getVerticalSize(1)),
-        // collapsedBackgroundColor: blackColor,
-        // backgroundColor: blackColor,
         textColor: AppColor.blackColor,
         iconColor: AppColor.blackColor,
         childrenPadding: EdgeInsets.only(
@@ -174,7 +174,7 @@ class MainPage extends GetView<MainpageController> {
         ),
         title: AppText(
           text: title,
-          fontSize: 13.sp,
+          fontSize: 15.sp,
           fontWeight: FontWeight.w600,
         ),
         children: [
@@ -250,7 +250,7 @@ class MainPage extends GetView<MainpageController> {
           ),
           title: AppText(
             text: title,
-            fontSize: 13.sp,
+            fontSize: 15.sp,
             fontWeight: FontWeight.w600,
           ),
           children: [

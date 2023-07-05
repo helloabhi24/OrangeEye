@@ -1,10 +1,11 @@
-import 'dart:convert';
+
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:orangeeye/networking.dart/serviceConstant.dart';
 import 'package:orangeeye/networking.dart/serviceRequest.dart';
 import '../utils/customToast.dart';
 import 'exception.dart';
+
 
 class ApiRepo {
   final Api _api = Api();
@@ -16,9 +17,11 @@ class ApiRepo {
       validateStatus: (_) => true,
       contentType: 'application/json',
       responseType: ResponseType.json);
-
+   
+   
   //***********************signInApi***************************/
-
+ 
+  
   Future signInUser(Map<String, dynamic> data) async {
     try {
       Response response = await _api.request
@@ -632,4 +635,112 @@ class ApiRepo {
       DioExceptions.fromDioError(e);
     }
   }
+   
+
+    Future profileUpdate(Map<String, dynamic> data) async {
+    try {
+      Response response = await _api.request.post(
+        ServiceConstant.UPDATEDPROFILE,
+        options: options,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+   Future getProfiledetail(Map<String, dynamic> data) async {
+    try {
+      Response response = await _api.request.post(
+        ServiceConstant.GETPROFILEDETAIL,
+        options: options,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+    
+
+   Future getTermsandConditions() async {
+    try {
+      Response response = await _api.request.get(
+      ServiceConstant.GETTERMANDCONDIITONS,
+      options: options,  
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+
+   Future getSizeGuide() async {
+    try {
+      Response response = await _api.request.get(
+      ServiceConstant.GETSIZEGUIDE,
+      options: options,  
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+
+    Future getBlog() async {
+    try {
+      Response response = await _api.request.get(
+      ServiceConstant.BLOG,
+      options: options,  
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+  
+
+  Future getBlogdetail(Map<String, dynamic> data) async {
+    try {
+      Response response = await _api.request.post(
+        ServiceConstant.BLOGDETAILS,
+        options: options,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
+
+
+
 }

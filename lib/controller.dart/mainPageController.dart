@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
+import 'package:orangeeye/controller.dart/addNewAddressController.dart';
 import 'package:orangeeye/model/glassesModel.dart';
 import 'package:orangeeye/utils/sharedPref.dart';
 import 'package:orangeeye/utils/showLoadingIndicator.dart';
-import 'package:orangeeye/view.dart/aboutUsPage.dart';
+import 'package:orangeeye/view.dart/blogPage.dart';
 import 'package:orangeeye/view.dart/cartPage.dart';
 import 'package:orangeeye/view.dart/categoryPage.dart';
 import 'package:orangeeye/view.dart/homePage.dart';
@@ -11,13 +12,10 @@ import 'package:orangeeye/view.dart/prescriptionPage.dart';
 import 'package:orangeeye/view.dart/returnPoliciesPage.dart';
 import 'package:orangeeye/view.dart/shippingPolicies.dart';
 import 'package:orangeeye/view.dart/sizeGuidePage.dart';
-import 'package:orangeeye/view.dart/walletPage.dart';
 import 'package:orangeeye/view.dart/wishlistPage.dart';
 import '../model/getCategoryNameModel.dart';
-import '../model/productbyGenderModel.dart';
 import '../networking.dart/apiRepo.dart';
 import '../utils/customToast.dart';
-import '../utils/loadingIndicator.dart';
 import '../view.dart/myOrderPage.dart';
 
 class MainpageController extends GetxController {
@@ -27,16 +25,27 @@ class MainpageController extends GetxController {
   RxString phoneNumber = "".obs;
   RxBool isshowAppbar = false.obs;
   RxString policies = "".obs;
+  RxString privacyPolicies = "".obs;
+  RxString termsAndCondition = "".obs;
   RxString facebook = "".obs;
   RxString insta = "".obs;
   RxString twitter = "".obs;
   RxString youtube = "".obs;
+  RxString sizeGuide = "".obs;
+  RxString blogtitle = "".obs;
+  RxString blogimage = "".obs;
+  RxString blogddescription = "".obs;
+  
+  AddNewAddressController addNewAddressController =  Get.find();
 
   RxList<GlassesModel> getGlassesList = <GlassesModel>[].obs;
 
   RxList<GetCategoryNameModel> getCategoryName = <GetCategoryNameModel>[].obs;
 
   RxList getglassesHomePageList = [].obs;
+
+  RxList blogList = [].obs;
+  RxList blogDetailPage = [].obs;
 
   List pages = [
     HomePage(),
@@ -68,7 +77,7 @@ class MainpageController extends GetxController {
       // showloadingIndicators();
       await ApiRepo().returnPolicies().then((value) {
         if (value["status"] == "success") {
-          policies.value = value["data"];
+          privacyPolicies.value = value["data"];
         }
       });
     } catch (e) {
@@ -164,35 +173,87 @@ class MainpageController extends GetxController {
     }
   }
 
-  // RxList<ProductByGenderModel> allProductByGenderList =
-  //     <ProductByGenderModel>[].obs;
-  // getCategory(String type, String category) async {
-  //   try {
-  //     showloadingIndicators();
-  //     await ApiRepo().categoryWiseProduct(type, category).then((value) {
-  //       allProductByGenderList.clear();
-  //       allProductByGenderList.value = (value["data"] as List)
-  //           .map((e) => ProductByGenderModel.fromJson(e))
-  //           .toList();
+ Future getTermsandconditions() async {
+    try {
+      await ApiRepo().getTermsandConditions().then((value) {
+          if(value["status"]=="success"){
+            termsAndCondition.value = value["data"];
+          }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
 
-  //       print("allProductByGenderList");
-  //       print(allProductByGenderList);
-  //       // allProductByGenderList.addAll(value["data"]);
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   hideLoading();
-  // }
 
+  Future getsizeguide() async {
+    try {
+      await ApiRepo().getSizeGuide().then((value) {
+          if(value["status"]=="success"){
+             sizeGuide.value =  value["data"].toString();
+             print(sizeGuide.value);
+          }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
+
+   Future getBlogs() async {
+    print("arun");
+    try {
+      await ApiRepo().getBlog().then((value) {
+          if(value["status"]=="success"){
+             blogList.value = value["data"];
+         
+          }
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+
+   getOurBlogDetail(String value) async {
+   
+    Map<String, dynamic> data = {};
+    data["slug"] = value;
+
+    try {
+      showloadingIndicators();
+      await ApiRepo().getBlogdetail(data).then((value) {
+
+        if(value["status"]=="success"){
+          blogimage.value = value["data"][0]["image"];
+          blogtitle.value = value["data"][0]["title"];
+            blogddescription.value = value["data"][0]["description"];
+
+         
+          }
+      });
+    } catch (e) {
+      print(e);
+    }
+    hideLoading();
+  }
+
+
+
+
+
+
+   
+     
   List<Map<String, dynamic>> drawerList = [
     {
-      "title": "Sizechart",
+      "title": "Size guide",
       "images": "assets/images/psoreward.png",
       "page": SizeGuidePage(),
     },
     {
-      "title": "MyOrder",
+      "title": "My Order",
       "images": "assets/images/Home.png",
       "page": const MyOrderPage(),
     },
@@ -206,29 +267,30 @@ class MainpageController extends GetxController {
       "images": "assets/images/Home.png",
       "page": const PrescriptionPage(),
     },
+
     {
-      "title": "MyWallet",
+      "title": "Blog",
       "images": "assets/images/Home.png",
-      "page": const WalletPage(),
-    },
-    {
-      "title": "AboutUs",
-      "images": "assets/images/Home.png",
-      "page": const AboutUsPage(),
+      "page": BlogPage()
     },
     {
       "title": "Socila Media Links",
       "images": "assets/images/Home.png",
     },
     {
-      "title": "Shipping Policy",
+      "title": "Shipping & Handling",
       "images": "assets/images/Home.png",
       "page": const ShippingPoliciesPage(),
     },
+    // {
+    //   "title": "Terms & Conditions",
+    //   "images": "assets/images/Home.png",
+    //   "page": const TermsAndConditionPage(),
+    // },
     {
-      "title": "Return Policy",
+      "title": "Privacy & Policy",
       "images": "assets/images/Home.png",
-      "page": const RetrunPoliciesPage(),
+      "page": const PrivacyPoliciesPage(),
     },
   ];
 
@@ -240,9 +302,12 @@ class MainpageController extends GetxController {
     await getProfile();
     await getRetrunPolicies();
     await getShippingPolicies();
-    getSocilaMediaLinks();
-
+    await getTermsandconditions();
+     getsizeguide();
+     getBlogs();
+   await  getSocilaMediaLinks();
     await getGlassesHomePage();
+     await addNewAddressController.getProfileAddress();
     super.onInit();
   }
 }

@@ -3,18 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/utils/appText.dart';
 import '../controller.dart/catByGenderController.dart';
-import '../controller.dart/homeController.dart';
-import '../routes/approutes.dart';
 import '../utils/appColor.dart';
-import '../utils/cachedNetworkImage.dart';
 import '../utils/customeAppBar.dart';
-import '../utils/sizeHelper.dart';
-import '../widgets/productDetailPage.dart';
+
 
 class CategoryWiseProductPage extends GetView<CategoryByGenderController> {
   String? glassName;
   CategoryWiseProductPage({this.glassName = "", super.key});
-
   @override
   Widget build(BuildContext context) {
     CategoryByGenderController categoryByGenderController = Get.find();

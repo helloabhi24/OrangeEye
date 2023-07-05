@@ -42,6 +42,7 @@ class GetCartModel {
   final int? lenseSubtotal;
   final int? lenseTax;
   final int? subtotal;
+  final String? pImage;
 
   GetCartModel({
     required this.lensId,
@@ -76,6 +77,7 @@ class GetCartModel {
     required this.lenseSubtotal,
     required this.lenseTax,
     required this.subtotal,
+    required this.pImage,
   });
 
   factory GetCartModel.fromJson(Map<String, dynamic> json) => GetCartModel(
@@ -111,6 +113,7 @@ class GetCartModel {
         lenseSubtotal: json["lense_subtotal"],
         lenseTax: json["lense_tax"],
         subtotal: json["subtotal"],
+        pImage: json["pimage"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -146,5 +149,6 @@ class GetCartModel {
         "lense_subtotal": lenseSubtotal,
         "lense_tax": lenseTax,
         "subtotal": subtotal,
+        "pimage" : pImage
       };
 }

@@ -9,9 +9,7 @@ import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/view.dart/authenticationPage/inputMobileNumberPage.dart';
-import 'package:orangeeye/view.dart/emailTemp.dart';
 import '../view.dart/cartPage.dart';
-import '../view.dart/invoice.dart';
 
 class CustomAppbar {
   static PreferredSizeWidget customeAppbar({
@@ -25,6 +23,8 @@ class CustomAppbar {
   }) {
     WishlistPageController whishlistController = Get.find();
     HomepageController homepageController = Get.find();
+ 
+
     return AppBar(
       iconTheme: const IconThemeData(color: AppColor.blackColor),
       elevation: 1,
@@ -42,12 +42,12 @@ class CustomAppbar {
               color: color,
             ),
       actions: [
-        GestureDetector(
-            onTap: () {
-              // Get.toNamed(Routes.NOTIFICATIOsN);
-              Get.to(InvoicePage());
-            },
-            child: Icon(Icons.notifications_outlined)),
+        // GestureDetector(
+        //     onTap: () {
+        //       // Get.toNamed(Routes.NOTIFICATIOsN);
+        //       // Get.to(InvoicePage());
+        //     },
+        //     child: Icon(Icons.notifications_outlined)),
         getWidth(Get.context, 0.030),
         Stack(
           alignment: Alignment.center,
@@ -56,11 +56,11 @@ class CustomAppbar {
               onTap: () {
                 if (homepageController.sharedPref.userToken.value.isEmpty) {
                   Get.to(LoginScreen());
-                  // loginDialouge(Get.context);
+            
                 } else {
                   Get.to(CartPage());
                 }
-                // Get.toNamed(Routes.WISHLISTPAGE);
+                
               },
               child: Icon(
                 Icons.shopping_bag_outlined,

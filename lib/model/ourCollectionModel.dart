@@ -93,13 +93,13 @@ class FrameProduct {
   final String? slug;
   final String? modelNumber;
   final String? category;
-  final dynamic? brand;
+  final dynamic brand;
   final String? productType;
   final String? frameMaterial;
   final String? frameType;
   final String? frameShape;
-  final dynamic? frameColor;
-  final dynamic? lens;
+  final dynamic frameColor;
+  final dynamic lens;
   final List<String>? frameSize;
   final String? mrp;
   final String? price;

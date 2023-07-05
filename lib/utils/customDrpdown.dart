@@ -4,8 +4,10 @@ import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/addNewAddressController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
+import 'package:orangeeye/utils/sharedPref.dart';
 
 AddNewAddressController addNewAddressController = Get.find();
+Pref pref = Get.find();
 
 customeStateDropdown(context) {
   return Obx(
@@ -13,8 +15,8 @@ customeStateDropdown(context) {
       height: Get.height * 0.07,
       width: Get.width,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: AppColor.whiteColor,
+          borderRadius: BorderRadius.circular(4),
+          color: Colors.white38,
           border: Border.all(color: AppColor.greyColor)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -22,12 +24,14 @@ customeStateDropdown(context) {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: AppText(
-              text: addNewAddressController.city.value,
+              text:  addNewAddressController.billingStateid.value==0? pref.stateName.value.isEmpty? "Choose State":  pref.stateName.value : addNewAddressController.state.value,
             ),
           ),
           IconButton(
-              onPressed: () {
+              onPressed: () async{
                 stateDialouge(context);
+               await pref.getState();
+               await pref.getStateid();
               },
               icon: Icon(Icons.arrow_drop_down))
         ],
@@ -62,13 +66,20 @@ stateDialouge(context) {
                               padding: const EdgeInsets.all(8.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  addNewAddressController.city.value =
+                                  addNewAddressController.state.value =
                                       addNewAddressController
                                           .stateList![e].name;
+                                  pref.setState(addNewAddressController.state.value);
+                                  pref.setStateid(addNewAddressController.billingStateid.value);
 
                                   addNewAddressController.billingCity.value =
                                       addNewAddressController.stateList![e].id
                                           .toString();
+                                        
+                                  addNewAddressController.billingStateid.value = addNewAddressController.stateList![e].id;
+
+                                          print("billing city");
+                                          print(addNewAddressController.billingStateid.value);
 
                                   addNewAddressController.getCity(
                                       addNewAddressController.stateList![e].id
@@ -99,8 +110,8 @@ customeCityDropdown(context) {
       height: Get.height * 0.07,
       width: Get.width,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: AppColor.whiteColor,
+          borderRadius: BorderRadius.circular(4),
+          color: Colors.white38,
           border: Border.all(color: AppColor.greyColor)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,12 +119,14 @@ customeCityDropdown(context) {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: AppText(
-              text: addNewAddressController.state.value,
+              text: addNewAddressController.billingCityid.value==0? pref.cityName.value.isEmpty?"Choose City": pref.cityName.value :addNewAddressController.city.value,
             ),
           ),
           IconButton(
-              onPressed: () {
+              onPressed: () async{
                 cityDialouge(context);
+              await pref.getcity();
+              await pref.getcityid();
               },
               icon: Icon(Icons.arrow_drop_down))
         ],
@@ -148,12 +161,17 @@ cityDialouge(context) {
                               padding: const EdgeInsets.all(8.0),
                               child: GestureDetector(
                                 onTap: () {
-                                  addNewAddressController.state.value =
+                                  addNewAddressController.city.value =
                                       addNewAddressController
                                           .cityList![e].name!;
+                                  pref.setcity(addNewAddressController.city.value);
+                                  pref.setcityid(addNewAddressController.billingCityid.value);
                                   addNewAddressController.billingState.value =
                                       addNewAddressController.cityList![e].id
                                           .toString();
+                                          addNewAddressController.billingCityid.value = addNewAddressController.cityList![e].id;
+                                          print("billing city id");
+                                          print(addNewAddressController.billingCityid.value);
 
                                   Get.back();
                                 },

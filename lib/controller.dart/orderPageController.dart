@@ -1,13 +1,12 @@
 import 'package:get/get.dart';
 import 'package:orangeeye/model/prescriptionModel.dart';
 import 'package:orangeeye/utils/customToast.dart';
-
 import '../model/placeOrderItem.dart';
 import '../model/placeOrdermodel.dart';
 import '../networking.dart/apiRepo.dart';
-
 import '../utils/sharedPref.dart';
 import '../utils/showLoadingIndicator.dart';
+import '../view.dart/invoice.dart';
 
 class OrderpageController extends GetxController {
   Pref sharedPref = Get.find();
@@ -34,6 +33,7 @@ class OrderpageController extends GetxController {
               .map((e) => PrescriptionModel.fromJson(e))
               .toList();
           print("prescriptionList");
+          
         }
       });
     } catch (e) {
@@ -52,8 +52,9 @@ class OrderpageController extends GetxController {
                 (e) => PlaceOrderModel.fromJson(e),
               )
               .toList();
-          print("place sorder ");
-          print(placeOrderList);
+              print("place order");
+              print(placeOrderList);
+          
         } else {
           customeToast(value["msg"]);
         }
@@ -64,17 +65,21 @@ class OrderpageController extends GetxController {
     hideLoading();
   }
 
-  getInvoice(id) async {
+  getInvoice(String id) async {
     // await sharedPref.getUserId();
+    print("orderids");
+    print(id);
     Map<String, dynamic> data = {};
     data["user_id"] = sharedPref.userToken.value;
     data["order_id"] = id;
+
+    print(data["user_id"]);
+    print(data["order_id"]);
 
     try {
       showloadingIndicators();
       await ApiRepo().getInvoice(data).then((value) async {
         placeOrderItemList!.clear();
-
         if (value["status"] == "success") {
           orderId.value = value["data"]["orderList"]["order_id"];
           date.value = value["data"]["orderList"]["date"];
@@ -91,7 +96,9 @@ class OrderpageController extends GetxController {
               )
               .toList();
           print("place sorder ");
-          print(placeOrderList);
+          print(placeOrderItemList);
+          
+        //  await Get.to(InvoicePage());
         } else {
           customeToast("something went wrong");
         }

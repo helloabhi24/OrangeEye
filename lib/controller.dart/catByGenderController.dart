@@ -123,6 +123,7 @@ class CategoryByGenderController extends GetxController {
         genderWiseProductList!.value = (value["data"] as List)
             .map((e) => GenderWiseProductModel.fromJson(e))
             .toList();
+          
         print("genderWiseProductList");
         print(genderWiseProductList);
         // allProductByGenderList.addAll(value["data"]);
@@ -155,27 +156,7 @@ class CategoryByGenderController extends GetxController {
     hideLoading();
   }
 
-  //   getOurRecommendation(String value) async {
-  //   Map<String, dynamic> data = {};
-  //   data["best_seller"] = value;
-  //   try {
-  //     isLoading.value = true;
-  //     showloadingIndicators();
 
-  //     await ApiRepo().getOurRecommendation(data).then((value) {
-  //       print("dbkjasfk");
-  //       finalHomepageProductList!.value = (value["data"] as List)
-  //           .map((e) => ProductCategoryModel.fromJson(e))
-  //           .toList();
-  //       print("foinalhomepagelist");
-  //       print(finalHomepageProductList![0].productAttributes![0].colorCode);
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   isLoading.value = false;
-  //   hideLoading();
-  // }
 
   RxList<Map<String, String>> genderImgeList = <Map<String, String>>[
     {
@@ -251,7 +232,7 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: Get.height * 0.15,
+                        height: Get.height * 0.16,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (cnt, index1) {
@@ -267,7 +248,12 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                                   width: Get.width * 0.37,
                                   memCacheHeight: 220,
                                   ontap: () async {
-                                    // Get.toNamed("/mainpage");
+                                     await homepageController.getProductDetail(
+                categoryByGenderController.getallCategoryList[index!]["slug"]);
+            print("slug");
+            print(
+                categoryByGenderController.getallCategoryList[index!]["slug"]);
+            Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
                                   }),
                             );
                           },
@@ -276,20 +262,7 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                           shrinkWrap: true,
                         ),
                       ),
-
-                      // Container(
-                      //   height: Get.height * 0.10,
-                      //   width: Get.width * 0.30,
-                      //   child: Image.network(
-                      //     "https://orangeeye.atally.com/public/uploads/products/${homepageController.allProduct[index!]["image1"]}",
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // ),
-                      // CustomAssetsImage(
-                      //   height: 130.h,
-                      //   width: 135.w,
-                      //   imagePath: homepageController.gogleList[index!],
-                      // ),
+                  
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -316,7 +289,7 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                                           fontSize: 12.sp,
                                           text:
                                               "₹ ${categoryByGenderController.getallCategoryList[index!]["mrp"]}"),
-                                      getWidth(context, 0.020),
+                                      width8,
                                       AppText(
                                           fontSize: 12.sp,
                                           text:
@@ -327,7 +300,7 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      height18,
+                      // height18,
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -369,23 +342,7 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                           ],
                         ),
                       )
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     Row(
-                      //       children: [
-                      //         ...Iterable.generate(homepageController
-                      //                 .pageproductColorList.length)
-                      //             .map(
-                      //           (e) => ColorDots(
-                      //             dotsColor: Color(int.parse(
-                      //                 "0xff${homepageController.pageproductColorList[e][]["color_code"].replaceFirst(r'#', "")}")),
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     )
-                      //   ],
-                      // )
+                      
                     ],
                   ),
                   Padding(
@@ -402,45 +359,34 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                               // Get.to(LoginScreen());
                               // loginDialouge(context);
                             } else {
-                              await homepageController.updatedWhislist(
-                                categoryByGenderController
-                                    .getallCategoryList[index!]["id"]
-                                    .toString(),
-                              );
-                              homepageController.isSelected.value =
+                              if (homepageController.genderLikeUpdatedList.contains(
                                   categoryByGenderController
-                                      .getallCategoryList[index!]["id"]
-                                      .toString();
+                                    .getallCategoryList[index!]["id"])) {
+                                homepageController.genderLikeUpdatedList.remove(
+                                    categoryByGenderController
+                                    .getallCategoryList[index!]["id"]);
+                                await homepageController.updatedWhislist(
+                                  categoryByGenderController
+                                    .getallCategoryList[index!]["id"]
+                                      .toString(),
+                                );
+                              } else {
+                                homepageController.genderLikeUpdatedList.add(
+                                    categoryByGenderController
+                                    .getallCategoryList[index!]["id"]);
+                                await homepageController.updatedWhislist(
+                                  categoryByGenderController
+                                    .getallCategoryList[index!]["id"]
+                                      .toString(),
+                                );
+                              }
+                            
                             }
 
-                            // if (homepageController
-                            //         .finalHomepageProductList![index!]
-                            //         .wishlist ==
-                            //     true) {
-                            //   homepageController.isAddWishlist.value = false;
-                            // } else {
-                            //   homepageController.isAddWishlist.value = true;
-                            // }
-
-                            // homepageController.isAddWishlist.value =
-                            //     homepageController
-                            //         .finalHomepageProductList![index!]
-                            //         .wishlist!;
-                            // print("bool");
-                            // print(homepageController.isAddWishlist.value);
-
-                            // homepageController.isAddWishlist.value =
-                            //     !homepageController.isAddWishlist.value;
                           },
-                          child: Icon(
-                              categoryByGenderController
-                                                  .getallCategoryList[index!]
-                                              ["wishlist"] ==
-                                          true ||
-                                      homepageController.isSelected.value ==
-                                          categoryByGenderController
-                                              .getallCategoryList[index!]["id"]
-                                              .toString()
+                          child: Icon( homepageController.genderLikeUpdatedList.contains(categoryByGenderController
+                                    .getallCategoryList[index!]["id"])
+                              || categoryByGenderController.getallCategoryList[index!]["wishlist"]==true                                    
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                               color: AppColor.orangeColor),
@@ -453,3 +399,7 @@ class GogleCategoryWiseWidget extends StatelessWidget {
     );
   }
 }
+// categoryByGenderController
+//                                                   .getallCategoryList[index!]
+//                                               ["wishlist"] ==
+//                                           true 

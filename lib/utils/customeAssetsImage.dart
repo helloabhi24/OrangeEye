@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:orangeeye/utils/appColor.dart';
 
 class CustomAssetsImage extends StatelessWidget {
   final String imagePath;

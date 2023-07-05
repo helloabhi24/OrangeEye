@@ -13,20 +13,19 @@ void main() async {
   await Firebase.initializeApp();
   runApp(const MyApp());
 }
-
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
-
 class _MyAppState extends State<MyApp> {
   Pref sharedPref = Get.put(Pref());
   @override
   Widget build(BuildContext context) {
-    sharedPref.getUserId();
-    return Obx(() => ScreenUtilInit(
+     sharedPref.getUserId();
+    return 
+    Obx(() => 
+    ScreenUtilInit(
             designSize: const Size(360, 690),
             minTextAdapt: true,
             splitScreenMode: true,
@@ -39,10 +38,12 @@ class _MyAppState extends State<MyApp> {
                   primarySwatch: Colors.blue,
                 ),
                 home: child)),
-            child: sharedPref.userToken.value.isEmpty
+            child: 
+            sharedPref.userToken.value.isEmpty
                 ? OnboardingScreen()
-                : MainPage())
+                : MainPage()
+                
         // MainPage(),
-        );
+    ));
   }
 }

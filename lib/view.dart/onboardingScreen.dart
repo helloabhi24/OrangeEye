@@ -67,7 +67,7 @@ class OnboardingScreen extends GetView<OnboardingController> {
                                       child: CircleAvatar(
                                         backgroundColor:
                                             controller.dots.value == e
-                                                ? AppColor.orangeColor
+                                                ? AppColor.redColor
                                                 : AppColor.whiteColor,
                                         radius: 6,
                                       ),

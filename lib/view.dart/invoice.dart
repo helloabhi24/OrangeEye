@@ -9,7 +9,6 @@ import '../widgets/productDetailPage.dart';
 
 class InvoicePage extends GetView<OrderpageController> {
   const InvoicePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -120,157 +119,91 @@ class InvoicePage extends GetView<OrderpageController> {
                 ],
               ),
               getheight(context, 0.040),
-              // Table(
-              //   border: TableBorder.all(),
-              //   children: [
-              //     TableRow(children: [
-              //       AppText(
-              //         text: "SR.",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //       AppText(
-              //         text: "PRODUCT",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //       AppText(
-              //         text: "PRICE",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //       AppText(
-              //         text: "QTY",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //       AppText(
-              //         text: "TAX",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //       AppText(
-              //         text: "TOTAL",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //     ]),
-              //     TableRow(children: [
-              //       AppText(
-              //         text: "",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //       AppText(
-              //         text: "",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //       AppText(
-              //         text: "",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //       AppText(
-              //         text: "",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //       AppText(
-              //         text: "",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //       AppText(
-              //         text: "",
-              //         fontSize: 13.sp,
-              //         fontWeight: FontWeight.w500,
-              //       ),
-              //     ])
-              //   ],
-              // )
+             
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   titleboxWidget("SR.", AppColor.blackColor,
-                      AppColor.whiteColor, 14.sp, FontWeight.w700),
+                      AppColor.whiteColor, 12.sp, FontWeight.w700),
                   titleboxWidget("PRODUCT", AppColor.blackColor,
-                      AppColor.whiteColor, 14.sp, FontWeight.w700),
+                      AppColor.whiteColor, 12.sp, FontWeight.w700),
                   titleboxWidget("PRICE", AppColor.blackColor,
-                      AppColor.whiteColor, 14.sp, FontWeight.w700),
+                      AppColor.whiteColor, 12.sp, FontWeight.w700),
                   titleboxWidget("QTY", AppColor.blackColor,
-                      AppColor.whiteColor, 14.sp, FontWeight.w700),
+                      AppColor.whiteColor, 12.sp, FontWeight.w700),
                   titleboxWidget("TAX", AppColor.blackColor,
-                      AppColor.whiteColor, 14.sp, FontWeight.w700),
+                      AppColor.whiteColor, 12.sp, FontWeight.w700),
                   titleboxWidget("TOTAL", AppColor.blackColor,
-                      AppColor.whiteColor, 14.sp, FontWeight.w700),
+                      AppColor.whiteColor, 12.sp, FontWeight.w700),
                 ],
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: getHorizontalSize(5)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        titleboxWidget(
-                            (index + 1).toString(),
-                            AppColor.whiteColor.withOpacity(0.2),
-                            AppColor.blackColor,
-                            12.sp,
-                            FontWeight.w500),
-                        Column(
-                          children: [
-                            titleboxWidget(
-                                controller
-                                    .placeOrderItemList![index].productName,
-                                AppColor.whiteColor.withOpacity(0.2),
-                                AppColor.blackColor,
-                                12.sp,
-                                FontWeight.w500),
-
-                            ColorDots(
-                              borderColor: AppColor.greyColor,
-                              dotsColor: Color(int.parse(
-                                  "0xff${controller.placeOrderItemList![index].colorCode.replaceFirst(r'#', "")}")),
-                            ),
-                            // CircleAvatar(
-                            //   backgroundColor: AppColor.brownColor,
-                            //   radius: 8,
-                            // )
-                          ],
-                        ),
-                        titleboxWidget(
-                            "₹ ${controller.placeOrderItemList![index].price}",
-                            AppColor.whiteColor.withOpacity(0.2),
-                            AppColor.blackColor,
-                            12.sp,
-                            FontWeight.w500),
-                        titleboxWidget(
-                            controller.placeOrderItemList![index].qty,
-                            AppColor.whiteColor.withOpacity(0.2),
-                            AppColor.blackColor,
-                            12.sp,
-                            FontWeight.w500),
-                        titleboxWidget(
-                            "₹${int.parse(controller.placeOrderItemList![index].cgst.split(".00").first) + int.parse(controller.placeOrderItemList![index].sgst.split(".00").first) + int.parse(controller.placeOrderItemList![index].igst.split(".00").first)}",
-                            AppColor.whiteColor.withOpacity(0.2),
-                            AppColor.blackColor,
-                            12.sp,
-                            FontWeight.w500),
-                        titleboxWidget(
-                            "₹${controller.placeOrderItemList![index].totalPrice}",
-                            AppColor.whiteColor.withOpacity(0.2),
-                            AppColor.blackColor,
-                            12.sp,
-                            FontWeight.w500),
-                      ],
-                    ),
-                  );
-                },
-                itemCount: controller.placeOrderItemList!.length,
+              SizedBox(
+                child: 
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: getHorizontalSize(5)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          titleboxWidget(
+                              (index + 1).toString(),
+                              AppColor.whiteColor.withOpacity(0.2),
+                              AppColor.blackColor,
+                              12.sp,
+                              FontWeight.w500),
+                          Column(
+                            children: [
+                              titleboxWidget(
+                                  controller
+                                      .placeOrderItemList![index].productName,
+                                  AppColor.whiteColor.withOpacity(0.2),
+                                  AppColor.blackColor,
+                                  12.sp,
+                                  FontWeight.w500),
+                              ColorDots(
+                                borderColor: AppColor.greyColor,
+                                dotsColor: Color(int.parse(
+                                    "0xff${controller.placeOrderItemList![index].colorCode.replaceFirst(r'#', "")}")),
+                              ),
+                              // CircleAvatar(
+                              //   backgroundColor: AppColor.brownColor,
+                              //   radius: 8,
+                              // )
+                            ],
+                          ),
+                          titleboxWidget(
+                              "₹ ${controller.placeOrderItemList![index].price}",
+                              AppColor.whiteColor.withOpacity(0.2),
+                              AppColor.blackColor,
+                              12.sp,
+                              FontWeight.w500),
+                          titleboxWidget(
+                              controller.placeOrderItemList![index].qty,
+                              AppColor.whiteColor.withOpacity(0.2),
+                              AppColor.blackColor,
+                              12.sp,
+                              FontWeight.w500),
+                          titleboxWidget(
+                              "₹${int.parse(controller.placeOrderItemList![index].cgst.split(".00").first) + int.parse(controller.placeOrderItemList![index].sgst.split(".00").first) + int.parse(controller.placeOrderItemList![index].igst.split(".00").first)}",
+                              AppColor.whiteColor.withOpacity(0.2),
+                              AppColor.blackColor,
+                              12.sp,
+                              FontWeight.w500),
+                          titleboxWidget(
+                              "₹${controller.placeOrderItemList![index].totalPrice}",
+                              AppColor.whiteColor.withOpacity(0.2),
+                              AppColor.blackColor,
+                              12.sp,
+                              FontWeight.w500),
+                        ],
+                      ),
+                    );
+                  },
+                  itemCount: controller.placeOrderItemList!.length,
+                ),
               ),
 
               Align(
@@ -280,8 +213,8 @@ class InvoicePage extends GetView<OrderpageController> {
                       EdgeInsets.symmetric(horizontal: getHorizontalSize(13)),
                   child: AppText(
                     text: "Sub Total       ₹${controller.subTotal.value}",
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -293,8 +226,8 @@ class InvoicePage extends GetView<OrderpageController> {
                       EdgeInsets.symmetric(horizontal: getHorizontalSize(13)),
                   child: AppText(
                     text: "Tax                    ₹ 48",
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -306,8 +239,8 @@ class InvoicePage extends GetView<OrderpageController> {
                       EdgeInsets.symmetric(horizontal: getHorizontalSize(13)),
                   child: AppText(
                     text: "Grand Total       ₹${controller.grandTotal.value}",
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.w600,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:orangeeye/utils/appColor.dart';
 import '../utils/sizeHelper.dart';
 
 class ColorDots extends StatelessWidget {
@@ -12,7 +13,7 @@ class ColorDots extends StatelessWidget {
       height: getVerticalSize(25),
       width: getHorizontalSize(20),
       decoration: BoxDecoration(
-          shape: BoxShape.circle, border: Border.all(color: borderColor!)),
+          shape: BoxShape.circle, border: Border.all(color: AppColor.greyColor.withOpacity(0.2))),
       child: Padding(
         padding: const EdgeInsets.all(2.0),
         child: CircleAvatar(

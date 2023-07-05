@@ -19,7 +19,7 @@ class OtherProductShapeModel {
   final String? mrp;
   final String? price;
   final String? availability;
-  final dynamic? extraPrice;
+  final dynamic extraPrice;
   final String? productName;
   final String? categoriesName;
   final List<String>? images;

@@ -10,6 +10,7 @@ import '../utils/appColor.dart';
 import '../utils/cachedNetworkImage.dart';
 import '../utils/customeAppBar.dart';
 import '../utils/sizeHelper.dart';
+import '../widgets/productDetailPage.dart';
 
 class GenderWiseProductPage extends GetView<CategoryByGenderController> {
   const GenderWiseProductPage({super.key});
@@ -38,7 +39,7 @@ class GenderWiseProductPage extends GetView<CategoryByGenderController> {
                       mainAxisSpacing: 4.0),
                   itemBuilder: (BuildContext context, int index) {
                     return GenderWiseProductWidget(
-                      index: index,
+                        index: index,
                     );
                   },
                 )
@@ -73,6 +74,7 @@ class GenderWiseProductWidget extends StatelessWidget {
             await homepageController.getProductDetail(
                 categoryByGenderController.bestSellerList[index!]["slug"]);
             Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
+            print(categoryByGenderController.bestSellerList[index!]["slug"]);
           },
           child: Container(
               decoration: BoxDecoration(
@@ -96,13 +98,17 @@ class GenderWiseProductWidget extends StatelessWidget {
                               height: Get.height * 0.10,
                               color: AppColor.whiteColor,
                               child: cacheNetworkImage(
-                                  imageUrl:
+                                  imageUrl:  
                                       "https://orangeeyewearindia.com/public/uploads/products/${categoryByGenderController.bestSellerList[index!]["images"]![index1]}",
                                   height: Get.height * 0.13,
                                   boxfit: BoxFit.cover,
                                   width: Get.width * 0.43,
                                   memCacheHeight: 200,
                                   ontap: () async {
+                                   await homepageController.getProductDetail(
+                                    categoryByGenderController.bestSellerList[index!]["slug"]);
+                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailScreen(),));
+                                Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
                                     // Get.toNamed("/mainpage");
                                   }),
                             );
@@ -164,7 +170,46 @@ class GenderWiseProductWidget extends StatelessWidget {
                         ],
                       ),
 
-                      // height18,
+                      height18,
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            categoryByGenderController.bestSellerList[index!]["color_code"]
+                                         ==
+                                    null
+                                ? SizedBox()
+                                : ColorDots(
+                                    borderColor: AppColor.greyColor,
+                                    dotsColor: Color(int.parse(
+                                        "0xff${categoryByGenderController.bestSellerList[index!]["color_code"]!.replaceFirst(r'#', "")}")),
+                                  ),
+                            SizedBox(
+                              height: Get.height * 0.05,
+                              // width: Get.width * 0.20,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index2) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: getHorizontalSize(10)),
+                                    child: ColorDots(
+                                      borderColor: AppColor.greyColor,
+                                      dotsColor: Color(int.parse(
+                                          "0xff${categoryByGenderController.bestSellerList[index!]["product_attributes"]![index2]["color_code"]!.replaceFirst(r'#', "")}")),
+                                    ),
+                                  );
+                                },
+                                itemCount: categoryByGenderController
+                                    .bestSellerList[index!]["product_attributes"].length,
+                                    
+                                shrinkWrap: true,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
                       // SizedBox(
                       //   height: Get.height * 0.06,
                       //   // width: Get.width * 0.20,
@@ -176,7 +221,7 @@ class GenderWiseProductWidget extends StatelessWidget {
                       //             horizontal: getHorizontalSize(10)),
                       //         child: ColorDots(
                       //           dotsColor: Color(int.parse(
-                      //               "0xff${categoryByGenderController.genderWiseProductList![index!].colorCode!.replaceFirst(r'#', "")}")),
+                      //               "0xff${categoryByGenderController.bestSellerList[index!].colorCode!.replaceFirst(r'#', "")}")),
                       //         ),
                       //       );
                       //     },
@@ -186,7 +231,7 @@ class GenderWiseProductWidget extends StatelessWidget {
                       //         .length,
                       //     shrinkWrap: true,
                       //   ),
-                      // )
+                      // ),
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.center,
                       //   children: [
@@ -197,7 +242,7 @@ class GenderWiseProductWidget extends StatelessWidget {
                       //             .map(
                       //           (e) => ColorDots(
                       //             dotsColor: Color(int.parse(
-                      //                 "0xff${homepageController.pageproductColorList[e][]["color_code"].replaceFirst(r'#', "")}")),
+                      //                 "0xff${homepageController.pageproductColorList[e]["color_code"].replaceFirst(r'#', "")}")),
                       //           ),
                       //         ),
                       //       ],

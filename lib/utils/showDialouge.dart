@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,17 +7,13 @@ import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/controller.dart/loginController.dart';
 import 'package:orangeeye/controller.dart/mainPageController.dart';
-import 'package:orangeeye/utils/customToast.dart';
 import 'package:orangeeye/utils/customeAssetsImage.dart';
-
 import 'package:orangeeye/utils/sizeHelper.dart';
-import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../routes/approutes.dart';
 import '../utils/appText.dart';
 import '../utils/sharedPref.dart';
 import 'appColor.dart';
-import 'customTextformfiled.dart';
 
 Future<void> showMyDialog(context) async {
   return showDialog<void>(
@@ -185,7 +182,7 @@ Future privacyDialog(context) async {
       });
 }
 
-sizeGuideDialouge(context) {
+sizeGuideDialouge(context , List image) {
   HomepageController homepageController = Get.find();
   return showDialog(
       context: context,
@@ -197,6 +194,12 @@ sizeGuideDialouge(context) {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Align(alignment: Alignment.topRight,
+                  child: GestureDetector(onTap: (){
+                    Get.back();
+                  },
+                    child: Icon(Icons.close))),
+                  height5,
                 AppText(
                   text: "ORANGE EYEWEAR SIZE GUIDE",
                   fontSize: 16.sp,
@@ -248,11 +251,15 @@ sizeGuideDialouge(context) {
                   ],
                 ),
                 getheight(context, 0.010),
-                Image.asset(
-                  "assets/image/frame.png",
-                  width: Get.width,
-                ),
-                getheight(context, 0.020),
+                CachedNetworkImage(errorWidget: (context,
+                url, error) =>
+                const Icon( Icons.error),
+                  memCacheHeight: 300,
+                  imageUrl: "https://orangeeye.skardtech.com/public/uploads/products/${image[0]}",placeholder: (context,
+                    url) =>
+                  const Center(child:RepaintBoundary(child: CircularProgressIndicator())),),
+         
+            
                 dotlineWidget(18),
                 getheight(context, 0.010),
                 AppText(
@@ -261,8 +268,9 @@ sizeGuideDialouge(context) {
                   fontWeight: FontWeight.w500,
                   color: AppColor.greyColor,
                 ),
-                getheight(context, 0.010),
-                Image.asset("assets/image/temple.png"),
+                
+                Image.network("https://orangeeye.skardtech.com/public/uploads/products/${image[2]}",height: Get.height*0.15,),
+                // Image.asset("assets/image/temple.png"),
                 dotlineWidget(18),
                 getheight(context, 0.010),
                 AppText(
@@ -422,7 +430,6 @@ allTaxes(
   String lensTax,
   String productTax,
 ) {
-  HomepageController homepageController = Get.find();
   return showDialog(
       context: context,
       builder: (context) {

@@ -13,14 +13,15 @@ import '../utils/customDrpdown.dart';
 import '../utils/customTextformfiled.dart';
 import '../utils/customeElevatedButton.dart';
 
+
 class SelectAddress extends GetView<AddNewAddressController> {
-  const SelectAddress({super.key});
+const SelectAddress({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
         appBar: CustomAppbar.customeAppbar(
-            title: "Cart", color: AppColor.blackColor),
+        title: "Cart", color: AppColor.blackColor),
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: getHorizontalSize(10)),
           child: SingleChildScrollView(
@@ -29,11 +30,15 @@ class SelectAddress extends GetView<AddNewAddressController> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 getheight(context, 0.020),
-                AppText(
-                  text: "Billiing Address",
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.w600,
-                  color: AppColor.orangeColor,
+                GestureDetector(onTap: ()async{
+                 await controller.getProfileAddress();
+                },
+                  child: AppText(
+                    text: "Billing Address",
+                    fontSize: 18.sp,
+                    fontWeight: FontWeight.w600,
+                    color: AppColor.orangeColor,
+                  ),
                 ),
                 getheight(context, 0.020),
                 SizedBox(
@@ -75,18 +80,18 @@ class SelectAddress extends GetView<AddNewAddressController> {
                   ),
                 ),
                 getheight(context, 0.020),
+                customeStateDropdown(context),           
+                 getheight(context, 0.020),
+                 customeCityDropdown(context),
+                getheight(context, 0.020),
                 SizedBox(
                   height: Get.height * 0.07,
                   child: CustomFormField(
-                    controller: controller.billingPincodeController,
-                    hint: "Pin Code",
+                    controller: controller.billingAddressController,
+                    hint: "Address",
                     contentPadding: EdgeInsets.symmetric(
                         vertical: getVerticalSize(8),
                         horizontal: getHorizontalSize(10)),
-                    inputFormator: [FilteringTextInputFormatter.digitsOnly],
-                    inputType: TextInputType.number,
-                    isMaxLength: true,
-                    length: 6,
                   ),
                 ),
                 getheight(context, 0.020),
@@ -100,32 +105,23 @@ class SelectAddress extends GetView<AddNewAddressController> {
                         horizontal: getHorizontalSize(10)),
                   ),
                 ),
+                
                 getheight(context, 0.020),
-                SizedBox(
+                 SizedBox(
                   height: Get.height * 0.07,
                   child: CustomFormField(
-                    controller: controller.billingAddressController,
-                    hint: "Address",
+                    controller: controller.billingPincodeController,
+                    hint: "Pin Code",
                     contentPadding: EdgeInsets.symmetric(
                         vertical: getVerticalSize(8),
                         horizontal: getHorizontalSize(10)),
+                    inputFormator: [FilteringTextInputFormatter.digitsOnly],
+                    inputType: TextInputType.number,
+                    isMaxLength: true,
+                    length: 6,
                   ),
                 ),
-                getheight(context, 0.020),
-                // StatePickerDropdown(),
-                customeStateDropdown(context),
-                getheight(context, 0.020),
-                customeCityDropdown(context),
-                // CustomElevatedButtons(
-                //     isBorder: true,
-                //     buttoncolor: AppColor.orangeColor,
-                //     height: Get.height * 0.060,
-                //     width: Get.width * 0.90,
-                //     textcolor: AppColor.whiteColor,
-                //     textButton: "+ Add New Address",
-                //     ontap: () {
-                //       Get.toNamed(Routes.ADDNEWADDRESSPAGE);
-                //     }),
+                getheight(context, 0.020),         
                 Row(
                   children: [
                     Checkbox(
@@ -185,24 +181,9 @@ class SelectAddress extends GetView<AddNewAddressController> {
                         ),
                       ),
                       getheight(context, 0.020),
-                      SizedBox(
-                        height: Get.height * 0.07,
-                        child: CustomFormField(
-                          controller: controller.pincodeController,
-                          hint: "Pin Code",
-                          inputFormator: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                        ),
-                      ),
+                      customeStateDropdown(context),                     
                       getheight(context, 0.020),
-                      SizedBox(
-                        height: Get.height * 0.07,
-                        child: CustomFormField(
-                          controller: controller.localityController,
-                          hint: "Locality",
-                        ),
-                      ),
+                      customeCityDropdown(context),
                       getheight(context, 0.020),
                       SizedBox(
                         height: Get.height * 0.07,
@@ -215,17 +196,33 @@ class SelectAddress extends GetView<AddNewAddressController> {
                       // SizedBox(
                       //   height: Get.height * 0.07,
                       //   child: CustomFormField(
-                      //     controller: controller.nameController,
-                      //     hint: "City",
+                      //     controller: controller.localityController,
+                      //     hint: "Locality",
                       //   ),
                       // ),
                       getheight(context, 0.020),
-                      // StatePickerDropdown(),
-                      customeStateDropdown(context),
+                       SizedBox(
+                        height: Get.height * 0.07,
+                        child: CustomFormField(
+                          controller: controller.localityController,
+                          hint: "Locality",
+                        ),
+                      ),
                       getheight(context, 0.020),
-                      customeCityDropdown(context),
-
+                       SizedBox(
+                        height: Get.height * 0.07,
+                        child: CustomFormField(
+                          controller: controller.pincodeController,
+                          hint: "Pin Code",
+                          inputFormator: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                        ),
+                      ),
+                     
+                    
                       getheight(context, 0.020),
+                     
                     ],
                   ),
                 ),
@@ -245,11 +242,11 @@ class SelectAddress extends GetView<AddNewAddressController> {
                           controller.billingEmailController.text.isEmpty ||
                           controller.billingPincodeController.text.isEmpty ||
                           controller.billingLocalityController.text.isEmpty ||
-                          controller.billingCity.isEmpty ||
-                          controller.billingState.isEmpty) {
+                           pref.stateName.value.isEmpty ||
+                           pref.cityName.value.isEmpty) {
                         customeToast("All fields are required !");
                       } else {
-                        Get.toNamed(Routes.PAYMENTPAGE);
+                        Get.toNamed(Routes.PAYMENTPAGE , arguments: {"stateId":   controller.billingStateid.value.toString() , "cityId": controller.billingCityid.value.toString()  });
                       }
 
                       // await controller.getCity("3");

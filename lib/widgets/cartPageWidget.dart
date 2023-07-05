@@ -42,16 +42,25 @@ class Productdesc extends GetView<CartpageController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       homepageController.getCartList![index!].image1 == null
-                          ? SizedBox(
-                              height: Get.height * 0.10,
-                              width: Get.width * 0.30,
-                              child: Center(
-                                  child: Text(
-                                "No image",
-                                style: TextStyle(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w500),
-                              )))
+                          ? Padding(
+                              padding: EdgeInsets.only(
+                                  left: getHorizontalSize(20),
+                                  top: getVerticalSize(10)),
+                              child: Image.network(
+                                "https://orangeeyewearindia.com/public/uploads/products/${homepageController.getCartList![index!].pImage}",
+                                height: Get.height * 0.09,
+                              ),
+                            )
+                          // SizedBox(
+                          //     height: Get.height * 0.10,
+                          //     width: Get.width * 0.30,
+                          //     child: Center(
+                          //         child: Text(
+                          //       "No image",
+                          //       style: TextStyle(
+                          //           fontSize: 15.sp,
+                          //           fontWeight: FontWeight.w500),
+                          //     )))
                           : Padding(
                               padding: EdgeInsets.only(
                                   left: getHorizontalSize(20),
@@ -64,9 +73,11 @@ class Productdesc extends GetView<CartpageController> {
                       Column(
                         children: [
                           GestureDetector(
-                              onTap: () {
-                                controller.removeProductFromCart(
+                              onTap: () async{
+                                print("arunkumar");
+                               await controller.removeProductFromCart(
                                     homepageController.getCartList![index!].id);
+                                   
                               },
                               child: Icon(Icons.close)),
                           getheight(context, 0.010),
@@ -112,7 +123,7 @@ class Productdesc extends GetView<CartpageController> {
                     padding: EdgeInsets.only(left: getHorizontalSize(50)),
                     child: Obx(
                       () => Container(
-                        height: getVerticalSize(40),
+                        height: getVerticalSize(33),
                         width: getHorizontalSize(120),
                         decoration: BoxDecoration(
                             border: Border.all(color: AppColor.greyColor)),
@@ -196,7 +207,7 @@ class Productdesc extends GetView<CartpageController> {
                               fontSize: 13.sp,
                             ),
                             AppText(
-                              text: "  Zero Power",
+                              text: " Zero Power",
                               color: AppColor.blackColor,
                               fontSize: 13.sp,
                             )
@@ -294,7 +305,7 @@ class Productdesc extends GetView<CartpageController> {
                       ],
                     ),
                   ),
-                  getheight(context, 0.015),
+                 getheight(context, 0.010),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: getHorizontalSize(20)),
@@ -348,8 +359,8 @@ class Productdesc extends GetView<CartpageController> {
                       ],
                     ),
                   ),
-                  getheight(context, 0.020),
-                  // fileSelectedWidget(context),
+                  height20,
+                  //fileSelectedWidget(context),
                   Divider(
                     thickness: 1,
                     color: AppColor.greyColor.withOpacity(0.3),

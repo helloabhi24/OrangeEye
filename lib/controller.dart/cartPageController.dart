@@ -4,10 +4,10 @@ import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/model/coupounsModel.dart';
 
 import '../networking.dart/apiRepo.dart';
+import '../routes/approutes.dart';
 import '../utils/customToast.dart';
 import '../utils/sharedPref.dart';
 import '../utils/showLoadingIndicator.dart';
-import '../view.dart/cartPage.dart';
 
 class CartpageController extends GetxController {
   late TextEditingController coupounController;
@@ -18,6 +18,7 @@ class CartpageController extends GetxController {
   RxString selectCoupouns = "".obs;
   Pref sharedPref = Get.find();
   HomepageController homepageController = Get.find();
+  Pref pref =  Get.find();
 
   countdecs() {
     --i;
@@ -34,16 +35,18 @@ class CartpageController extends GetxController {
     print("productid");
     print(data["id"]);
     try {
-      // showloadingIndicators();
+       showloadingIndicators();
       await ApiRepo().removeProductFromCart(data).then((value) async {
         if (value["status"] == "success") {
           // Get.to(CartPage());
+           
           await homepageController.getCarts();
+        //  await Get.toNamed(Routes.MAINPAGE);
           print("value");
           print(value);
           customeToast(value["message"]);
 
-          // hideLoading();
+           
         } else {
           customeToast(value["msg"]);
           // customeToast("something went wrong");
@@ -76,6 +79,10 @@ class CartpageController extends GetxController {
   void onInit() async {
     coupounController = TextEditingController();
     await homepageController.sum();
+    await pref.getState();
+    await pref.getcity();
+    await pref.getStateid();
+    await pref.getcityid();
     // await getCarts();
 
     super.onInit();

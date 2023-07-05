@@ -45,7 +45,7 @@ class CategoryByGenderPage extends GetView<CategoryByGenderController> {
               getheight(context, 0.020),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(
+                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ...Iterable.generate(
                             mainpageController.getCategoryName.length)
@@ -119,7 +119,8 @@ class CategoryByGenderPage extends GetView<CategoryByGenderController> {
                               return GogleCategoryWiseWidget(
                                 index: index,
                               );
-                            })),
+                            })
+                            ),
               )
             ],
           ),

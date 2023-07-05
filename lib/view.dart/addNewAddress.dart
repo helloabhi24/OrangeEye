@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/addNewAddressController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/customeAppBar.dart';
-import 'package:orangeeye/utils/sharedPref.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import '../routes/approutes.dart';
 import '../utils/customDrpdown.dart';
@@ -15,7 +14,6 @@ class AddnewAddressPage extends GetView<AddNewAddressController> {
 
   @override
   Widget build(BuildContext context) {
-    Pref pref = Get.find();
     return Obx(
       () => Scaffold(
         appBar: CustomAppbar.customeAppbar(

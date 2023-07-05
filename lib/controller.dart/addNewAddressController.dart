@@ -1,15 +1,23 @@
-import 'package:flutter/gestures.dart';
+
+import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+import 'package:orangeeye/controller.dart/homeController.dart';
+import 'package:orangeeye/controller.dart/profileSettingController.dart';
 import 'package:orangeeye/model/stateModel.dart';
-import 'package:orangeeye/routes/approutes.dart';
+import 'package:orangeeye/utils/appColor.dart';
+import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/customToast.dart';
 import 'package:orangeeye/utils/sharedPref.dart';
 import 'package:paytm_allinonesdk/paytm_allinonesdk.dart';
 import '../model/cityModel.dart';
 import '../networking.dart/apiRepo.dart';
 import '../utils/showLoadingIndicator.dart';
+import '../view.dart/paymentSuccessfulPage.dart';
+
 
 class AddNewAddressController extends GetxController {
   late TextEditingController nameController;
@@ -28,10 +36,12 @@ class AddNewAddressController extends GetxController {
   // late TextEditingController searchController;
 
   final formKey = GlobalKey<FormState>();
-
+  
   RxBool isCheck = false.obs;
 
   RxString selectedValue = "Uttarpradesh".obs;
+
+   RxBool isFailedOrder = false.obs;   
 
   RxString paymentValue = "online".obs;
 
@@ -45,10 +55,18 @@ class AddNewAddressController extends GetxController {
   RxString city = "choose State".obs;
   RxString billingState = "choose City".obs;
   RxString billingCity = "choose State".obs;
+  RxInt billingStateid = 0.obs;
+  RxInt billingCityid = 0.obs;
   RxString orderId = "".obs;
   RxString txnToken = "".obs;
   RxString amount = "".obs;
   RxString result = "".obs;
+  RxString result1 = "".obs;
+  RxString result2 = "".obs;
+  RxString result3 = "".obs;
+  RxString result4 = "".obs;
+  RxString result5 = "".obs;
+  RxString result6 = "".obs;
   RxString curreny = "".obs;
   RxString orderids = "".obs;
   RxString status = "".obs;
@@ -76,6 +94,7 @@ class AddNewAddressController extends GetxController {
   }
 
   getCity(String Id) async {
+ 
     Map<String, dynamic> data = {};
     data["state_id"] = Id;
     try {
@@ -93,17 +112,18 @@ class AddNewAddressController extends GetxController {
   }
 
   Future placeOrder() async {
+    HomepageController homepageController =  Get.find();
     Map<String, dynamic> data = {};
     data["user_id"] = sharedPref.userToken.value;
     data["name"] = billingNameController.text;
     data["email"] = billingEmailController.text;
     data["phone"] = billingPhoneController.text;
-    data["state"] = billingState.value;
-    data["city"] = billingCity.value;
+    data["state"] = sharedPref.stateNameId.value;
+    data["city"] = sharedPref.cityNameId.value;
     data["zip"] = billingPincodeController.text;
     data["address"] = billingAddressController.text;
     data["payment_method"] = paymentValue.value;
-    data["other_address"] = "";
+    data["other_address"] = billingAddressController.text;
     data["ship_name"] = isCheck.value == true ? nameController.text : "";
     data["ship_email"] = isCheck.value == true ? emailController.text : "";
 
@@ -117,6 +137,7 @@ class AddNewAddressController extends GetxController {
 
     data["ship_address"] = isCheck.value == true ? addressController.text : "";
 
+
     print(data["user_id"]);
     print(data["name"]);
     print(data["email"]);
@@ -126,24 +147,30 @@ class AddNewAddressController extends GetxController {
     print(data["zip"]);
     print(data["address"]);
     print(data["payment_method"]);
-    print(data["other_address"]);
-    print(data["ship_name"]);
-    print(data["ship_email"]);
-    print(data["ship_phone"]);
-    print(data["ship_state"]);
-    print(data["ship_city"]);
-    print(data["ship_zip"]);
-    print(data["ship_address"]);
-
     try {
+ 
+    // controller.setJavaScriptMode(JavaScriptMode.unrestricted);
+    // controller.runJavaScript("document.body.innerText").then()
       showloadingIndicators();
-      await ApiRepo().placeOrder(data).then((value) {
-        orderId.value = value["orderId"];
-        txnToken.value = value["txnToken"];
-        amount.value = value["amount"];
+      await ApiRepo().placeOrder(data).then((value) async{      
         if (value["status"] == "success") {
-          print(value["data"]);
-          customeToast(value["message"]);
+          if(value["payment_method"]=="cod"){
+             if(value["msg"]=="Your order placed Successfully"){
+              
+             }else{
+              isFailedOrder.value =  true;
+             }
+           customeToast(value["msg"]);
+            await homepageController.getCarts();
+            
+            await Get.to(PaymentPage());
+          }else{
+            orderId.value = value["orderId"];
+         txnToken.value = value["txnToken"];
+         amount.value = value["amount"];
+            customeToast(value["msg"]);
+          }
+          
           // Get.toNamed(Routes.HOME);
         }
       });
@@ -152,27 +179,37 @@ class AddNewAddressController extends GetxController {
       print(e);
     }
   }
-//   {
-//    "user_id":"21",
-//     "name":"ashish",
-//     "email":"ashish@gmail.com",
-//     "phone":"96XXXXXXXX",
-//     "state":"",
-//      "city":"",
-//      "zip":"",
-//      "address":"",
-//      "payment_method":"cod,online",
-//      "other_address":"",
-//      "ship_name":"",
-//      "ship_email":"",
-//      "ship_phone":"",
-//      "ship_state":"",
-//       "ship_city":"",
-//       "ship_zip":"",
-//       "ship_address":""
-// }
 
-  // for paytm payment integrate ************
+   getProfileAddress() async {
+    await sharedPref.getUserId();
+    ProfileSettingPageController profileSettingPageController =  Get.find();
+  
+    Map<String, dynamic> data = {};
+    data["user_id"] = sharedPref.userToken.value;
+    print(data["user_id"]);
+   
+    try {
+      showloadingIndicators();
+      await ApiRepo().getProfiledetail(data).then((value) {
+        billingNameController.text = value["data"]["name"]??"";
+        billingPhoneController.text = value["data"]["phone"]??"";
+        billingEmailController.text = value["data"]["email"]??"";
+        billingAddressController.text = value["data"]["address"]??"";
+        billingLocalityController.text = value["data"]["address"]??"";
+        billingPincodeController.text = value["data"]["zip"]??"";
+        profileSettingPageController.nameController.text = value["data"]["name"]??"";
+        profileSettingPageController.emailController.text = value["data"]["email"]??"";
+        profileSettingPageController.phoneController.text = value["data"]["phone"]??"";
+        profileSettingPageController.zipCodeController.text = value["data"]["zip"]??"";
+        profileSettingPageController.addressController.text = value["data"]["address"]??"";
+        profileSettingPageController.image.value = value["data"]["image"]??"";
+        
+      });
+      hideLoading();
+    } catch (e) {
+      print(e);
+    }
+  }
 
   initiateTransaction(
       String mid,
@@ -181,22 +218,67 @@ class AddNewAddressController extends GetxController {
       String txnToken,
       String callbackurl,
       bool isStaging,
-      bool restrictAppInvoke) {
-    var response = AllInOneSdk.startTransaction(mid, orderId, amount, txnToken,
-        callbackurl, isStaging, restrictAppInvoke);
+      bool restrictAppInvoke) async{
+        var response = AllInOneSdk.startTransaction(
+         mid, orderId, amount, txnToken, callbackurl, isStaging, restrictAppInvoke);
+       response.then((value) {
+        if(value!["STATUS"]=="TXN_SUCCESS"){
+          print("FILDUR");
+        }else{
+          print("FGSSCHJKL;FGCHVJBKNLVJBKNL000000000000000000");
+          print("TRANSACTION FAIL");
+        }
+        print("vdsabfns-=================");
+       print(value);
+       result.value = value.toString();
+ }).catchError((onError) {
+       if (onError is PlatformException) {
+         
+           result.value = onError.message! + " \n  " + onError.details.toString();
+         
+       } else {
+     
+           result.value = onError.toString();
+       
+       }
+ });
 
-    response.then((value) {
-      result.value = value.toString();
-      print("reslutvalue0000000");
-      print(result.value);
-    }).catchError((onError) {
-      if (onError is PlatformException) {
-        result.value = onError.message! + " \n  " + onError.details.toString();
-      } else {
-        result.value = onError.toString();
-      }
-    });
+        
+    // var response = AllInOneSdk.startTransaction(mid, orderId, amount, txnToken,
+    //     callbackurl, isStaging, restrictAppInvoke);
+       
+    //  print(response.toString());
+    //  print(response);
+    // response.then((value) {
+    //   result.value = value.toString();
+    //   print("reslutvalue0000000");
+    //   print(result.value);
+    // }).catchError((onError) {
+    //   if (onError is PlatformException) {
+    //     result.value =   onError.details["RESPMSG"].toString();
+    //     result1.value =  onError.details["CURRENCY"].toString();
+    //     result2.value =  onError.details["ORDERID"].toString();
+    //     result3.value =  onError.details["STATUS"].toString();
+    //     result4.value =  onError.details["BANKTXNID"].toString();
+    //     result5.value =  onError.details["TXNAMOUNT"].toString();
+    //     result6.value =  onError.details["TXNID"].toString();
+    //     print("arun1------------");
+    //     Get.to(PaymentSuccess());
+    //  print(result);
+    //  print(result.value);
+
+    //   } else {
+    //     result.value = onError.toString();
+    //        print("arun1000000000-==");
+    //  print(response);
+    //   }
+    // });
   }
+
+
+  
+
+
 
   // Future<void> initiateTransaction(String orderId, String amount,
   //     String txnToken, String callBackUrl) async {
@@ -288,6 +370,9 @@ class AddNewAddressController extends GetxController {
     // cityController = TextEditingController();
     // searchController = TextEditingController();
     await getState();
+    await getProfileAddress();
+
+  
     super.onInit();
   }
 
@@ -301,5 +386,57 @@ class AddNewAddressController extends GetxController {
     addressController.dispose();
     // cityController.dispose();
     super.dispose();
+  }
+}
+
+
+
+
+
+class PaymentSuccess extends GetView<AddNewAddressController>{
+  const PaymentSuccess({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() =>
+       Scaffold(body: Column(
+        children: [
+          controller.result3.value=="TXN_FAILURE"?
+          Lottie.network(
+                'https://assets5.lottiefiles.com/packages/lf20_vuliyhde.json' , height: 200):Lottie.network(
+                'https://assets5.lottiefiles.com/packages/lf20_imrP4H.json' , height: 200),
+                Row(children: [
+                  AppText(text: "Currency",),
+                  AppText(text: controller.result1.value, fontSize: 16.sp,fontWeight: FontWeight.w700,color: AppColor.blackColor,),
+                ],),
+                Row(children: [
+                  AppText(text: "OrderNo",),
+                  AppText(text: controller.result2.value, fontSize: 16.sp,fontWeight: FontWeight.w700,color: AppColor.blackColor,),
+                ],),
+                Row(children: [
+                  AppText(text: "Transaction Status",),
+                  AppText(text: controller.result3.value, fontSize: 16.sp,fontWeight: FontWeight.w700,color: AppColor.blackColor,),
+                ],),
+                Row(children: [
+                  AppText(text: "Amount",),
+                  AppText(text: controller.result5.value, fontSize: 16.sp,fontWeight: FontWeight.w700,color: AppColor.blackColor,),
+                ],),
+                Row(children: [
+                  AppText(text: "TransactionID",),
+                  Expanded(child: SizedBox(child: AppText(text: controller.result6.value, fontSize: 16.sp,fontWeight: FontWeight.w700,color: AppColor.blackColor,))),
+                ],),
+                Row(children: [
+                  AppText(text: "Message",),
+                  AppText(text: controller.result.value, fontSize: 16.sp,fontWeight: FontWeight.w700,color: AppColor.blackColor,),
+                ],),
+          
+          // AppText(text: controller.result2.value, fontSize: 26.sp,fontWeight: FontWeight.w700,color: AppColor.blackColor,),
+          // AppText(text: controller.result3.value, fontSize: 26.sp,fontWeight: FontWeight.w700,color: AppColor.blackColor,),
+          // AppText(text: controller.result4.value, fontSize: 26.sp,fontWeight: FontWeight.w700,color: AppColor.blackColor,),
+          // AppText(text: controller.result5.value, fontSize: 26.sp,fontWeight: FontWeight.w700,color: AppColor.blackColor,),
+          // AppText(text: controller.result6.value, fontSize: 26.sp,fontWeight: FontWeight.w700,color: AppColor.blackColor,),
+        ],
+      ),),
+    );
   }
 }

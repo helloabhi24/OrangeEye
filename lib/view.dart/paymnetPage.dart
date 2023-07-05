@@ -4,9 +4,7 @@ import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/addNewAddressController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
-import 'package:orangeeye/utils/customToast.dart';
 import 'package:orangeeye/utils/customeAppBar.dart';
-import 'package:orangeeye/utils/customeSnackBar.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import '../routes/approutes.dart';
 import '../utils/customeElevatedButton.dart';
@@ -179,18 +177,19 @@ class PaymentPage extends GetView<AddNewAddressController> {
                     ontap: () async {
                       if (controller.paymentValue.value == "online") {
                         await controller.placeOrder();
+                        print("payment success");
                         await controller.initiateTransaction(
                             "VuhEjm57073837498953",
                             controller.orderId.value,
                             controller.amount.value,
                             controller.txnToken.value,
-                            'https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=${controller.orderId.value}',
+                            "https://securegw.paytm.in/theia/api/v1/initiateTransaction/?mid=VuhEjm57073837498953&orderId=${controller.orderId.value}",
+                            //'https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=${controller.orderId.value}',
                             false,
                             false);
                       } else {
                         await controller
-                            .placeOrder()
-                            .then((value) => Get.toNamed(Routes.MAINPAGE));
+                            .placeOrder();
                       }
 
                       // Get.toNamed(Routes.MAINPAGE)

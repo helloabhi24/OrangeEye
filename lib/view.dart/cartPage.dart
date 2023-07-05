@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:orangeeye/controller.dart/cartPageController.dart';
@@ -7,7 +6,6 @@ import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/controller.dart/mainPageController.dart';
 import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/appText.dart';
-
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/widgets/cartPageWidget.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,7 +16,6 @@ import '../utils/customeElevatedButton.dart';
 
 class CartPage extends GetView<CartpageController> {
   const CartPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     HomepageController homepageController = Get.find();

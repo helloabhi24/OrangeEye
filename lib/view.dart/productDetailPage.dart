@@ -14,14 +14,11 @@ import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/widgets/homepageWidget.dart';
 import 'package:orangeeye/widgets/productDetailPage.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../routes/approutes.dart';
 import '../utils/customeElevatedButton.dart';
 import '../utils/showDialouge.dart';
-import 'dart:convert';
-import 'dart:io';
+
 
 class ProductDetailScreen extends GetView<HomepageController> {
   const ProductDetailScreen({super.key});
@@ -29,10 +26,10 @@ class ProductDetailScreen extends GetView<HomepageController> {
   @override
   Widget build(BuildContext context) {
     HomepageController homepagehomepageController = Get.find();
-    print("homepage list lenght ");
-    print(homepagehomepageController.imageList.length);
     return Obx(
       () => Scaffold(
+         appBar: AppBar(backgroundColor: Colors.white38,
+          elevation: 0,toolbarHeight: getVerticalSize(36),iconTheme: IconThemeData(color: AppColor.blackColor),),
         body: Stack(
           children: [
             SingleChildScrollView(
@@ -42,7 +39,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                   children: [
                     Obx(
                       () => SizedBox(
-                        height: Get.height * 0.40,
+                        height: Get.height * 0.32,
                         width: Get.width,
                         child: controller.productDetailList![0]
                                 .productAttributes!.isEmpty
@@ -54,7 +51,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                 ),
                               )
                             : ListView.builder(
-                                // scrollDirection: Axis.horizontal,
+                              // scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   return controller
@@ -78,8 +75,8 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                                         imageBuilder: (context,
                                                                 imageProvider) =>
                                                             Container(
-                                                          height:
-                                                              Get.height * 0.40,
+                                                          // height:
+                                                          //     Get.height * 0.40,
                                                           decoration:
                                                               BoxDecoration(
                                                             borderRadius:
@@ -99,7 +96,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                                                 url) =>
                                                             const Center(
                                                                 child:
-                                                                    CircularProgressIndicator()),
+                                                                    RepaintBoundary(child: CircularProgressIndicator())),
                                                         errorWidget: (context,
                                                                 url, error) =>
                                                             const Icon(
@@ -108,7 +105,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                                       ))
                                                   .toList(),
                                               options: CarouselOptions(
-                                                height: Get.height * 0.40,
+                                                height: Get.height * 0.32,
                                                 aspectRatio: 16 / 8,
                                                 viewportFraction: 1,
                                                 initialPage: 0,
@@ -137,99 +134,8 @@ class ProductDetailScreen extends GetView<HomepageController> {
                               ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: getHorizontalSize(16),
-                          vertical: getVerticalSize(25)),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            onTap: (() => Navigator.pop(context)),
-                            child: CircleAvatar(
-                                backgroundColor: Colors.white60,
-                                radius: Get.height * 0.022,
-                                child: const Icon(
-                                  Icons.arrow_back,
-                                  size: 20,
-                                  color: AppColor.orangeColor,
-                                )),
-                          ),
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  // print("arun");
-                                  // final temp = await getTemporaryDirectory();
-                                  // final path = "${temp.path}/image.jpg";
-                                  // print(path);
-                                  // File(path).writeAsBytesSync(
-                                  //     detailProduct![index!]["images"]);
-                                  await controller.createDynamicLink(
-                                      false, "1");
-                                  Share.share('check out my website');
-                                },
-                                child: CircleAvatar(
-                                    backgroundColor: Colors.white60,
-                                    radius: Get.height * 0.022,
-                                    child: const Icon(
-                                      Icons.share_outlined,
-                                      size: 20,
-                                      color: AppColor.blackColor,
-                                    )
-                                    // customIconButtom(
-                                    //     () {},
-                                    //     Icons.share_outlined,
-                                    //     22,
-                                    //     homeCategoryColor),
-                                    ),
-                              ),
-                              SizedBox(
-                                width: getHorizontalSize(14),
-                              ),
-                              CircleAvatar(
-                                  backgroundColor: Colors.white60,
-                                  radius: Get.height * 0.022,
-                                  child: PopupMenuButton(
-                                    position: PopupMenuPosition.under,
-                                    itemBuilder: (context) {
-                                      return [
-                                        PopupMenuItem(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 18),
-                                          height: 10,
-                                          child: GestureDetector(
-                                            onTap: () {},
-                                            child: Row(
-                                              children: const [
-                                                AppText(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: AppColor.blackColor,
-                                                  text: "Report",
-                                                ),
-                                                width5,
-                                                Icon(
-                                                  Icons.report_outlined,
-                                                  color: AppColor.blackColor,
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ];
-                                    },
-                                    icon: const Icon(
-                                      Icons.more_vert,
-                                      color: AppColor.greyColor,
-                                      size: 20,
-                                    ),
-                                  ))
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
+                  
+                    
                     Positioned(
                         top: Get.height * 0.65,
                         child: Container(
@@ -389,75 +295,15 @@ class ProductDetailScreen extends GetView<HomepageController> {
                               text: "Including Premium Anti Glare Lens"),
                         ),
                       ),
-                      // Row(
-                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Row(
-                      //       children: [
-                      //         AppText(
-                      //           fontSize: 15.sp,
-                      //           fontWeight: FontWeight.w600,
-                      //           color: AppColor.blackColor,
-                      //           text: "Frame shape :",
-                      //         ),
-                      //         width10,
-                      //         AppText(
-                      //             fontSize: 14,
-                      //             fontWeight: FontWeight.w500,
-                      //             color: AppColor.blackColor,
-                      //             text: controller
-                      //                 .productDetailList![0].frameshape!.name!),
-                      //       ],
-                      //     ),
-
-                      //   ],
-                      // ),
-                      // Row(
-                      //   children: [
-                      //     AppText(
-                      //       fontSize: 15.sp,
-                      //       fontWeight: FontWeight.w600,
-                      //       color: AppColor.blackColor,
-                      //       text: "Frame size :",
-                      //     ),
-                      //     width10,
-                      //     AppText(
-                      //         fontSize: 14,
-                      //         fontWeight: FontWeight.w500,
-                      //         color: AppColor.blackColor,
-                      //         text: controller
-                      //             .productDetailList![0].frameSize![0].name
-                      //             .toString()),
-                      //   ],
-                      // ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.start,
-                      //   children: [
-                      //     ...Iterable.generate(
-                      //             controller.productDetailList[0].)
-                      //         .map(
-                      //       (e) => Padding(
-                      //         padding: const EdgeInsets.all(4.0),
-                      //         child: AppText(
-                      //           fontSize: 13.sp,
-                      //           fontWeight: FontWeight.w600,
-                      //           color: AppColor.blackColor,
-                      //           text: "",
-                      //           // controller
-                      //           //     .productColorList[e].colorName,
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
+                    
                       getheight(context, 0.010),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Obx(
                             () => Row(
-                              children: [
+                              children: [  
+                                                            
                                 ...Iterable.generate(controller
                                         .productDetailList![0]
                                         .productAttributes!
@@ -471,8 +317,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                         controller.colorDotsIndex.value = e;
                                         print("index");
                                         print(controller.colorDotsIndex.value);
-
-                                        controller.selectColorCode.value =
+                                            controller.selectColorCode.value =
                                             controller.productDetailList![0]
                                                 .productAttributes![e].id
                                                 .toString();
@@ -493,7 +338,11 @@ class ProductDetailScreen extends GetView<HomepageController> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              sizeGuideDialouge(context);
+                              sizeGuideDialouge(context ,controller
+                                                  .productDetailList![0]
+                                                  .productAttributes![controller
+                                                      .colorDotsIndex.value]
+                                                  .images!);
                             },
                             child: Row(
                               children: [
@@ -510,43 +359,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                         ],
                       )
                     ])),
-                Container(
-                  width: Get.width,
-                  color: AppColor.greyColor.withOpacity(0.7),
-                  height: Get.height * 0.06,
-                  child: Row(
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        height: Get.height * 0.06,
-                        width: Get.width * 0.40,
-                        color: AppColor.brownColor,
-                        child: AppText(
-                          fontWeight: FontWeight.w700,
-                          color: AppColor.whiteColor,
-                          text: "SPECIAL PRICES",
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.center,
-                          height: Get.height * 0.06,
-                          child: Padding(
-                            padding:
-                                EdgeInsets.only(left: getHorizontalSize(15)),
-                            child: AppText(
-                              fontSize: 10.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColor.whiteColor,
-                              text:
-                                  "EYEWEAR AT FLAT ₹2000 + COMPLIMEMTARY ANTI GLARE LENSES.",
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+              
                 Container(
                   width: Get.width,
                   color: AppColor.greyColor,
@@ -690,7 +503,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                           height: Get.height * 0.050,
                           width: Get.width * 0.93,
                           textcolor: AppColor.whiteColor,
-                          textButton: "Select Lenses",
+                          textButton: "Add To Cart",
                           ontap: () {
                             if (homepagehomepageController
                                 .sharedPref.userToken.value.isEmpty) {
@@ -858,19 +671,23 @@ class ProductDetailScreen extends GetView<HomepageController> {
             style: {
               "table": Style(
                 backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
+                fontSize: FontSize.medium
               ),
               "tr": Style(
                 border: const Border(bottom: BorderSide(color: Colors.grey)),
+                fontSize: FontSize.medium
               ),
               "th": Style(
                 padding: const EdgeInsets.all(6),
                 backgroundColor: Colors.grey,
+                fontSize: FontSize.medium
               ),
               "td": Style(
                 padding: const EdgeInsets.all(6),
                 alignment: Alignment.topLeft,
+                fontSize: FontSize.medium
               ),
-              'h5': Style(maxLines: 2, textOverflow: TextOverflow.ellipsis),
+              'h5': Style(maxLines: 2, textOverflow: TextOverflow.ellipsis , fontSize: FontSize.medium),
             },
           )
         ],
@@ -971,7 +788,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                       ),
                       height2,
                       AppText(
-                        text: controller.productDetailList![0].frameColor ??
+                        text: controller.productDetailList![0].colorName ??
                             "No Color",
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w600,

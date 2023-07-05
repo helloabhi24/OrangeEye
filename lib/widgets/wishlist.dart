@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/controller.dart/whishlistController.dart';
 import 'package:orangeeye/widgets/productDetailPage.dart';
-
 import '../routes/approutes.dart';
 import '../utils/appColor.dart';
 import '../utils/appText.dart';
@@ -29,7 +28,7 @@ class WishlistWidget extends GetView<WishlistPageController> {
           Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
         },
         child: Container(
-          height: Get.height * 0.39,
+          height: Get.height * 0.37,
           width: Get.width,
           decoration: BoxDecoration(
               border: Border.all(color: AppColor.greyColor.withOpacity(0.01)),
@@ -59,7 +58,7 @@ class WishlistWidget extends GetView<WishlistPageController> {
                             )
                           : Obx(
                               () => SizedBox(
-                                height: Get.height * 0.30,
+                                height: Get.height * 0.27,
                                 width: Get.width * 0.90,
                                 child: ListView.builder(
                                   scrollDirection: Axis.horizontal,
@@ -74,7 +73,7 @@ class WishlistWidget extends GetView<WishlistPageController> {
                                     return Column(
                                       children: [
                                         SizedBox(
-                                          height: Get.height * 0.24,
+                                          height: Get.height * 0.23,
                                           width: Get.width * 0.90,
                                           child: CarouselSlider(
                                               items: (controller.whistList[
@@ -89,8 +88,7 @@ class WishlistWidget extends GetView<WishlistPageController> {
                                                         imageBuilder: (context,
                                                                 imageProvider) =>
                                                             Container(
-                                                          height:
-                                                              Get.height * 0.60,
+                                                        
                                                           decoration:
                                                               BoxDecoration(
                                                             borderRadius:
@@ -110,7 +108,7 @@ class WishlistWidget extends GetView<WishlistPageController> {
                                                                 url) =>
                                                             const Center(
                                                                 child:
-                                                                    CircularProgressIndicator()),
+                                                                    RepaintBoundary(child: CircularProgressIndicator())),
                                                         errorWidget: (context,
                                                                 url, error) =>
                                                             const Icon(
@@ -119,7 +117,7 @@ class WishlistWidget extends GetView<WishlistPageController> {
                                                       ))
                                                   .toList(),
                                               options: CarouselOptions(
-                                                height: Get.height * 0.28,
+                                                height: Get.height * 0.26,
                                                 aspectRatio: 16 / 8,
                                                 viewportFraction: 1,
                                                 initialPage: 0,

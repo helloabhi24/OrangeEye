@@ -4,9 +4,8 @@ import 'package:orangeeye/controller.dart/orderPageController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/customeAppBar.dart';
-import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
-import '../routes/approutes.dart';
+import 'package:orangeeye/view.dart/invoice.dart';
 import '../utils/customeElevatedButton.dart';
 
 class MyOrderPage extends GetView<OrderpageController> {
@@ -23,12 +22,14 @@ class MyOrderPage extends GetView<OrderpageController> {
           child: Column(
             children: [
               height20,
+              controller.placeOrderList!.isEmpty? SizedBox(height: Get.height*0.70 , width: Get.width,child: Center(child: AppText(text: "No data found !",fontSize: 17,fontWeight: FontWeight.w600,)),):
               SizedBox(
                 child: ListView.builder(
                   physics: BouncingScrollPhysics(),
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    return Container(
+                    return 
+                    Container(
                       margin: EdgeInsets.all(7),
                       height: Get.height * 0.17,
                       width: Get.width * 0.90,
@@ -83,15 +84,7 @@ class MyOrderPage extends GetView<OrderpageController> {
                               ],
                             ),
                           ),
-                          // CustomAssetsImage(
-                          //   height: Get.height * 0.15,
-                          //   imagePath: "assets/image/bgg2.png",
-                          // ),
-                          // AppText(
-                          //   fontSize: 12,
-                          //   fontWeight: FontWeight.w500,
-                          //   text: "Tecla - Black Gold (Medium)",
-                          // ),
+                         
                           height5,
                           Padding(
                             padding: EdgeInsets.symmetric(
@@ -106,9 +99,15 @@ class MyOrderPage extends GetView<OrderpageController> {
                                       width: Get.width * 0.50,
                                       textcolor: AppColor.whiteColor,
                                       textButton: "View Details",
-                                      ontap: () {
-                                        // controller.getPlacedOrder();
-                                        Get.toNamed(Routes.INVOICEPAGE);
+                                      ontap: () async{
+                                         await Get.to(InvoicePage());
+                                          await controller.getInvoice(controller
+                                            .placeOrderList![index].orderId);
+
+                                         
+                                        //  controller.getInvoice(controller.placeOrderList![index].orderId.toString());
+                                        //  Navigator.push(context, MaterialPageRoute(builder: (context) => InvoicePage(),));
+                                        //  Get.toNamed(Routes.INVOICEPAGE);
                                         // Get.to(const Signin(),
                                         //     transition: Transition.zoom);
                                       }),
@@ -123,9 +122,11 @@ class MyOrderPage extends GetView<OrderpageController> {
                                       textcolor: AppColor.whiteColor,
                                       textButton: "Invoice",
                                       ontap: () async {
-                                        await controller.getInvoice(controller
-                                            .placeOrderList![index].orderId);
-                                        Get.toNamed(Routes.INVOICEPAGE);
+                                        
+                                        // Get.to(PdfPages());
+                                        // await controller.getInvoice(controller
+                                        //     .placeOrderList![index].orderId);
+                                        // Get.toNamed(Routes.INVOICEPAGE);
                                         // Get.to(const Signin(),
                                         //     transition: Transition.zoom);
                                       }),

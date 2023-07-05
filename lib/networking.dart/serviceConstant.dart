@@ -47,7 +47,7 @@ class ServiceConstant {
 
   static const String SHIPPINGPOLICIES = '/api/get_shippingpolicy';
 
-  static const String RETURNPOLICIES = '/api/get_Returnpolicy';
+  static const String RETURNPOLICIES = '/api/get_privacypolicy';
 
   static const String SOCIALMEDIA = '/api/siteDetails';
 
@@ -64,4 +64,17 @@ class ServiceConstant {
   static const String GETGLASSESHOMEPAGE = '/api/getProductGlass';
 
   static const String PAYMENT = '/api/payment_gateway';
+
+  static const String UPDATEDPROFILE = '/api/update_profile';
+
+  static const String GETPROFILEDETAIL = '/api/get_profile';
+
+  static const String GETTERMANDCONDIITONS = '/api/get_term_conditions';
+
+  static const String GETSIZEGUIDE = '/api/get_size_guide';
+
+  static const String BLOG = '/api/blog_lists';
+  
+  static const String BLOGDETAILS = '/api/blog_details';
+  
 }

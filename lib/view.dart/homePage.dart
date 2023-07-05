@@ -10,9 +10,8 @@ import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/customeDrawer.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
+import 'package:orangeeye/view.dart/paymentSuccessfulPage.dart';
 import 'package:orangeeye/widgets/homepageWidget.dart';
-
-import '../controller.dart/whishlistController.dart';
 
 class HomePage extends GetView<HomepageController> {
   HomePage({super.key});
@@ -21,7 +20,7 @@ class HomePage extends GetView<HomepageController> {
   Widget build(BuildContext context) {
     MainpageController mainpageController = Get.find();
     CategoryByGenderController categoryByGenderController = Get.find();
-    WishlistPageController wishlistPageController = Get.find();
+
     return Obx(
       () => Scaffold(
         drawer: const CustomDrawer(),
@@ -36,10 +35,9 @@ class HomePage extends GetView<HomepageController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        wishlistPageController.getWishlistProduct();
-                      },
+                    GestureDetector(onTap: (){
+                      Get.to(PaymentPage());
+                    },
                       child: AppText(
                         text: "Discover All",
                         fontSize: 17.sp,
@@ -76,10 +74,7 @@ class HomePage extends GetView<HomepageController> {
                                             .nameOfGlass.value =
                                         mainpageController
                                             .getglassesHomePageList[e]["name"];
-                                    // categoryByGenderController
-                                    //         .whichGlassesDataShow.value =
-                                    //     mainpageController
-                                    //         .getglassesHomePageList[e]["name"];
+                                     
                                     Get.toNamed(Routes.CATEGORYBYGENDERPAGE,
                                         arguments: {
                                           "id": mainpageController
@@ -90,10 +85,15 @@ class HomePage extends GetView<HomepageController> {
                       ],
                     ),
                     getheight(context, 0.030),
-                    AppText(
-                      text: "Our Recommendation",
-                      fontSize: 17.sp,
-                      fontWeight: FontWeight.w600,
+                    GestureDetector(onTap: (){
+                      print("arun");
+                      mainpageController.getBlogs();
+                    },
+                      child: AppText(
+                        text: "Our Recommendation",
+                        fontSize: 17.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -193,43 +193,28 @@ class HomePage extends GetView<HomepageController> {
                         Border.all(color: AppColor.greyColor.withOpacity(0.4))),
                 child: Row(
                   children: [
+                    width10,
                     Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.alternate_email,
-                              size: 12.sp,
-                            ),
-                            width3,
-                            AppText(
-                              text: "support@orangeeye.com",
-                              fontSize: 11.sp,
-                            ),
-                          ],
-                        ),
-                      ),
+                      child: AppText(
+                            text: "orangeeyewearindia@gmail.com",
+                            fontSize: 11.sp,
+                          ),
                     ),
                     VerticalDivider(
                       thickness: 1,
                     ),
                     Expanded(
-                      child: Container(
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.phone,
-                              size: 14,
-                            ),
-                            AppText(
-                              text: "+911234567895",
-                            ),
-                          ],
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.phone,
+                            size: 14,
+                          ),
+                          AppText(
+                            text: "+911234567895",
+                          ),
+                        ],
                       ),
                     ),
                   ],

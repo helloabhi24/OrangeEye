@@ -120,23 +120,23 @@ class CustomFormField extends StatelessWidget {
         hintText: hint,
         hintStyle: TextStyle(color: AppColor.blackColor, fontSize: 15),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6.0),
+          borderRadius: BorderRadius.circular(4.0),
           borderSide: const BorderSide(),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6.0),
+          borderRadius: BorderRadius.circular(4.0),
           borderSide: BorderSide(color: AppColor.blackColor, width: .4),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6.0),
+          borderRadius: BorderRadius.circular(4.0),
           borderSide: BorderSide(color: AppColor.blackColor, width: .4),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6.0),
+          borderRadius: BorderRadius.circular(4.0),
           borderSide: const BorderSide(color: Colors.red, width: .4),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(6.0),
+          borderRadius: BorderRadius.circular(4.0),
           borderSide: BorderSide(color: AppColor.blackColor, width: .4),
         ),
       ),

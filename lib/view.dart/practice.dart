@@ -1,216 +1,172 @@
-// import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
-// import 'package:flutter/material.dart';
-// import 'dart:async';
-// import 'package:flutter/services.dart';
-// import 'package:paytm_allinonesdk/paytm_allinonesdk.dart';
-// import 'package:url_launcher/url_launcher.dart';
 
-// import '../utils/customToast.dart';
+class HomePages extends StatefulWidget {
+  const HomePages({Key? key}) : super(key: key);
 
-// class HomeScreen extends StatefulWidget {
-//   @override
-//   State<StatefulWidget> createState() {
-//     return _HomeScreenState();
-//   }
-// }
+  @override
+  State<HomePages> createState() => _HomePagesState();
+}
 
-// class _HomeScreenState extends State<HomeScreen> {
-//   String mid = "", orderId = "", amount = "", txnToken = "";
-//   String result = "";
-//   bool isStaging = false;
-//   bool isApiCallInprogress = false;
-//   String callbackUrl = "";
-//   bool restrictAppInvoke = false;
-//   bool enableAssist = true;
-//   @override
-//   void initState() {
-//     print("initState");
-//     super.initState();
-//   }
+class _HomePagesState extends State<HomePages> {
+  String _code="";
+  String signature = "{{ app signature }}";
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       child: SingleChildScrollView(
-//         child: Container(
-//           margin: EdgeInsets.all(8),
-//           child: Column(
-//             children: <Widget>[
-//               // EditText('Merchant ID', mid, onChange: (val) => mid = val),
-//               // EditText('Order ID', orderId, onChange: (val) => orderId = val),
-//               // EditText('Amount', amount, onChange: (val) => amount = val),
-//               // EditText('Transaction Token', txnToken,
-//               //     onChange: (val) => txnToken = val),
-//               // EditText('CallBack URL', callbackUrl,
-//               //     onChange: (val) => callbackUrl = val),
-//               Row(
-//                 children: <Widget>[
-//                   Checkbox(
-//                       activeColor: Theme.of(context).buttonColor,
-//                       value: isStaging,
-//                       onChanged: (bool? val) {
-//                         setState(() {
-//                           isStaging = val!;
-//                         });
-//                       }),
-//                   Text("Staging")
-//                 ],
-//               ),
-//               Row(
-//                 children: <Widget>[
-//                   Checkbox(
-//                       activeColor: Theme.of(context).buttonColor,
-//                       value: restrictAppInvoke,
-//                       onChanged: (bool? val) {
-//                         setState(() {
-//                           restrictAppInvoke = val!;
-//                         });
-//                       }),
-//                   Text("Restrict AppInvoke")
-//                 ],
-//               ),
-//               Container(
-//                 margin: EdgeInsets.all(16),
-//                 child: ElevatedButton(
-//                   onPressed: isApiCallInprogress
-//                       ? null
-//                       : () {
-//                           // var whatsappAndroid = Uri.parse(
-//                           //     "https://orangeeyewearindia.com/cart/pay/ORDS055");
-//                           // if (await canLaunchUrl(whatsappAndroid)) {
-//                           //   await launchUrl(whatsappAndroid);
-//                           // } else {
-//                           //   customeToast(
-//                           //       "WhatsApp is not installed on the device");
-//                           // }
-//                           // _startTransaction(
-//                           //     "VuhEjm57073837498953",
-//                           //     "ORDS028",
-//                           //     "1",
-//                           //     "670ec79a16f04ec9b4efac13175fc5121684496081814",
-//                           //     "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=<ORDS028>",
-//                           //     true,
-//                           //     true);
-//                           var response = AllInOneSdk.startTransaction(
-//                               "VuhEjm57073837498953",
-//                               "ORDS028",
-//                               "1",
-//                               "670ec79a16f04ec9b4efac13175fc5121684496081814",
-//                               "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=<ORDS028>",
-//                               true,
-//                               false,
-//                               true);
-//                           response.then((value) {
-//                             print(value);
-//                             setState(() {
-//                               result = value.toString();
-//                             });
-//                           }).catchError((onError) {
-//                             if (onError is PlatformException) {
-//                               setState(() {
-//                                 result = onError.message! +
-//                                     " \n  " +
-//                                     onError.details.toString();
-//                               });
-//                             } else {
-//                               setState(() {
-//                                 result = onError.toString();
-//                               });
-//                             }
-//                           });
-//                         },
-//                   child: Text('Start Transcation'),
-//                 ),
-//               ),
-//               Container(
-//                 alignment: Alignment.bottomLeft,
-//                 child: Text("Message : "),
-//               ),
-//               Container(
-//                 child: Text(result),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
+  @override
+  void initState() {
+    super.initState();
+  }
 
-//   Future<void> _startTransaction(
-//     mid,
-//     orderId,
-//     amount,
-//     txnToken,
-//     callbackUrl,
-//     isStaging,
-//     restrictAppInvoke,
-//   ) async {
-//     print("Arun");
-//     if (txnToken.isEmpty) {
-//       return;
-//     }
-//     var sendMap = <String, dynamic>{
-//       "mid": mid,
-//       "orderId": orderId,
-//       "amount": amount,
-//       "txnToken": txnToken,
-//       "callbackUrl": callbackUrl,
-//       "isStaging": isStaging,
-//       "restrictAppInvoke": restrictAppInvoke,
-//       // "enableAssist": enableAssist
-//     };
-//     print(sendMap);
-//     try {
-//       var response = AllInOneSdk.startTransaction(mid, orderId, amount,
-//           txnToken, callbackUrl, isStaging, restrictAppInvoke);
-//       response.then((value) {
-//         print(value);
-//         setState(() {
-//           result = value.toString();
-//         });
-//       }).catchError((onError) {
-//         if (onError is PlatformException) {
-//           setState(() {
-//             result = onError.message.toString() +
-//                 " \n  " +
-//                 onError.details.toString();
-//           });
-//         } else {
-//           setState(() {
-//             result = onError.toString();
-//           });
-//         }
-//       });
-//     } catch (err) {
-//       result = err.toString();
-//     }
-//   }
+  @override
+  void dispose() {
+    SmsAutoFill().unregisterListener();
+    super.dispose();
+  }
 
-//   PaytmConfig paytmConfig = PaytmConfig();
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      theme: ThemeData.light(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('Plugin example app'),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const PhoneFieldHint(),
+              const Spacer(),
+              PinFieldAutoFill(
+                decoration: UnderlineDecoration(
+                  textStyle: const TextStyle(fontSize: 20, color: Colors.black),
+                  colorBuilder: FixedColorBuilder(Colors.black.withOpacity(0.3)),
+                ),
+                currentCode: _code,
+                onCodeSubmitted: (code) {},
+                onCodeChanged: (code) {
+                  if (code!.length == 6) {
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  }
+                },
+              ),
+              const Spacer(),
+              TextFieldPinAutoFill(
+                currentCode: _code,
+              ),
+              const Spacer(),
+              ElevatedButton(
+                child: const Text('Listen for sms code'),
+                onPressed: () async {
+                  await SmsAutoFill().listenForCode();
+                },
+              ),
+              ElevatedButton(
+                child: const Text('Set code to 123456'),
+                onPressed: () async {
+                  setState(() {
+                    _code = '123456';
+                  });
+                },
+              ),
+              const SizedBox(height: 8.0),
+              const Divider(height: 1.0),
+              const SizedBox(height: 4.0),
+              Text("App Signature : $signature"),
+              const SizedBox(height: 4.0),
+              ElevatedButton(
+                child: const Text('Get app signature'),
+                onPressed: () async {
+                  signature = await SmsAutoFill().getAppSignature;
+                  setState(() {});
+                },
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => CodeAutoFillTestPage()));
+                },
+                child: const Text("Test CodeAutoFill mixin"),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-//   String getMap(double amount, String callbackUrl, String orderId) {
-//     return json.encode({
-//       "mid": mid,
-//       "key_secret": paytmConfig.mKey,
-//       "website": paytmConfig.website,
-//       "orderId": orderId,
-//       "amount": amount.toString(),
-//       "callbackUrl": callbackUrl,
-//       "custId": "122", // Pass users Customer ID here
-//     });
-//   }
-// }
+class CodeAutoFillTestPage extends StatefulWidget {
+  const CodeAutoFillTestPage({Key? key}) : super(key: key);
 
-// class PaytmConfig {
-//   final String _mid = "...";
-//   final String _mKey = "...";
-//   final String _website = "DEFAULT"; // or "WEBSTAGING" in Testing
-//   final String _url =
-//       'https://flutter-paytm-backend.herokuapp.com/generateTxnToken'; // Add your own backend URL
+  @override
+  State<CodeAutoFillTestPage> createState() => _CodeAutoFillTestPageState();
+}
 
-//   String get mid => _mid;
-//   String get mKey => _mKey;
-//   String get website => _website;
-//   String get url => _url;
-// }
+class _CodeAutoFillTestPageState extends State<CodeAutoFillTestPage> with CodeAutoFill {
+  String? appSignature;
+  String? otpCode;
+
+  @override
+  void codeUpdated() {
+    setState(() {
+      otpCode = code!;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    listenForCode();
+
+    SmsAutoFill().getAppSignature.then((signature) {
+      setState(() {
+        appSignature = signature;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    cancel();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const textStyle = TextStyle(fontSize: 18);
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Listening for code"),
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(32, 32, 32, 0),
+            child: Text(
+              "This is the current app signature: $appSignature",
+            ),
+          ),
+          const Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Builder(
+              builder: (_) {
+                if (otpCode == null) {
+                  return const Text("Listening for code...", style: textStyle);
+                }
+                return Text("Code Received: $otpCode", style: textStyle);
+              },
+            ),
+          ),
+          const Spacer(),
+        ],
+      ),
+    );
+  }
+}

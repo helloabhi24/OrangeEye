@@ -5,18 +5,14 @@ import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/categoryPageController.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/controller.dart/mainPageController.dart';
-import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/appText.dart';
-import 'package:orangeeye/utils/cachedNetworkImage.dart';
-import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/view.dart/categoryWiseProductPage.dart';
 import 'package:orangeeye/view.dart/newLaunchesProduct.dart';
 
-import 'package:orangeeye/widgets/categoryPageWidget.dart';
 
 import '../controller.dart/catByGenderController.dart';
 import '../utils/sizeHelper.dart';
-import '../widgets/homepageWidget.dart';
+
 
 class CategoryPage extends GetView<CategorypageController> {
   const CategoryPage({super.key});
@@ -111,11 +107,10 @@ class CategoryPage extends GetView<CategorypageController> {
                   enlargeFactor: 0.2,
                   enlargeCenterPage: true,
                   onPageChanged: (v, c) {
-                    homepageController.sliderIndex.value = v;
+                  homepageController.sliderIndex.value = v;
                   },
                   scrollDirection: Axis.horizontal,
                 )),
-
             Card(
               elevation: 1,
               child: ListTile(
@@ -151,48 +146,7 @@ class CategoryPage extends GetView<CategorypageController> {
                       backgroundImage:
                           AssetImage("assets/image/threegirls.png"))),
             ),
-            // CardWidget(
-            //   ontap: () async {
-            //     await categoryByGenderController.getCategory("1", "1");
-            //     Get.toNamed(Routes.CATEGORYWISEPRODUCT,
-            //         arguments: {"type": "Shop Eyeglasses", "id": "1"});
-            //     // Get.toNamed(Routes.CATEGORYBYGENDERPAGE);
-            //   },
-            //   text: "Men",
-            // ),
-            // CardWidget(
-            //   ontap: () async {
-            //     await categoryByGenderController.getCategory("1", "2");
-            //     Get.toNamed(Routes.CATEGORYWISEPRODUCT,
-            //         arguments: {"type": "Shop Eyeglasses", "id": "1"});
-            //   },
-            //   text: "Women",
-            // ),
-            // CardWidget(
-            //   ontap: () async {
-            //     await categoryByGenderController.getCategory("1", "4");
-            //     Get.toNamed(Routes.CATEGORYWISEPRODUCT,
-            //         arguments: {"type": "Shop Eyeglasses", "id": "1"});
-            //   },
-            //   text: "Kids",
-            // ),
-            // CardWidget(
-            //   ontap: () async {
-            //     await categoryByGenderController.getCategory("1", "4");
-            //     Get.toNamed(Routes.CATEGORYWISEPRODUCT,
-            //         arguments: {"type": "Shop Eyeglasses", "id": "1"});
-            //   },
-            //   text: "BestSeller",
-            // ),
-            // CardWidget(
-            //   ontap: () async {
-            //     await categoryByGenderController.getCategory("1", "4");
-            //     Get.toNamed(Routes.CATEGORYWISEPRODUCT,
-            //         arguments: {"type": "Shop Eyeglasses", "id": "2"});
-            //   },
-            //   text: "New launches",
-            // ),
-            // CategoryGridView()
+       
           ],
         ),
       ),

@@ -330,7 +330,6 @@ class BannerAd extends StatelessWidget {
 
 class GogleSlider extends StatelessWidget {
   GogleSlider({super.key});
-
   @override
   Widget build(BuildContext context) {
     HomepageController homepageController = Get.find();
@@ -403,7 +402,10 @@ class GogleWidget extends StatelessWidget {
                                   width: Get.width * 0.37,
                                   memCacheHeight: 220,
                                   ontap: () async {
-                                    // Get.toNamed("/mainpage");
+                                    await homepageController.getProductDetail(
+                homepageController.finalHomepageProductList![index!].slug!);
+            Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
+            print("arun");
                                   }),
                             );
                           },
@@ -492,23 +494,7 @@ class GogleWidget extends StatelessWidget {
                           ],
                         ),
                       )
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: [
-                      //     Row(
-                      //       children: [
-                      //         ...Iterable.generate(homepageController
-                      //                 .pageproductColorList.length)
-                      //             .map(
-                      //           (e) => ColorDots(
-                      //             dotsColor: Color(int.parse(
-                      //                 "0xff${homepageController.pageproductColorList[e][]["color_code"].replaceFirst(r'#', "")}")),
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     )
-                      //   ],
-                      // )
+                  
                     ],
                   ),
                   Padding(
@@ -522,8 +508,7 @@ class GogleWidget extends StatelessWidget {
                               Get.toNamed(
                                 Routes.OTPPHONENUMBERPAGE,
                               );
-                              // Get.to(LoginScreen());
-                              // loginDialouge(context);
+                            
                             } else {
                               if (homepageController.likeUpdatedList.contains(
                                   homepageController
@@ -547,41 +532,12 @@ class GogleWidget extends StatelessWidget {
                                 );
                               }
 
-                              // homepageController.isSelected.value =
-                              //     homepageController
-                              //         .finalHomepageProductList![index!].id
-                              //         .toString();
+                             
                             }
 
-                            // if (homepageController
-                            //         .finalHomepageProductList![index!]
-                            //         .wishlist ==
-                            //     true) {
-                            //   homepageController.isAddWishlist.value = false;
-                            // } else {
-                            //   homepageController.isAddWishlist.value = true;
-                            // }
-
-                            // homepageController.isAddWishlist.value =
-                            //     homepageController
-                            //         .finalHomepageProductList![index!]
-                            //         .wishlist!;
-                            // print("bool");
-                            // print(homepageController.isAddWishlist.value);
-
-                            // homepageController.isAddWishlist.value =
-                            //     !homepageController.isAddWishlist.value;
                           },
                           child: Icon(
-                              // homepageController
-                              //                 .finalHomepageProductList![index!]
-                              //                 .wishlist ==
-                              //             true ||
-                              //         homepageController.isSelected.value ==
-                              //             homepageController
-                              //                 .finalHomepageProductList![index!]
-                              //                 .id
-                              //                 .toString()
+                             
                               homepageController.likeUpdatedList.contains(
                                           homepageController
                                               .finalHomepageProductList![index!]
@@ -603,160 +559,7 @@ class GogleWidget extends StatelessWidget {
   }
 }
 
-// class GogleWidgetGenderWise extends StatelessWidget {
-//   final int? index;
-//   GogleWidgetGenderWise({this.index, super.key});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     CategoryByGenderController categoryByGenderController =
-//         Get.find<CategoryByGenderController>();
-//     return Obx(
-//       () => Padding(
-//         padding: const EdgeInsets.all(4.0),
-//         child: GestureDetector(
-//             onTap: () => Get.to(ProductDetailScreen()), child: GogleWidget()
-
-//             //  Container(
-//             //     decoration: BoxDecoration(
-//             //         borderRadius: BorderRadius.circular(10),
-//             //         border: Border.all(color: AppColor.greyColor, width: 0.4)),
-//             //     height: 170.h,
-//             //     width: 150.w,
-//             //     child: Stack(
-//             //       children: [
-//             //         Column(
-//             //           crossAxisAlignment: CrossAxisAlignment.start,
-//             //           children: [
-//             //             cacheNetworkImage(
-//             //                 imageUrl:
-//             //                     "https://orangeeye.skardtech.com/public/uploads/products/${categoryByGenderController.allProductByGenderList[index!]["image1"]}",
-//             //                 height: Get.height * 0.13,
-//             //                 boxfit: BoxFit.cover,
-//             //                 width: Get.width * 0.43,
-//             //                 ontap: () async {
-//             //                   // Get.toNamed("/mainpage");
-//             //                 }),
-//             //             // Container(
-//             //             //   height: Get.height * 0.10,
-//             //             //   width: Get.width * 0.30,
-//             //             //   child: Image.network(
-//             //             //     "https://orangeeye.atally.com/public/uploads/products/${homepageController.allProduct[index!]["image1"]}",
-//             //             //     fit: BoxFit.cover,
-//             //             //   ),
-//             //             // ),
-//             //             // CustomAssetsImage(
-//             //             //   height: 130.h,
-//             //             //   width: 135.w,
-//             //             //   imagePath: homepageController.gogleList[index!],
-//             //             // ),
-//             //             Row(
-//             //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             //               children: [
-//             //                 Column(
-//             //                   crossAxisAlignment: CrossAxisAlignment.start,
-//             //                   children: [
-//             //                     Padding(
-//             //                       padding: EdgeInsets.only(
-//             //                           left: getHorizontalSize(10)),
-//             //                       child: AppText(
-//             //                           fontSize: 13.sp,
-//             //                           fontWeight: FontWeight.w600,
-//             //                           text: categoryByGenderController
-//             //                                   .allProductByGenderList[index!]
-//             //                               ["name"]),
-//             //                     ),
-//             //                     Padding(
-//             //                         padding: EdgeInsets.only(
-//             //                             left: getHorizontalSize(10)),
-//             //                         child: Row(
-//             //                           children: [
-//             //                             AppText(
-//             //                                 textDecoration:
-//             //                                     TextDecoration.lineThrough,
-//             //                                 fontSize: 12.sp,
-//             //                                 text:
-//             //                                     "₹ ${categoryByGenderController.allProductByGenderList[index!]["mrp"].toString()}"),
-//             //                             getWidth(context, 0.020),
-//             //                             AppText(
-//             //                                 fontSize: 12.sp,
-//             //                                 text:
-//             //                                     "₹ ${categoryByGenderController.allProductByGenderList[index!]["price"].toString()}"),
-//             //                           ],
-//             //                         )),
-//             //                   ],
-//             //                 ),
-//             //                 // Row(
-//             //                 //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             //                 //   children: [
-//             //                 //     Row(
-//             //                 //       children: const [
-//             //                 //         ColorDots(
-//             //                 //           dotsColor: AppColor.blackColor,
-//             //                 //         ),
-//             //                 //         width3,
-//             //                 //         ColorDots(
-//             //                 //           dotsColor: AppColor.redColor,
-//             //                 //         ),
-//             //                 //         width3,
-//             //                 //         ColorDots(
-//             //                 //           dotsColor: AppColor.brownColor,
-//             //                 //         ),
-//             //                 //         width3,
-//             //                 //         ColorDots(
-//             //                 //           dotsColor: AppColor.orangeColor,
-//             //                 //         ),
-//             //                 //         width3,
-//             //                 //       ],
-//             //                 //     ),
-//             //                 //   ],
-//             //                 // )
-//             //               ],
-//             //             ),
-//             //             getheight(context, 0.010),
-//             //             Row(
-//             //               mainAxisAlignment: MainAxisAlignment.center,
-//             //               children: [
-//             //                 Row(
-//             //                   children: [
-//             //                     ColorDots(
-//             //                       dotsColor: AppColor.blackColor,
-//             //                     ),
-//             //                     getWidth(context, 0.020),
-//             //                     ColorDots(
-//             //                       dotsColor: AppColor.redColor,
-//             //                     ),
-//             //                     getWidth(context, 0.020),
-//             //                     ColorDots(
-//             //                       dotsColor: AppColor.brownColor,
-//             //                     ),
-//             //                     getWidth(context, 0.020),
-//             //                     ColorDots(
-//             //                       dotsColor: AppColor.orangeColor,
-//             //                     ),
-//             //                     getWidth(context, 0.020),
-//             //                   ],
-//             //                 ),
-//             //               ],
-//             //             )
-//             //           ],
-//             //         ),
-//             //         const Padding(
-//             //           padding: EdgeInsets.all(8.0),
-//             //           child: Align(
-//             //               alignment: Alignment.topRight,
-//             //               child: Icon(
-//             //                 Icons.favorite_border,
-//             //                 color: AppColor.orangeColor,
-//             //               )),
-//             //         ),
-//             //       ],
-//             //     )),
-//             ),
-//       ),
-//     );
-//   }
-// }
 
 class GogleVariousCategory extends StatelessWidget {
   const GogleVariousCategory({super.key});

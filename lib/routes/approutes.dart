@@ -26,4 +26,5 @@ abstract class Routes {
   static const SELECTADDRESS = "/selctaddress";
   static const GENDERWISEPRODUCTPAGE = "/genderwiseproductpage";
   static const INVOICEPAGE = "/invoicepage";
+  static const BLOGDETAILPAGE = "/blogdetailpage";
 }

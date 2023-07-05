@@ -54,7 +54,7 @@ class GenderWiseProductModel {
         mrp: json["mrp"],
         price: json["price"],
         availability: json["availability"],
-        extraPrice: json["extra_price"],
+        extraPrice: json["extra_price"]??"",
         productName: json["product_name"],
         categoriesName: json["categories_name"],
         images: List<String>.from(json["images"].map((x) => x)),

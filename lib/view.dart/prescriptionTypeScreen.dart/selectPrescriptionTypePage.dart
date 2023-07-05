@@ -1,16 +1,11 @@
-import 'dart:convert';
-import 'dart:io';
-import 'dart:typed_data';
+
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
-import 'package:orangeeye/controller.dart/whishlistController.dart';
-
 import 'package:orangeeye/utils/appText.dart';
-
 import 'package:orangeeye/utils/customToast.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import 'package:orangeeye/view.dart/cartPage.dart';
@@ -24,9 +19,6 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
   SelectPrescriptionPage({this.index, super.key});
   @override
   Widget build(BuildContext context) {
-    // pageView("0", context);
-    //  int index =  Get.arguments["detailPage"];
-    WishlistPageController wishlistPageController = Get.find();
     return Obx(
       () => Scaffold(
         appBar: CustomAppbar.customeAppbar(
@@ -45,9 +37,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                           IconButton(
                               onPressed: () {
                                 controller.isLensType.value = false;
-                                // controller.isPrescriptionType.value = false;
-                                // controller.isLens.value = "1";
-                                // pageView(controller.isLens.value, context);
+                              
                               },
                               icon: Icon(Icons.arrow_back)),
                           AppText(
@@ -55,13 +45,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                             fontSize: 15.sp,
                             fontWeight: FontWeight.w600,
                           ),
-                          // AppText(
-                          //   text: controller.isLensType.value == true
-                          //       ? controller.isPrescriptionType.value == true
-                          //           ? "Prescription Details"
-                          //           : "Select a lens type"
-                          //       : "Select a prescription type",
-                          // ),
+                        
                           IconButton(
                               onPressed: () {
                                 Get.back();
@@ -69,30 +53,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                               icon: Icon(Icons.close))
                         ],
                       ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Container(
-                      //       height: 3,
-                      //       width: Get.width * 0.32,
-                      //       color: AppColor.brownColor,
-                      //     ),
-                      //     Container(
-                      //       height: 3,
-                      //       width: Get.width * 0.32,
-                      //       color: controller.isLensType.value == true
-                      //           ? AppColor.brownColor
-                      //           : AppColor.whiteColor,
-                      //     ),
-                      //     Container(
-                      //       height: 3,
-                      //       width: Get.width * 0.32,
-                      //       color: controller.isLensType.value == true
-                      //           ? AppColor.brownColor
-                      //           : AppColor.whiteColor,
-                      //     ),
-                      //   ],
-                      // ),
+                   
                     ],
                   )),
 
@@ -174,7 +135,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                                                                 .value]
                                                         .lenses![e]
                                                         .name!,
-                                                    fontSize: 20.sp,
+                                                    fontSize: 16.sp,
                                                     fontWeight: FontWeight.w600,
                                                   ),
                                                   getWidth(context, 0.030),
@@ -191,7 +152,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                                                                     .value]
                                                             .lenses![e]
                                                             .mrp!,
-                                                        fontSize: 20.sp,
+                                                        fontSize: 16.sp,
                                                         fontWeight:
                                                             FontWeight.w600,
                                                         textDecoration:
@@ -207,7 +168,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                                                                     .value]
                                                             .lenses![e]
                                                             .price!,
-                                                        fontSize: 20.sp,
+                                                        fontSize: 16.sp,
                                                         fontWeight:
                                                             FontWeight.w600,
                                                       )
@@ -220,9 +181,9 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                                                               .getLensesByCategorey[
                                                                   controller
                                                                       .indexOfGetLenses
-                                                                      .value]
-                                                              .lenses![e]
-                                                              .image!),
+                                                  .value]
+                                                  .lenses![e]
+                                                  .image! ,height: Get.height*0.08,),
                                                 ],
                                               ),
                                             ),
@@ -232,11 +193,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                             )
                       : proceedCartWidget(context)
 
-              // pageView(
-              //     controller.isLens.value.isEmpty
-              //         ? "0"
-              //         : controller.isLens.value,
-              //     context)
+       
             ],
           ),
         ),
@@ -245,7 +202,7 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
   }
 
   proceedCartWidget(context) {
-    WishlistPageController wishlistPageController = Get.find();
+   
     return Column(
       children: [
         Padding(
@@ -338,14 +295,6 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
             textcolor: AppColor.whiteColor,
             textButton: "Proceed to cart",
             ontap: () async {
-              // File imagefile =
-              //     File(Get.arguments["image"]); //convert Path to File
-              // Uint8List imagebytes =
-              //     await imagefile.readAsBytes(); //convert to bytes
-              // controller.base64Images.value =
-              //     "data:image/jpeg;base64," + base64.encode(imagebytes);
-              // // Get.to(CartPage());
-              // //     arguments: {"productDetail": Get.arguments["detailPage"]});
               if (controller.selectedImagePath.value.isNotEmpty) {
                 // controller.productDetailList![0].name!
                 await controller.getAddToCart(
@@ -355,211 +304,19 @@ class SelectPrescriptionPage extends GetView<HomepageController> {
                   "1",
                   controller.base64string.value,
                 );
-                Get.to(CartPage());
+               
               } else {
                 return customeToast("Please select image");
               }
 
-              // Get.toNamed(Routes.CARTPAGE);
-              // Get.to(const Signin(),
-              //     transition: Transition.zoom);
+    
             }),
         getheight(context, 0.020),
       ],
     );
   }
 
-  pageView(String value, context) {
-    switch (value) {
-      case "1":
-        {
-          print("1");
-          return prescriptionType(context);
-        }
-        break;
-
-      case "2":
-        {
-          print("2");
-          return zeroPower(context);
-        }
-        break;
-
-      case "3":
-        {
-          print("3");
-          return ProgressiveOrBifocal(context);
-        }
-        break;
-
-      case "4":
-        {
-          print("4");
-          return lensType(context);
-        }
-        break;
-
-      case "5":
-        {
-          print("5");
-          return proceedCartWidget(context);
-        }
-        break;
-      case "0":
-        {
-          print("5");
-          return lensType(context);
-        }
-        break;
-
-      default:
-        {
-          return lensType(context);
-        }
-        break;
-    }
-  }
-
-  prescriptionType(context) {
-    return Column(
-      children: [
-        prescriptionWidget(
-            context,
-            "Single Vision",
-            "Correct one field of vision ( near , intermediate , or distance)",
-            "",
-            AppColor.blackColor, () {
-          controller.isLensType.value = true;
-          controller.isLens.value = "0";
-          pageView(controller.isLens.value, context);
-        }, ""),
-        prescriptionWidget(
-            context,
-            "Zero Power",
-            "Offer style and protection from harmful digital rays with Blu coating but no vision correction",
-            "Get flat Rs.1000 off on cart!",
-            AppColor.greenColor, () {
-          controller.isZeroPower.value = true;
-          controller.isLensType.value = true;
-          controller.isLens.value = "2";
-          pageView(controller.isLens.value, context);
-        }, ""),
-        prescriptionWidget(
-            context,
-            "Progressive or Bifocal",
-            "Correct near, intermediate , or distance field of vision in one lens so you dont have to switch between multiple pairs",
-            "",
-            AppColor.blackColor, () {
-          controller.isProgessive.value = true;
-          controller.isLensType.value = true;
-          controller.isLens.value = "3";
-          pageView(controller.isLens.value, context);
-        }, ""),
-      ],
-    );
-  }
-
-  zeroPower(context) {
-    return Column(
-      children: [
-        prescriptionWidget(
-            context,
-            "Zero Power Blu Anti - Fog Lenses",
-            "Scratch - resistent , anti - reflective lenses with anti - glare coating on both sides of the lens",
-            "₹500",
-            AppColor.blackColor, () {
-          controller.isPrescriptionType.value = true;
-          controller.isLens.value = "5";
-          pageView(controller.isLens.value, context);
-        }, ""),
-        prescriptionWidget(
-            context,
-            "Zero Power Blu Anti - Fog Lenses",
-            "Blu filtering lenses with UV resistence to protect your eyes from harmful rays harmful rays of digital devices",
-            "₹1000",
-            AppColor.greenColor, () {
-          controller.isPrescriptionType.value = true;
-          controller.isLens.value = "5";
-          pageView(controller.isLens.value, context);
-        }, ""),
-      ],
-    );
-  }
-
-  ProgressiveOrBifocal(context) {
-    return Column(
-      children: [
-        prescriptionWidget(
-            context,
-            "Bifocal Lenses",
-            "Scratch - resistent , anti - reflective lenses with anti - glare coating on both sides of the lens",
-            "₹3000",
-            AppColor.blackColor, () {
-          controller.isPrescriptionType.value = true;
-          controller.isLens.value = "5";
-          pageView(controller.isLens.value, context);
-        }, ""),
-        prescriptionWidget(
-            context,
-            "Normal Corridor Progressive",
-            "Blu filtering lenses with UV resistence to protect your eyes from harmful rays harmful rays of digital devices",
-            "₹4000",
-            AppColor.greenColor, () {
-          controller.isPrescriptionType.value = true;
-          controller.isLens.value = "5";
-          pageView(controller.isLens.value, context);
-        }, ""),
-        prescriptionWidget(
-            context,
-            "Wide Corridor Progressive",
-            "Correct near, intermediate , or distance field of vision in one lens so you dont have to switch between multiple pairs",
-            "₹8000",
-            AppColor.greenColor, () {
-          controller.isPrescriptionType.value = true;
-          controller.isLens.value = "5";
-          pageView(controller.isLens.value, context);
-        }, ""),
-      ],
-    );
-  }
-
-  lensType(context) {
-    return Column(
-      children: [
-        prescriptionWidget(
-            context,
-            "Premium Anti - Glare Lenses",
-            "Scratch - resistent , anti - reflective lenses with anti - glare coating on both sides of the lens",
-            "Included",
-            AppColor.blackColor, () {
-          controller.isPrescriptionType.value = true;
-          controller.isLens.value = "5";
-          pageView(controller.isLens.value, context);
-          // Get.to(ProceedCartPage);
-        }, ""),
-        prescriptionWidget(
-            context,
-            "BLU Essential Lenses",
-            "Blu filtering lenses with UV resistence to protect your eyes from harmful rays harmful rays of digital devices",
-            "₹1000",
-            AppColor.greenColor, () {
-          controller.isPrescriptionType.value = true;
-          controller.isLens.value = "5";
-          pageView(controller.isLens.value, context);
-        }, ""),
-        prescriptionWidget(
-            context,
-            "BLU Thin Lenses ",
-            "Correct near, intermediate , or distance field of vision in one lens so you dont have to switch between multiple pairs",
-            "₹2000",
-            AppColor.greenColor, () {
-          controller.isPrescriptionType.value = true;
-          controller.isLens.value = "5";
-          pageView(controller.isLens.value, context);
-        }, ""),
-      ],
-    );
-  }
+ 
 
   prescriptionWidget(context, String title, String subtitle, String price,
       Color color, Function ontap, String image) {
