@@ -12,19 +12,19 @@ String otherProductShapeModelToJson(OtherProductShapeModel data) =>
 
 class OtherProductShapeModel {
   final int id;
-  final String? colorName;
-  final String? colorCode;
-  final String? name;
-  final String? slug;
-  final String? mrp;
-  final String? price;
-  final String? availability;
+  final String colorName;
+  final String colorCode;
+  final String name;
+  final String slug;
+  final dynamic mrp;
+  final dynamic price;
+  final String availability;
   final dynamic extraPrice;
-  final String? productName;
-  final String? categoriesName;
-  final List<String>? images;
-  final bool? wishlist;
-  final List<ProductAttribute>? productAttributes;
+  final String productName;
+  final String categoriesName;
+  final List<String> images;
+  final bool wishlist;
+  final List<ProductAttribute> productAttributes;
 
   OtherProductShapeModel({
     required this.id,
@@ -75,26 +75,26 @@ class OtherProductShapeModel {
         "extra_price": extraPrice,
         "product_name": productName,
         "categories_name": categoriesName,
-        "images": List<dynamic>.from(images!.map((x) => x)),
+        "images": List<dynamic>.from(images.map((x) => x)),
         "wishlist": wishlist,
         "product_attributes":
-            List<dynamic>.from(productAttributes!.map((x) => x.toJson())),
+            List<dynamic>.from(productAttributes.map((x) => x.toJson())),
       };
 }
 
 class ProductAttribute {
   final int id;
-  final String? productId;
-  final String? colorName;
-  final String? colorCode;
-  final String? image1;
-  final String? image2;
-  final String? image3;
-  final String? image4;
-  final String? image5;
-  final String? image6;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  final int productId;
+  final String colorName;
+  final String colorCode;
+  final String image1;
+  final String image2;
+  final dynamic image3;
+  final dynamic image4;
+  final dynamic image5;
+  final dynamic image6;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   ProductAttribute({
     required this.id,
@@ -138,7 +138,7 @@ class ProductAttribute {
         "image4": image4,
         "image5": image5,
         "image6": image6,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
       };
 }

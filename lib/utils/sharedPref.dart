@@ -10,6 +10,12 @@ class Pref extends GetxController {
   RxString returnId = "".obs;
   RxString returnId2 = "".obs;
   RxString stateName = "".obs;
+
+  RxString stateNameforBill = "".obs;
+  RxInt stateNameIdforBill = 0.obs;
+  RxString cityNameforBill = "".obs;
+  RxInt cityNameIdforBill = 0.obs;
+
   RxString cityName = "".obs;
   RxInt stateNameId = 0.obs;
   RxInt cityNameId = 0.obs;
@@ -78,20 +84,36 @@ class Pref extends GetxController {
     return addressList;
   }
 
-   Future setState(String state) async {
+  Future setState(String state) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString("state", state);
   }
 
+  Future setStateforBilling(String stateForBill) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString("stateForBill", stateForBill);
+  }
+
   getState() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    stateName.value = pref.getString("state")!;  
+    stateName.value = pref.getString("state")!;
     return stateName.value;
   }
 
-   Future setcity(String city) async {
+  getStateforBill() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    stateNameforBill.value = pref.getString("stateForBill")!;
+    return stateNameforBill.value;
+  }
+
+  Future setcity(String city) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setString("city", city);
+  }
+
+  Future setcityforBilling(String cityforBill) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString("cityforBill", cityforBill);
   }
 
   getcity() async {
@@ -100,22 +122,42 @@ class Pref extends GetxController {
     return cityName.value;
   }
 
+  getcityforBill() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    cityNameforBill.value = pref.getString("cityforBill")!;
+    return cityNameforBill.value;
+  }
 
-
-    Future setStateid(int stateId) async {
+  Future setStateid(int stateId) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setInt("stateId", stateId);
   }
 
+  Future setStateidforBill(int stateIdforBill) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setInt("stateIdforBill", stateIdforBill);
+  }
+
   getStateid() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    stateNameId.value = pref.getInt("stateId")!;  
+    stateNameId.value = pref.getInt("stateId")!;
     return stateNameId.value;
   }
 
-   Future setcityid(int cityId) async {
+  getStateidforBill() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    stateNameIdforBill.value = pref.getInt("stateIdforBill")!;
+    return stateNameIdforBill.value;
+  }
+
+  Future setcityid(int cityId) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     pref.setInt("cityId", cityId);
+  }
+
+  Future setcityidforBill(int cityIdforBill) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setInt("cityIdforBill", cityIdforBill);
   }
 
   getcityid() async {
@@ -124,6 +166,9 @@ class Pref extends GetxController {
     return cityNameId.value;
   }
 
-
-
+  getcityidforBill() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    cityNameIdforBill.value = pref.getInt("cityIdforBill")!;
+    return cityNameIdforBill.value;
+  }
 }

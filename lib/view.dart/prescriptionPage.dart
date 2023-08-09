@@ -31,6 +31,7 @@ class PrescriptionPage extends GetView<OrderpageController> {
                   ),
                 )
               : ListView.builder(
+                  reverse: true,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Container(

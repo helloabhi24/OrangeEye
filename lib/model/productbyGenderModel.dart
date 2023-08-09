@@ -17,8 +17,8 @@ class ProductByGenderModel {
   final String? colorCode;
   final String? name;
   final String? slug;
-  final String? mrp;
-  final String? price;
+  final dynamic mrp;
+  final dynamic price;
   final String? availability;
   final String? extraPrice;
   final String? productName;

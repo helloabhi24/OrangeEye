@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -33,13 +35,13 @@ class GenderWiseProductPage extends GetView<CategoryByGenderController> {
               : GridView.builder(
                   itemCount: categoryByGenderController.bestSellerList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: Get.height * 0.28,
+                      mainAxisExtent: Get.height * 0.31,
                       crossAxisCount: 2,
                       crossAxisSpacing: 4.0,
                       mainAxisSpacing: 4.0),
                   itemBuilder: (BuildContext context, int index) {
                     return GenderWiseProductWidget(
-                        index: index,
+                      index: index,
                     );
                   },
                 )
@@ -89,28 +91,87 @@ class GenderWiseProductWidget extends StatelessWidget {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: Get.height * 0.15,
+                        height: Get.height * 0.17,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (cnt, index1) {
                             return Container(
-                              margin: EdgeInsets.only(top: getVerticalSize(40)),
-                              height: Get.height * 0.10,
+                              width: Get.width * 0.44,
+                              margin: EdgeInsets.only(top: getVerticalSize(30)),
+                              height: Get.height * 0.15,
                               color: AppColor.whiteColor,
-                              child: cacheNetworkImage(
-                                  imageUrl:  
-                                      "https://orangeeyewearindia.com/public/uploads/products/${categoryByGenderController.bestSellerList[index!]["images"]![index1]}",
-                                  height: Get.height * 0.13,
-                                  boxfit: BoxFit.cover,
-                                  width: Get.width * 0.43,
-                                  memCacheHeight: 200,
-                                  ontap: () async {
-                                   await homepageController.getProductDetail(
-                                    categoryByGenderController.bestSellerList[index!]["slug"]);
-                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailScreen(),));
-                                Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
-                                    // Get.toNamed("/mainpage");
-                                  }),
+                              child: CarouselSlider(
+                                  items: categoryByGenderController
+                                      .bestSellerList[index!]["images"]!
+                                      .map<Widget>((element) =>
+                                          CachedNetworkImage(
+                                            height: Get.height * 0.20,
+                                            // boxfit: BoxFit.cover,
+                                            width: Get.width * 0.40,
+                                            memCacheHeight: 220,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              width: getHorizontalSize(4000),
+                                              // height: Get.height * 0.20,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(0),
+                                                image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.fitWidth),
+                                              ),
+                                            ),
+                                            imageUrl:
+                                                "https://orangeeyewearindia.com/public/uploads/products/${element}",
+                                            placeholder: (context, url) =>
+                                                const Center(
+                                                    child:
+                                                        CircularProgressIndicator()),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          ))
+                                      .toList(),
+                                  options: CarouselOptions(
+                                    // height: homepageController
+                                    //         .homePageSliderList!.isEmpty
+                                    //     ? 0
+                                    //     : Get.height * 0.20,
+
+                                    aspectRatio: 13 / 8.8,
+                                    viewportFraction: 1.6,
+                                    initialPage: 0,
+                                    enableInfiniteScroll: true,
+                                    reverse: false,
+                                    autoPlay: false,
+                                    autoPlayInterval:
+                                        const Duration(seconds: 3),
+                                    autoPlayAnimationDuration:
+                                        const Duration(milliseconds: 800),
+                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    enlargeFactor: 0.2,
+                                    enlargeCenterPage: true,
+                                    onPageChanged: (v, c) {
+                                      homepageController.sliderIndex.value = v;
+                                    },
+                                    scrollDirection: Axis.horizontal,
+                                  )),
+                              // cacheNetworkImage(
+                              //     imageUrl:
+                              //         "https://orangeeyewearindia.com/public/uploads/products/${categoryByGenderController.bestSellerList[index!]["images"]![index1]}",
+                              //     height: Get.height * 0.13,
+                              //     boxfit: BoxFit.cover,
+                              //     width: Get.width * 0.36,
+                              //     memCacheHeight: 200,
+                              //     ontap: () async {
+                              //       await homepageController.getProductDetail(
+                              //           categoryByGenderController
+                              //               .bestSellerList[index!]["slug"]);
+                              //       // Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailScreen(),));
+                              //       Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
+                              //       // Get.toNamed("/mainpage");
+                              //     }),
                             );
                           },
                           itemCount: categoryByGenderController
@@ -152,13 +213,13 @@ class GenderWiseProductWidget extends StatelessWidget {
                                       left: getHorizontalSize(10)),
                                   child: Row(
                                     children: [
-                                      AppText(
-                                          textDecoration:
-                                              TextDecoration.lineThrough,
-                                          fontSize: 12.sp,
-                                          text:
-                                              "₹ ${categoryByGenderController.bestSellerList[index!]["mrp"]}"),
-                                      getWidth(context, 0.020),
+                                      // AppText(
+                                      //     textDecoration:
+                                      //         TextDecoration.lineThrough,
+                                      //     fontSize: 12.sp,
+                                      //     text:
+                                      //         "₹ ${categoryByGenderController.bestSellerList[index!]["mrp"]}"),
+                                      // getWidth(context, 0.020),
                                       AppText(
                                           fontSize: 12.sp,
                                           text:
@@ -176,8 +237,8 @@ class GenderWiseProductWidget extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            categoryByGenderController.bestSellerList[index!]["color_code"]
-                                         ==
+                            categoryByGenderController.bestSellerList[index!]
+                                        ["color_code"] ==
                                     null
                                 ? SizedBox()
                                 : ColorDots(
@@ -202,8 +263,9 @@ class GenderWiseProductWidget extends StatelessWidget {
                                   );
                                 },
                                 itemCount: categoryByGenderController
-                                    .bestSellerList[index!]["product_attributes"].length,
-                                    
+                                    .bestSellerList[index!]
+                                        ["product_attributes"]
+                                    .length,
                                 shrinkWrap: true,
                               ),
                             ),
@@ -262,17 +324,49 @@ class GenderWiseProductWidget extends StatelessWidget {
                               Get.to(LoginScreen());
                               // loginDialouge(context);
                             } else {
-                              await homepageController.updatedWhislist(
-                                categoryByGenderController
-                                    .bestSellerList[index!]["id"]
-                                    .toString(),
-                              );
-
-                              homepageController.isSelected.value =
+                              if (homepageController.genderLikeUpdatedList
+                                  .contains(categoryByGenderController
+                                      .bestSellerList[index!]["id"])) {
+                                homepageController.genderLikeUpdatedList.remove(
+                                    categoryByGenderController
+                                        .bestSellerList[index!]["id"]);
+                                await homepageController.updatedWhislist(
                                   categoryByGenderController
                                       .bestSellerList[index!]["id"]
-                                      .toString();
+                                      .toString(),
+                                );
+                                print("This data is in if statement");
+                                // homepageController.finalHomepageProductList!
+                                //     .clear();
+                                // homepageController.getOurRecommendation("");
+                              } else {
+                                homepageController.genderLikeUpdatedList.add(
+                                    categoryByGenderController
+                                        .bestSellerList[index!]["id"]);
+                                await homepageController.updatedWhislist(
+                                  categoryByGenderController
+                                      .bestSellerList[index!]["id"]
+                                      .toString(),
+                                );
+                                print("This data is in else statement");
+                                // homepageController.finalHomepageProductList!
+                                //     .clear();
+                                // homepageController.getOurRecommendation("");
+                              }
                             }
+
+                            // else {
+                            //   await homepageController.updatedWhislist(
+                            //     categoryByGenderController
+                            //         .bestSellerList[index!]["id"]
+                            //         .toString(),
+                            //   );
+
+                            //   homepageController.isSelected.value =
+                            //       categoryByGenderController
+                            //           .bestSellerList[index!]["id"]
+                            //           .toString();
+                            // }
 
                             // if (homepageController
                             //         .finalHomepageProductList![index!]
@@ -294,13 +388,17 @@ class GenderWiseProductWidget extends StatelessWidget {
                             //     !homepageController.isAddWishlist.value;
                           },
                           child: Icon(
-                              categoryByGenderController.bestSellerList[index!]
-                                              ["wishlist"] ==
-                                          true ||
-                                      homepageController.isSelected.value ==
-                                          categoryByGenderController
-                                              .bestSellerList[index!]["id"]
-                                              .toString()
+                              // categoryByGenderController.bestSellerList[index!]
+                              //                 ["wishlist"] ==
+                              //             true ||
+                              homepageController.genderLikeUpdatedList.contains(
+                                      categoryByGenderController
+                                          .bestSellerList[index!]["id"])
+
+                                  // homepageController.isSelected.value ==
+                                  //         categoryByGenderController
+                                  //             .bestSellerList[index!]["id"]
+                                  //             .toString()
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                               color: AppColor.orangeColor),

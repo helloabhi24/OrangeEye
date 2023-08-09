@@ -61,8 +61,8 @@ class ProductModel {
   final int frameShape;
   final List<String> lens;
   final List<String> frameSize;
-  final int mrp;
-  final int price;
+  final dynamic mrp;
+  final dynamic price;
   final String image1;
   final String image2;
   final String image3;

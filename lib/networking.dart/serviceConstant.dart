@@ -15,6 +15,8 @@ class ServiceConstant {
 
   static const String GETOURRECOMMENDATION = '/api/product_filerdata';
 
+  static const String GETPRODUCT = '/api/get_product';
+
   static const String GETPRODUCTDETAIL = '/api/product_details';
 
   static const String GETOURCOLLECTIONS = '/api/get_frame_material';
@@ -74,7 +76,16 @@ class ServiceConstant {
   static const String GETSIZEGUIDE = '/api/get_size_guide';
 
   static const String BLOG = '/api/blog_lists';
-  
+
   static const String BLOGDETAILS = '/api/blog_details';
-  
+
+  static const String GETSTATEBYID = '/api/getstatebyid';
+
+  static const String GETCITYBYID = '/api/getcitybyid';
+
+  static const String PINCODE_CHECK = '/api/checkvalidpicode';
+
+  static const String UPLOADPRESCRIPTION = '/api/uploadPrescriptionm';
+
+  static const String GETFIFTYPRODUCT = '/api/getfiftylatestproduct';
 }

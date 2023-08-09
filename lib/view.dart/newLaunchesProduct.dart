@@ -7,14 +7,12 @@ import '../controller.dart/homeController.dart';
 import '../utils/appColor.dart';
 import '../utils/customeAppBar.dart';
 
-
 class NewLaunchesProduct extends GetView<HomepageController> {
   String? glassName;
   NewLaunchesProduct({this.glassName = "", super.key});
 
   @override
   Widget build(BuildContext context) {
-
     return Obx(
       () => Scaffold(
           appBar: CustomAppbar.customeAppbar(
@@ -31,12 +29,12 @@ class NewLaunchesProduct extends GetView<HomepageController> {
               : GridView.builder(
                   itemCount: controller.finalHomepageProductList!.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: Get.height * 0.28,
+                      mainAxisExtent: Get.height * 0.29,
                       crossAxisCount: 2,
                       crossAxisSpacing: 4.0,
                       mainAxisSpacing: 4.0),
                   itemBuilder: (BuildContext context, int index) {
-                    return GogleWidget(
+                    return CatagoryProductWidget(
                       index: index,
                     );
                   },

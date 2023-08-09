@@ -10,61 +10,62 @@ GetCartModel getCartModelFromJson(String str) =>
 String getCartModelToJson(GetCartModel data) => json.encode(data.toJson());
 
 class GetCartModel {
-  final String? lensId;
-  final String? lensName;
-  final String? lensMrp;
-  final String? lcgst;
-  final String? ligst;
-  final String? lsgst;
-  final String? lensPrice;
-  final String? lensImage;
-  final String? colorId;
-  final String? colorCode;
-  final String? colorName;
-  final String? image1;
-  final int? id;
-  final String? size;
-  final String? color;
-  final String? lens;
-  final String? prescription;
-  final String? productId;
-  final String? qty;
-  final String? name;
-  final String? pcgst;
-  final String? psgst;
-  final String? pigst;
-  final String? slug;
-  final String? mrp;
-  final String? price;
-  final String? modelNumber;
-  final int? productSubtotal;
-  final int? productTax;
-  final int? lenseSubtotal;
-  final int? lenseTax;
-  final int? subtotal;
-  final String? pImage;
+  final dynamic lensId;
+  final dynamic lensName;
+  final dynamic lensMrp;
+  final dynamic lcgst;
+  final dynamic ligst;
+  final dynamic lsgst;
+  final dynamic lensPrice;
+  final dynamic lensImage;
+  final dynamic colorId;
+  final dynamic colorCode;
+  final dynamic colorName;
+  final dynamic image1;
+  final int id;
+  final dynamic size;
+  final dynamic color;
+  final dynamic lens;
+  final dynamic prescription;
+  final dynamic productId;
+  final String qty;
+  final String name;
+  final String pimage;
+  final dynamic pcgst;
+  final dynamic psgst;
+  final dynamic pigst;
+  final String slug;
+  final dynamic mrp;
+  final dynamic price;
+  final String modelNumber;
+  final int productSubtotal;
+  final int productTax;
+  final dynamic lenseSubtotal;
+  final dynamic lenseTax;
+  final int subtotal;
 
   GetCartModel({
-    required this.lensId,
-    required this.lensName,
-    required this.lensMrp,
-    required this.lcgst,
-    required this.ligst,
-    required this.lsgst,
-    required this.lensPrice,
-    required this.lensImage,
-    required this.colorId,
-    required this.colorCode,
-    required this.colorName,
-    required this.image1,
+    this.lensId,
+    this.lensName,
+    this.lensMrp,
+    this.lcgst,
+    this.ligst,
+    this.lsgst,
+    this.lensPrice,
+    this.lensImage,
+    this.colorId,
+    this.colorCode,
+    this.colorName,
+    this.image1,
     required this.id,
     required this.size,
-    required this.color,
-    required this.lens,
-    required this.prescription,
+    this.color,
+    this.lens,
+    this.prescription,
     required this.productId,
     required this.qty,
     required this.name,
+    required this.pimage,
     required this.pcgst,
     required this.psgst,
     required this.pigst,
@@ -74,10 +75,9 @@ class GetCartModel {
     required this.modelNumber,
     required this.productSubtotal,
     required this.productTax,
-    required this.lenseSubtotal,
-    required this.lenseTax,
+    this.lenseSubtotal,
+    this.lenseTax,
     required this.subtotal,
-    required this.pImage,
   });
 
   factory GetCartModel.fromJson(Map<String, dynamic> json) => GetCartModel(
@@ -101,6 +101,7 @@ class GetCartModel {
         productId: json["product_id"],
         qty: json["qty"],
         name: json["name"],
+        pimage: json["pimage"],
         pcgst: json["pcgst"],
         psgst: json["psgst"],
         pigst: json["pigst"],
@@ -113,7 +114,6 @@ class GetCartModel {
         lenseSubtotal: json["lense_subtotal"],
         lenseTax: json["lense_tax"],
         subtotal: json["subtotal"],
-        pImage: json["pimage"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -137,6 +137,7 @@ class GetCartModel {
         "product_id": productId,
         "qty": qty,
         "name": name,
+        "pimage": pimage,
         "pcgst": pcgst,
         "psgst": psgst,
         "pigst": pigst,
@@ -149,6 +150,5 @@ class GetCartModel {
         "lense_subtotal": lenseSubtotal,
         "lense_tax": lenseTax,
         "subtotal": subtotal,
-        "pimage" : pImage
       };
 }

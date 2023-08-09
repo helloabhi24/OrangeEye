@@ -182,7 +182,7 @@ Future privacyDialog(context) async {
       });
 }
 
-sizeGuideDialouge(context , List image) {
+sizeGuideDialouge(context, List image) {
   HomepageController homepageController = Get.find();
   return showDialog(
       context: context,
@@ -194,12 +194,14 @@ sizeGuideDialouge(context , List image) {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Align(alignment: Alignment.topRight,
-                  child: GestureDetector(onTap: (){
-                    Get.back();
-                  },
-                    child: Icon(Icons.close))),
-                  height5,
+                Align(
+                    alignment: Alignment.topRight,
+                    child: GestureDetector(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Icon(Icons.close))),
+                height5,
                 AppText(
                   text: "ORANGE EYEWEAR SIZE GUIDE",
                   fontSize: 16.sp,
@@ -218,7 +220,8 @@ sizeGuideDialouge(context , List image) {
                     Column(
                       children: [
                         AppText(
-                          text: "Lens Width 46mm",
+                          text:
+                              "Lens Width ${homepageController.productDetailList![0].lenseWidth ?? ""} mm",
                           fontSize: 8.sp,
                           fontWeight: FontWeight.w500,
                           color: AppColor.greyColor,
@@ -229,7 +232,8 @@ sizeGuideDialouge(context , List image) {
                     Column(
                       children: [
                         AppText(
-                          text: "Bridge 23mm",
+                          text:
+                              "Bridge ${homepageController.productDetailList![0].bridge}",
                           fontSize: 8.sp,
                           fontWeight: FontWeight.w500,
                           color: AppColor.greyColor,
@@ -240,7 +244,8 @@ sizeGuideDialouge(context , List image) {
                     Column(
                       children: [
                         AppText(
-                          text: "Frame Height 36mm",
+                          text:
+                              "Frame Width ${homepageController.productDetailList![0].frameWidth ?? ""} mm",
                           fontSize: 8.sp,
                           fontWeight: FontWeight.w500,
                           color: AppColor.greyColor,
@@ -251,155 +256,164 @@ sizeGuideDialouge(context , List image) {
                   ],
                 ),
                 getheight(context, 0.010),
-                CachedNetworkImage(errorWidget: (context,
-                url, error) =>
-                const Icon( Icons.error),
+                CachedNetworkImage(
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                   memCacheHeight: 300,
-                  imageUrl: "https://orangeeye.skardtech.com/public/uploads/products/${image[0]}",placeholder: (context,
-                    url) =>
-                  const Center(child:RepaintBoundary(child: CircularProgressIndicator())),),
-         
-            
+                  imageUrl:
+                      // "https://orangeeye.skardtech.com/public/uploads/products/${image[0]}",
+                      "https://orangeeyewearindia.com/public/uploads/products/${image[0]}",
+                  placeholder: (context, url) => const Center(
+                      child:
+                          RepaintBoundary(child: CircularProgressIndicator())),
+                ),
+
                 dotlineWidget(18),
                 getheight(context, 0.010),
                 AppText(
-                  text: "Frame Width 36mm",
+                  text:
+                      "Frame Width ${homepageController.productDetailList![0].frameWidth ?? ""} mm",
                   fontSize: 8.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColor.greyColor,
                 ),
-                
-                Image.network("https://orangeeye.skardtech.com/public/uploads/products/${image[2]}",height: Get.height*0.15,),
+
+                Image.network(
+                  // "https://orangeeye.skardtech.com/public/uploads/products/${image[2]}",
+                  "https://orangeeyewearindia.com/public/uploads/products/${image[2]}",
+                  height: Get.height * 0.15,
+                ),
                 // Image.asset("assets/image/temple.png"),
                 dotlineWidget(18),
                 getheight(context, 0.010),
                 AppText(
-                  text: "Temple 36mm",
+                  text:
+                      "Temple ${homepageController.productDetailList![0].temple}",
                   fontSize: 8.sp,
                   fontWeight: FontWeight.w500,
                   color: AppColor.greyColor,
                 ),
-                Container(
-                  color: Colors.white,
-                  padding: EdgeInsets.all(20.0),
-                  child: Table(
-                    border: TableBorder.all(color: Colors.black),
-                    children: [
-                      TableRow(children: [
-                        Center(
-                          child: AppText(
-                            text: "Frame Width",
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColor.greyColor,
-                          ),
-                        ),
-                        Center(
-                          child: AppText(
-                            text: "Size",
-                            fontSize: 10.sp,
-                            fontWeight: FontWeight.w500,
-                            color: AppColor.greyColor,
-                          ),
-                        ),
-                      ]),
-                      TableRow(children: [
-                        Container(
-                          child: Column(
-                            children: [
-                              Center(
-                                child: AppText(
-                                  text: "126 - 129 mm",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.greyColor,
-                                ),
-                              ),
-                              Center(
-                                child: AppText(
-                                  text: "126 - 129 mm",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.greyColor,
-                                ),
-                              ),
-                              Center(
-                                child: AppText(
-                                  text: "126 - 129 mm",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.greyColor,
-                                ),
-                              ),
-                              Center(
-                                child: AppText(
-                                  text: "126 - 129 mm",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.greyColor,
-                                ),
-                              ),
-                              Center(
-                                child: AppText(
-                                  text: ">=142 mm",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.greyColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            children: [
-                              Center(
-                                child: AppText(
-                                  text: "Extra - Narrow",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.greyColor,
-                                ),
-                              ),
-                              Center(
-                                child: AppText(
-                                  text: "Narrow",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.greyColor,
-                                ),
-                              ),
-                              Center(
-                                child: AppText(
-                                  text: "Medium",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.greyColor,
-                                ),
-                              ),
-                              Center(
-                                child: AppText(
-                                  text: "Wide",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.greyColor,
-                                ),
-                              ),
-                              Center(
-                                child: AppText(
-                                  text: "Extra Wide",
-                                  fontSize: 11.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColor.greyColor,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ])
-                    ],
-                  ),
-                ),
+
+                // Container(
+                //   color: Colors.white,
+                //   padding: EdgeInsets.all(20.0),
+                //   child: Table(
+                //     border: TableBorder.all(color: Colors.black),
+                //     children: [
+                //       TableRow(children: [
+                //         Center(
+                //           child: AppText(
+                //             text: "Frame Width",
+                //             fontSize: 10.sp,
+                //             fontWeight: FontWeight.w500,
+                //             color: AppColor.greyColor,
+                //           ),
+                //         ),
+                //         Center(
+                //           child: AppText(
+                //             text: "Size",
+                //             fontSize: 10.sp,
+                //             fontWeight: FontWeight.w500,
+                //             color: AppColor.greyColor,
+                //           ),
+                //         ),
+                //       ]),
+                //       TableRow(children: [
+                //         Container(
+                //           child: Column(
+                //             children: [
+                //               Center(
+                //                 child: AppText(
+                //                   text: "126 - 129 mm",
+                //                   fontSize: 11.sp,
+                //                   fontWeight: FontWeight.w500,
+                //                   color: AppColor.greyColor,
+                //                 ),
+                //               ),
+                //               Center(
+                //                 child: AppText(
+                //                   text: "126 - 129 mm",
+                //                   fontSize: 11.sp,
+                //                   fontWeight: FontWeight.w500,
+                //                   color: AppColor.greyColor,
+                //                 ),
+                //               ),
+                //               Center(
+                //                 child: AppText(
+                //                   text: "126 - 129 mm",
+                //                   fontSize: 11.sp,
+                //                   fontWeight: FontWeight.w500,
+                //                   color: AppColor.greyColor,
+                //                 ),
+                //               ),
+                //               Center(
+                //                 child: AppText(
+                //                   text: "126 - 129 mm",
+                //                   fontSize: 11.sp,
+                //                   fontWeight: FontWeight.w500,
+                //                   color: AppColor.greyColor,
+                //                 ),
+                //               ),
+                //               Center(
+                //                 child: AppText(
+                //                   text: ">=142 mm",
+                //                   fontSize: 11.sp,
+                //                   fontWeight: FontWeight.w500,
+                //                   color: AppColor.greyColor,
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //         Container(
+                //           child: Column(
+                //             children: [
+                //               Center(
+                //                 child: AppText(
+                //                   text: "Extra - Narrow",
+                //                   fontSize: 11.sp,
+                //                   fontWeight: FontWeight.w500,
+                //                   color: AppColor.greyColor,
+                //                 ),
+                //               ),
+                //               Center(
+                //                 child: AppText(
+                //                   text: "Narrow",
+                //                   fontSize: 11.sp,
+                //                   fontWeight: FontWeight.w500,
+                //                   color: AppColor.greyColor,
+                //                 ),
+                //               ),
+                //               Center(
+                //                 child: AppText(
+                //                   text: "Medium",
+                //                   fontSize: 11.sp,
+                //                   fontWeight: FontWeight.w500,
+                //                   color: AppColor.greyColor,
+                //                 ),
+                //               ),
+                //               Center(
+                //                 child: AppText(
+                //                   text: "Wide",
+                //                   fontSize: 11.sp,
+                //                   fontWeight: FontWeight.w500,
+                //                   color: AppColor.greyColor,
+                //                 ),
+                //               ),
+                //               Center(
+                //                 child: AppText(
+                //                   text: "Extra Wide",
+                //                   fontSize: 11.sp,
+                //                   fontWeight: FontWeight.w500,
+                //                   color: AppColor.greyColor,
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ])
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -446,32 +460,34 @@ allTaxes(
                   fontWeight: FontWeight.w600,
                 ),
                 getheight(context, 0.010),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AppText(
-                      text: "Lens Tax",
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    AppText(
-                      text: "₹ " + lensTax,
-                      fontSize: 15.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ],
-                ),
+                lensTax.length > 0
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          AppText(
+                            text: "Lens Tax",
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          AppText(
+                            text: "₹ " + lensTax,
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ],
+                      )
+                    : SizedBox(),
                 getheight(context, 0.015),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppText(
-                      text: "product Tax",
+                      text: "Product Tax",
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w600,
                     ),
                     AppText(
-                      text: "₹ " + productTax,
+                      text: "₹ " + productTax.toString(),
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w600,
                     ),

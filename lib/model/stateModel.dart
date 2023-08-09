@@ -12,7 +12,7 @@ String stateModelToJson(StateModel data) => json.encode(data.toJson());
 class StateModel {
   final int id;
   final String name;
-  final String countryId;
+  final dynamic countryId;
   final String status;
   final DateTime createdAt;
   final DateTime updatedAt;

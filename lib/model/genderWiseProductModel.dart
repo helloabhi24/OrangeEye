@@ -17,8 +17,8 @@ class GenderWiseProductModel {
   final String? colorCode;
   final String? name;
   final String? slug;
-  final String? mrp;
-  final String? price;
+  final dynamic mrp;
+  final dynamic price;
   final String? availability;
   final String? extraPrice;
   final String? productName;
@@ -54,7 +54,7 @@ class GenderWiseProductModel {
         mrp: json["mrp"],
         price: json["price"],
         availability: json["availability"],
-        extraPrice: json["extra_price"]??"",
+        extraPrice: json["extra_price"] ?? "",
         productName: json["product_name"],
         categoriesName: json["categories_name"],
         images: List<String>.from(json["images"].map((x) => x)),

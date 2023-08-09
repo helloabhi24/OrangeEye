@@ -24,7 +24,14 @@ class HomePage extends GetView<HomepageController> {
     return Obx(
       () => Scaffold(
         drawer: const CustomDrawer(),
+        floatingActionButton: controller.showBackToTop.value == false
+            ? null
+            : FloatingActionButton(
+                onPressed: controller.scrollToTop,
+                child: const Icon(Icons.arrow_upward),
+              ),
         body: SingleChildScrollView(
+          controller: controller.scrollController,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -35,14 +42,10 @@ class HomePage extends GetView<HomepageController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(onTap: (){
-                      Get.to(PaymentPage());
-                    },
-                      child: AppText(
-                        text: "Discover All",
-                        fontSize: 17.sp,
-                        fontWeight: FontWeight.w700,
-                      ),
+                    AppText(
+                      text: "Discover All",
+                      fontSize: 17.sp,
+                      fontWeight: FontWeight.w700,
                     ),
                     height10,
                     Row(
@@ -66,15 +69,30 @@ class HomePage extends GetView<HomepageController> {
                                                 "Sunglasses"
                                             ? "2"
                                             : "1",
-                                        mainpageController
-                                            .getglassesHomePageList[e]["id"]
-                                            .toString());
+                                        categoryByGenderController
+                                                    .whichGlassesDataShow
+                                                    .value ==
+                                                0
+                                            ? "1"
+                                            : (categoryByGenderController
+                                                        .whichGlassesDataShow
+                                                        .value +
+                                                    1)
+                                                .toString()
+                                        // mainpageController
+                                        //     .getglassesHomePageList[e]["id"]
+                                        //     .toString()
+                                        );
+                                    print(
+                                        "This is the value of controller in home page");
+                                    print(categoryByGenderController
+                                        .whichGlassesDataShow.value);
 
                                     categoryByGenderController
                                             .nameOfGlass.value =
                                         mainpageController
                                             .getglassesHomePageList[e]["name"];
-                                     
+
                                     Get.toNamed(Routes.CATEGORYBYGENDERPAGE,
                                         arguments: {
                                           "id": mainpageController
@@ -85,10 +103,11 @@ class HomePage extends GetView<HomepageController> {
                       ],
                     ),
                     getheight(context, 0.030),
-                    GestureDetector(onTap: (){
-                      print("arun");
-                      mainpageController.getBlogs();
-                    },
+                    GestureDetector(
+                      onTap: () {
+                        print("arun");
+                        mainpageController.getBlogs();
+                      },
                       child: AppText(
                         text: "Our Recommendation",
                         fontSize: 17.sp,
@@ -142,6 +161,11 @@ class HomePage extends GetView<HomepageController> {
               ),
               getheight(context, 0.015),
               GogleSlider(),
+              // TextButton(
+              //     onPressed: () {
+              //       controller.getLensesByCategory();
+              //     },
+              //     child: Text("click")),
               getheight(context, 0.015),
               GogleVariousCategory(),
               Padding(
@@ -158,9 +182,68 @@ class HomePage extends GetView<HomepageController> {
                 ),
               ),
               ShopOurCollectionWidget(),
-              CustomAssetsImage(
-                imagePath: "assets/image/contactimg.png",
-              ),
+              getheight(context, 0.015),
+              FiftyProducts(),
+              // CustomAssetsImage(
+              //   imagePath: "assets/image/contactimg.png",
+              // ),
+              // Row(
+              //   children: [
+              //     SizedBox(
+              //       width: 10,
+              //     ),
+              //     Card(
+              //       elevation: 3,
+              //       child: Image(
+              //         image: AssetImage("assets/image/04.jpg"),
+              //         width: Get.width * 0.45,
+              //         height: Get.height * 0.15,
+              //         fit: BoxFit.fill,
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 5,
+              //     ),
+              //     Card(
+              //       elevation: 3,
+              //       child: Image(
+              //         image: AssetImage("assets/image/05.jpg"),
+              //         width: Get.width * 0.45,
+              //         height: Get.height * 0.15,
+              //         fit: BoxFit.fill,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // Row(
+              //   children: [
+              //     SizedBox(
+              //       width: 10,
+              //     ),
+              //     Card(
+              //       elevation: 3,
+              //       child: Image(
+              //         image: AssetImage("assets/image/12.jpg"),
+              //         width: Get.width * 0.45,
+              //         height: Get.height * 0.15,
+              //         fit: BoxFit.fill,
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 5,
+              //     ),
+              //     Card(
+              //       elevation: 3,
+              //       child: Image(
+              //         image: AssetImage("assets/image/13.jpg"),
+              //         width: Get.width * 0.45,
+              //         height: Get.height * 0.15,
+              //         fit: BoxFit.fill,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+
               // Container(
               //   alignment: Alignment.topCenter,
               //   width: Get.width,
@@ -186,7 +269,7 @@ class HomePage extends GetView<HomepageController> {
               //   ),
               // ),
               Container(
-                height: Get.height * 0.04,
+                height: Get.height * 0.05,
                 width: Get.width,
                 decoration: BoxDecoration(
                     border:
@@ -196,9 +279,11 @@ class HomePage extends GetView<HomepageController> {
                     width10,
                     Expanded(
                       child: AppText(
-                            text: "orangeeyewearindia@gmail.com",
-                            fontSize: 11.sp,
-                          ),
+                        // text: "orangeeyewearindia@gmail.com"
+                        text: "orangeeyewearindia@gmail.com",
+
+                        fontSize: 11.sp,
+                      ),
                     ),
                     VerticalDivider(
                       thickness: 1,
@@ -212,14 +297,16 @@ class HomePage extends GetView<HomepageController> {
                             size: 14,
                           ),
                           AppText(
-                            text: "+911234567895",
+                            // text: "+911234567895",
+                            text: "+91-6296157088",
                           ),
                         ],
                       ),
                     ),
                   ],
                 ),
-              )
+              ),
+              getheight(context, 0.005)
             ],
           ),
         ),

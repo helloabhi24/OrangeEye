@@ -9,6 +9,7 @@ import 'package:orangeeye/utils/sharedPref.dart';
 import 'package:orangeeye/utils/showLoadingIndicator.dart';
 
 import '../networking.dart/apiRepo.dart';
+import '../utils/customDrpdown.dart';
 
 class ProfileSettingPageController extends GetxController {
   late TextEditingController nameController;
@@ -64,44 +65,46 @@ class ProfileSettingPageController extends GetxController {
     } catch (e) {
       print(e);
     }
+  }
 
-}
-
-
-
- getProfileData() async {
+  getProfileData() async {
     // await sharedPref.getUserId();
     Map<String, dynamic> data = {};
     data["user_id"] = sharedPref.userToken.value;
     try {
       showloadingIndicators();
       await ApiRepo().getProfiledetail(data).then((value) async {
-          print(value);
+        if (value["data"] == "Please Enter User Id") {
+        } else {
+          image.value = value["data"]["image"];
+        }
+        print(value);
       });
     } catch (e) {
       print(e);
     }
+    hideLoading();
+  }
 
-}
-
-
- updateProfile() async {
-    
-    AddNewAddressController addNewAddressController =  Get.find();
+  updateProfile() async {
+    AddNewAddressController addNewAddressController = Get.find();
     HomepageController homepageController = Get.find();
     Map<String, dynamic> data = {};
     data["user_id"] = sharedPref.userToken.value;
     data["name"] = nameController.text;
     data["email"] = emailController.text;
     data["phone"] = phoneController.text;
-    data["state"] = addNewAddressController.billingStateid.value ;
-    data["city"] = addNewAddressController.billingCityid.value ;
+    // data["state"] = addNewAddressController.billingStateid.value;
+    // data["state"] = pref.stateNameId.value;
+    data["state"] = mainpageController.stateById.value;
+    // data["city"] = addNewAddressController.billingCityid.value;
+    // data["city"] = pref.cityNameId.value;
+    data["city"] = mainpageController.cityById.value;
     data["address"] = addressController.text;
     data["zip"] = zipCodeController.text;
     data["about"] = "";
-    data["image"] = homepageController.base64string.value;
-    
-    
+    data["image"] = homepageController.base64stringforProfile.value;
+
     print(data["user_id"]);
     print(data["name"]);
     print(data["email"]);
@@ -114,17 +117,16 @@ class ProfileSettingPageController extends GetxController {
 
     try {
       showloadingIndicators();
-      await 
-      ApiRepo().profileUpdate(data).then((value) async {
-        if(value["status"]=="success"){
-          customeToast(value["data"]);
-         await Get.toNamed(Routes.MAINPAGE);
-        }else{
+      await ApiRepo().profileUpdate(data).then((value) async {
+        if (value["status"] == "success") {
+          // customeToast(value["data"]);
+          customeToast("Profile Updated Successfully");
+          await getProfileData();
+          await Get.toNamed(Routes.MAINPAGE);
+        } else {
           customeToast(value["data"]);
         }
-      }
-      
-      );
+      });
     } catch (e) {
       print(e);
     }
@@ -135,7 +137,4 @@ class ProfileSettingPageController extends GetxController {
     addressController.clear();
     hideLoading();
   }
-  
-  
-  
-  }
+}

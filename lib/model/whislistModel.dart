@@ -55,8 +55,8 @@ class Product {
   final String? slug;
   final List<String>? lens;
   final List<FrameSize>? frameSize;
-  final String? mrp;
-  final String? price;
+  final dynamic mrp;
+  final dynamic price;
   final List<ProductAttribute>? productAttributes;
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(

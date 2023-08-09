@@ -9,10 +9,8 @@ import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/view.dart/categoryWiseProductPage.dart';
 import 'package:orangeeye/view.dart/newLaunchesProduct.dart';
 
-
 import '../controller.dart/catByGenderController.dart';
 import '../utils/sizeHelper.dart';
-
 
 class CategoryPage extends GetView<CategorypageController> {
   const CategoryPage({super.key});
@@ -45,21 +43,25 @@ class CategoryPage extends GetView<CategorypageController> {
                     title: AppText(
                       text: mainpageController.getCategoryName[e].name,
                     ),
-                    trailing: SizedBox(
-                      width: Get.width * 0.40,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ...Iterable.generate(3).map((e) => Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: CircleAvatar(
-                                  backgroundImage: AssetImage(
-                                      homepageController.categoryList[e]),
-                                ),
-                              ))
-                        ],
-                      ),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 14,
                     ),
+                    // trailing: SizedBox(
+                    //   width: Get.width * 0.40,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.end,
+                    //     children: [
+                    //       ...Iterable.generate(3).map((e) => Padding(
+                    //             padding: const EdgeInsets.all(2.0),
+                    //             child: CircleAvatar(
+                    //               backgroundImage: AssetImage(
+                    //                   homepageController.categoryList[e]),
+                    //             ),
+                    //           ))
+                    //     ],
+                    //   ),
+                    // ),
                     // Icon(
                     //   Icons.arrow_forward_ios,
                     //   size: 14,
@@ -70,7 +72,6 @@ class CategoryPage extends GetView<CategorypageController> {
                                 mainpageController.getCategoryName[e].image)),
                   ),
                 )),
-
             CarouselSlider(
                 items: homepageController.homePageSliderList!
                     .map((element) => CachedNetworkImage(
@@ -107,7 +108,7 @@ class CategoryPage extends GetView<CategorypageController> {
                   enlargeFactor: 0.2,
                   enlargeCenterPage: true,
                   onPageChanged: (v, c) {
-                  homepageController.sliderIndex.value = v;
+                    homepageController.sliderIndex.value = v;
                   },
                   scrollDirection: Axis.horizontal,
                 )),
@@ -146,7 +147,6 @@ class CategoryPage extends GetView<CategorypageController> {
                       backgroundImage:
                           AssetImage("assets/image/threegirls.png"))),
             ),
-       
           ],
         ),
       ),

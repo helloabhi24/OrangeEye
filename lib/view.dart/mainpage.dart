@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/controller.dart/mainPageController.dart';
 import 'package:orangeeye/controller.dart/orderPageController.dart';
+import 'package:orangeeye/controller.dart/profileSettingController.dart';
 import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
@@ -22,6 +23,7 @@ class MainPage extends GetView<MainpageController> {
     CategoryByGenderController categoryByGenderController = Get.find();
     HomepageController homepageController = Get.find();
     OrderpageController orderpageController = Get.find();
+    ProfileSettingPageController profileSettingPageController = Get.find();
     return Obx(
       () => WillPopScope(
         onWillPop: () async {
@@ -31,136 +33,181 @@ class MainPage extends GetView<MainpageController> {
           return false;
         },
         child: Scaffold(
-          drawer: Drawer(
-            child: ListView(
-              physics: NeverScrollableScrollPhysics(),
-              children: [
-                DrawerHeader(
-                    decoration: BoxDecoration(
-                        color: AppColor.greyColor.withOpacity(0.5)),
-                    child: Column(
-                      children: [
-                        CircleAvatar(
+            drawer: Drawer(
+              child: ListView(
+                physics: NeverScrollableScrollPhysics(),
+                children: [
+                  DrawerHeader(
+                      decoration: BoxDecoration(
+                          color: AppColor.greyColor.withOpacity(0.5)),
+                      child: Column(
+                        children: [
+                          CircleAvatar(
                             radius: 40,
-                            backgroundImage:
-                                AssetImage("assets/image/img10.png")),
-                        height10,
-                        SizedBox(
-                          width: Get.width * 0.50,
-                          child: AppText(
-                            textAlign: TextAlign.center,
-                            text: controller.phoneNumber.value.isEmpty
-                                ? "No phone number"
-                                : controller.phoneNumber.value,
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color: AppColor.whiteColor,
+                            backgroundImage: NetworkImage(
+                                "https://orangeeyewearindia.com/public/uploads/profile/" +
+                                    profileSettingPageController.image.value),
                           ),
-                        )
-                      ],
-                    )),
-                SizedBox(
-                  height: Get.height * 0.75,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        customGlassesExpansionTile("Category", context),
-                        customExpansionTile(
-                            "Bestseller", "Men", "Women", "Kids", () async {
-                          await categoryByGenderController.getBestseller(
-                              "0", "1");
-                          Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
-                              arguments: {"type": "Bestseller", "id": "1"});
-                              
-                        }, () async {
-                          await categoryByGenderController.getBestseller(
-                              "2", "1");
-                          Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
-                              arguments: {"type": "Bestseller", "id": "2"});
-                        }, () async {
-                          await categoryByGenderController.getBestseller(
-                              "3", "1");
-                          Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
-                              arguments: {"type": "Bestseller", "id": "3"});
-                        }),
-                        customExpansionTile(
-                            "New launches", "Men", "Women", "Kids", () async {
-                          await categoryByGenderController.getNewLaunches(
-                              "1", "1");
-                          Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
-                              arguments: {"type": "New Launches", "id": "1"});
-                        }, () async {
-                          await categoryByGenderController.getNewLaunches(
-                              "2", "1");
-                          Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
-                              arguments: {"type": "New Launches", "id": "2"});
-                        }, () async {
-                          await categoryByGenderController.getNewLaunches(
-                              "3", "1");
-                          Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
-                              arguments: {"type": "New Launches", "id": "3"});
-                        }),
-                        ...Iterable.generate(controller.drawerList.length).map(
-                          (e) => drawerTitles(
-                              "${controller.drawerList[e]["images"]}",
-                              "${controller.drawerList[e]["title"]}", () async{
-                             await  orderpageController.getPlacedOrder();
-                            e == 5
-                                ? showSocialMediaDialog(context)
-                                : Get.to(controller.drawerList[e]["page"]);
-                          await orderpageController.getPrescription();
-                                
-                              
+                          // AssetImage("assets/image/img10.png")),
+                          height8,
+                          // SizedBox(
+                          //   width: Get.width * 0.50,
+                          //   child: AppText(
+                          //     textAlign: TextAlign.center,
+                          //     text: controller.phoneNumber.value.isEmpty
+                          //         ? "No phone number"
+                          //         : controller.phoneNumber.value,
+                          //     fontSize: 12.sp,
+                          //     fontWeight: FontWeight.w600,
+                          //     color: AppColor.whiteColor,
+                          //   ),
+                          // )
+                          AppText(
+                            text: profileSettingPageController
+                                    .nameController.text.isEmpty
+                                ? "Name"
+                                : profileSettingPageController
+                                    .nameController.text,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.blackColor,
+                          ),
+                          getheight(context, 0.004),
+                          AppText(
+                            text: profileSettingPageController
+                                    .emailController.text.isEmpty
+                                ? "Email Id"
+                                : profileSettingPageController
+                                    .emailController.text,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500,
+                            color: AppColor.blackColor,
+                          ),
+                        ],
+                      )),
+                  SizedBox(
+                    height: Get.height * 0.75,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          customGlassesExpansionTile("Category", context),
+                          customExpansionTile(
+                              "Bestseller", "Men", "Women", "Unisex", "Kids",
+                              () async {
+                            await categoryByGenderController.getBestseller(
+                                "1", "1");
+                            Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
+                                arguments: {"type": "Bestseller", "id": "1"});
+                          }, () async {
+                            await categoryByGenderController.getBestseller(
+                                "2", "1");
+                            Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
+                                arguments: {"type": "Bestseller", "id": "2"});
+                          }, () async {
+                            await categoryByGenderController.getBestseller(
+                                "3", "1");
+                            Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
+                                arguments: {"type": "Bestseller", "id": "4"});
+                          }, () async {
+                            await categoryByGenderController.getBestseller(
+                                "4", "1");
+                            Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
+                                arguments: {"type": "Bestseller", "id": "3"});
                           }),
-                        )
-                      ],
+                          customExpansionTile(
+                              "New launches", "Men", "Women", "Unisex", "Kids",
+                              () async {
+                            await categoryByGenderController.getNewLaunches(
+                                "1", "1");
+                            Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
+                                arguments: {"type": "New Launches", "id": "1"});
+                          }, () async {
+                            await categoryByGenderController.getNewLaunches(
+                                "2", "1");
+                            Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
+                                arguments: {"type": "New Launches", "id": "2"});
+                          }, () async {
+                            await categoryByGenderController.getNewLaunches(
+                                "3", "1");
+                            Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
+                                arguments: {"type": "New Launches", "id": "4"});
+                          }, () async {
+                            await categoryByGenderController.getNewLaunches(
+                                "4", "1");
+                            Get.toNamed(Routes.GENDERWISEPRODUCTPAGE,
+                                arguments: {"type": "New Launches", "id": "3"});
+                          }),
+                          ...Iterable.generate(controller.drawerList.length)
+                              .map(
+                            (e) => drawerTitles(
+                                "${controller.drawerList[e]["images"]}",
+                                "${controller.drawerList[e]["title"]}",
+                                () async {
+                              await orderpageController.getPlacedOrder();
+                              e == 5
+                                  ? showSocialMediaDialog(context)
+                                  : Get.to(controller.drawerList[e]["page"]);
+                              await orderpageController.getPrescription();
+                            }),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
-          appBar: CustomAppbar.customeAppbar(
-              isImage: true, imagePath: ImageConstant.APPLOGO),
-          bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              currentIndex: controller.bottomNavbarIndex.value,
-              selectedItemColor: AppColor.orangeColor,
-              unselectedItemColor: AppColor.greyColor,
-              showSelectedLabels: true,
-              showUnselectedLabels: true,
-              // selectedLabelStyle: const TextStyle(color: AppColor.orangeColor),
-              // unselectedLabelStyle: const TextStyle(color: AppColor.blackColor),
-              onTap: (value) {
-                controller.bottomNavbarIndex.value = value;
-                print("index");
-                print(controller.bottomNavbarIndex.value);
-                controller.isshowAppbar.value = true;
-              },
-              items: [
-                BottomNavigationBarItem(
-                    label: "Home",
-                    icon: const Icon(
-                      Icons.home,
-                    )),
-                BottomNavigationBarItem(
-                    label: "Category",
-                    icon: const Icon(
-                      Icons.category,
-                    )),
-                BottomNavigationBarItem(
-                    label: "Cart", icon: Icon(Icons.shopping_bag)),
-                BottomNavigationBarItem(
-                    label: "Account", icon: Icon(Icons.person))
-              ]),
-          body: controller.pages[controller.bottomNavbarIndex.value]
-        ),
+            appBar: CustomAppbar.customeAppbar(
+                isImage: true, imagePath: ImageConstant.APPLOGO),
+            bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
+                currentIndex: controller.bottomNavbarIndex.value,
+                selectedItemColor: AppColor.orangeColor,
+                unselectedItemColor: AppColor.greyColor,
+                showSelectedLabels: true,
+                showUnselectedLabels: true,
+                // selectedLabelStyle: const TextStyle(color: AppColor.orangeColor),
+                // unselectedLabelStyle: const TextStyle(color: AppColor.blackColor),
+                onTap: (value) {
+                  controller.bottomNavbarIndex.value = value;
+                  print("index");
+                  print(controller.bottomNavbarIndex.value);
+                  controller.isshowAppbar.value = true;
+                },
+                items: [
+                  BottomNavigationBarItem(
+                      label: "Home",
+                      icon: const Icon(
+                        Icons.home,
+                      )),
+                  BottomNavigationBarItem(
+                      label: "Category",
+                      icon: const Icon(
+                        Icons.category,
+                      )),
+                  BottomNavigationBarItem(
+                      label: "Cart", icon: Icon(Icons.shopping_bag)),
+                  BottomNavigationBarItem(
+                      label: "Account", icon: Icon(Icons.person))
+                ]),
+            body: controller.pages[controller.bottomNavbarIndex.value]),
       ),
     );
   }
 
-  customExpansionTile(String title, String man, String women, String kids,
-      Function manOntap, Function WomenOntap, Function kidsOntap) {
+  customExpansionTile(
+      String title,
+      String man,
+      String women,
+      String kids,
+      String unisex,
+      Function manOntap,
+      Function WomenOntap,
+      Function kidsOntap,
+      Function unisexOntap) {
     return Container(
       width: Get.width,
       decoration: BoxDecoration(
@@ -196,7 +243,7 @@ class MainPage extends GetView<MainpageController> {
                       ),
                     ),
                     SizedBox(
-                      height: getVerticalSize(10),
+                      height: getVerticalSize(15),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -209,7 +256,7 @@ class MainPage extends GetView<MainpageController> {
                       ),
                     ),
                     SizedBox(
-                      height: getVerticalSize(10),
+                      height: getVerticalSize(15),
                     ),
                     GestureDetector(
                       onTap: () {
@@ -220,6 +267,22 @@ class MainPage extends GetView<MainpageController> {
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w500,
                       ),
+                    ),
+                    SizedBox(
+                      height: getVerticalSize(15),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        unisexOntap();
+                      },
+                      child: AppText(
+                        text: unisex,
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    SizedBox(
+                      height: getVerticalSize(15),
                     ),
                   ],
                 )),
@@ -305,7 +368,7 @@ class MainPage extends GetView<MainpageController> {
                                             // );
                                           },
                                           child: Padding(
-                                            padding: const EdgeInsets.all(3.0),
+                                            padding: const EdgeInsets.all(8.0),
                                             child: AppText(
                                               fontSize: 13.sp,
                                               fontWeight: FontWeight.w600,

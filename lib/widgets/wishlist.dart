@@ -48,7 +48,7 @@ class WishlistWidget extends GetView<WishlistPageController> {
                               .isEmpty
                           ? Container(
                               alignment: Alignment.center,
-                              height: Get.height * 0.30,
+                              height: Get.height * 0.25,
                               width: Get.width * 0.90,
                               child: AppText(
                                 text: "No products!",
@@ -88,7 +88,6 @@ class WishlistWidget extends GetView<WishlistPageController> {
                                                         imageBuilder: (context,
                                                                 imageProvider) =>
                                                             Container(
-                                                        
                                                           decoration:
                                                               BoxDecoration(
                                                             borderRadius:
@@ -103,12 +102,14 @@ class WishlistWidget extends GetView<WishlistPageController> {
                                                           ),
                                                         ),
                                                         imageUrl:
-                                                            "https://orangeeye.skardtech.com/public/uploads/products/${element}",
+                                                            // "https://orangeeye.skardtech.com/public/uploads/products/${element}",
+                                                            "https://orangeeyewearindia.com/public/uploads/products/${element}",
                                                         placeholder: (context,
                                                                 url) =>
                                                             const Center(
-                                                                child:
-                                                                    RepaintBoundary(child: CircularProgressIndicator())),
+                                                                child: RepaintBoundary(
+                                                                    child:
+                                                                        CircularProgressIndicator())),
                                                         errorWidget: (context,
                                                                 url, error) =>
                                                             const Icon(

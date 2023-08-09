@@ -4,6 +4,7 @@ import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/customTextformfiled.dart';
+import 'package:orangeeye/utils/customToast.dart';
 import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 
@@ -15,6 +16,7 @@ class SignUpPage extends GetView<SignUppageController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColor.blueColor.withOpacity(0.2),
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: EdgeInsets.only(
@@ -28,43 +30,83 @@ class SignUpPage extends GetView<SignUppageController> {
               imagePath: "assets/image/appLogo.png",
             ),
             Align(
-              alignment: Alignment.topLeft,
+              alignment: Alignment.center,
               child: AppText(
                 fontSize: 25,
-                text: "Create\naccount",
+                text: "Create Account",
                 fontWeight: FontWeight.w700,
-                color: AppColor.orangeColor,
+                color: AppColor.whiteColor,
               ),
             ),
             getheight(context, 0.019),
+            Align(
+              alignment: Alignment.topLeft,
+              child: AppText(
+                fontSize: 15,
+                text: "Name",
+                fontWeight: FontWeight.w300,
+                color: AppColor.whiteColor,
+              ),
+            ),
+            getheight(context, 0.008),
             SizedBox(
               height: Get.height * 0.07,
-              child: CustomFormField(
+              child: CustomFormFieldForLogin(
                 controller: controller.nameController,
                 hint: "Your name",
               ),
             ),
             getheight(context, 0.010),
+            Align(
+              alignment: Alignment.topLeft,
+              child: AppText(
+                fontSize: 15,
+                text: "Email",
+                fontWeight: FontWeight.w300,
+                color: AppColor.whiteColor,
+              ),
+            ),
+            getheight(context, 0.008),
             SizedBox(
               height: Get.height * 0.07,
-              child: CustomFormField(
+              child: CustomFormFieldForLogin(
                 controller: controller.emailController,
                 hint: "Your email",
               ),
             ),
             getheight(context, 0.010),
+            Align(
+              alignment: Alignment.topLeft,
+              child: AppText(
+                fontSize: 15,
+                text: "Password",
+                fontWeight: FontWeight.w300,
+                color: AppColor.whiteColor,
+              ),
+            ),
+            getheight(context, 0.008),
             SizedBox(
               height: Get.height * 0.07,
-              child: CustomFormField(
+              child: CustomFormFieldForLogin(
                 isSuffix: true,
                 controller: controller.passwordController,
                 hint: "Your password",
               ),
             ),
             getheight(context, 0.010),
+            Align(
+              alignment: Alignment.topLeft,
+              child: AppText(
+                fontSize: 15,
+                text: "Confirm Password",
+                fontWeight: FontWeight.w300,
+                color: AppColor.whiteColor,
+              ),
+            ),
+            getheight(context, 0.008),
             SizedBox(
               height: Get.height * 0.07,
-              child: CustomFormField(
+              child: CustomFormFieldForLogin(
                 isSuffix: true,
                 controller: controller.confirmPasswordController,
                 hint: "Your confirm password",
@@ -73,13 +115,15 @@ class SignUpPage extends GetView<SignUppageController> {
             getheight(context, 0.07),
             CustomElevatedButtons(
                 isBorder: false,
-                buttoncolor: AppColor.orangeColor,
+                buttoncolor: AppColor.whiteColor,
                 height: Get.height * 0.060,
                 width: Get.width * 0.90,
-                textcolor: AppColor.whiteColor,
+                textcolor: AppColor.blackColor,
                 textButton: "SignUp",
+                fontWeight: FontWeight.w600,
                 ontap: () {
-                  Get.toNamed(Routes.MAINPAGE);
+                  // Get.toNamed(Routes.MAINPAGE);
+                  customeToast("Please Login with OTP");
                   // Get.to(const Signin(),
                   //     transition: Transition.zoom);
                 }),

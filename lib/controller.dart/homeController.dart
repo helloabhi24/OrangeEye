@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,11 +15,14 @@ import 'package:orangeeye/networking.dart/apiRepo.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/customToast.dart';
 import 'package:orangeeye/view.dart/cartPage.dart';
+import '../model/FrameMaterialModel.dart';
 import '../model/differentTypeCategoryModel.dart';
+import '../model/fiftyProductsModel.dart';
 import '../model/getLensesCategoryModel.dart';
 import '../model/homePageSliderModel.dart';
 import '../model/ourCollectionModel.dart';
 import '../model/productDetailModel.dart';
+import '../model/shopCollectionModel.dart';
 import '../utils/sharedPref.dart';
 import '../utils/showLoadingIndicator.dart';
 import '../utils/sizeHelper.dart';
@@ -53,19 +57,27 @@ class HomepageController extends GetxController {
   RxString grandtotal = "".obs;
   RxString productSubtotal = "".obs;
 
+  RxString productType = "".obs;
+
+  RxBool showBackToTop = false.obs;
+  late ScrollController scrollController;
+
+  RxList<FrameMaterialModel> freameMaterialList = <FrameMaterialModel>[].obs;
   // late VideoPlayerController videoPlayerController;
 
   // late Future<void> intiallizeVideoPlayerController;
 
   Pref sharedPref = Get.find();
   WishlistPageController wishlistPageController = Get.find();
-  AddNewAddressController addNewAddressController =  Get.find();
+  AddNewAddressController addNewAddressController = Get.find();
   // RxBool IsBestSeller = false.obs
 
   RxList<HomePageSliderModel>? homePageSliderList = <HomePageSliderModel>[].obs;
 
   RxList<OtherProductShapeModel>? productShapeList =
       <OtherProductShapeModel>[].obs;
+
+  RxList<ShopCollectionModel>? shopCollectionList = <ShopCollectionModel>[].obs;
 
   RxList<DifferentTypeCategoryModel> getDifferentTypeProduct =
       <DifferentTypeCategoryModel>[].obs;
@@ -77,6 +89,8 @@ class HomepageController extends GetxController {
 
   RxList<OtherProductShapeModel>? finalHomepageProductList =
       <OtherProductShapeModel>[].obs;
+
+  RxList<FiftyProductModel>? fiftyProductsList = <FiftyProductModel>[].obs;
 
   RxList<GetCartModel>? getCartList = <GetCartModel>[].obs;
 
@@ -93,8 +107,16 @@ class HomepageController extends GetxController {
   RxList adsList = [].obs;
   RxList allimageList = [].obs;
   var selectedImagePath = "".obs;
+  var selectedImagePathinProfile = "".obs;
   RxString base64string = "".obs;
   RxString pathName = "".obs;
+
+  RxString base64stringforProfile = "".obs;
+  RxString pathNameforProfile = "".obs;
+
+  RxString base64stringforInvoice = "".obs;
+  RxString pathNameforInvoice = "".obs;
+  var selectedImagePathinInvoice = "".obs;
 
   Future getImage(ImageSource imageSource) async {
     var pickeImage = await ImagePicker().pickImage(source: imageSource);
@@ -102,21 +124,115 @@ class HomepageController extends GetxController {
       File? img = await getCroppedImage(pickeImage);
       pathName.value = pickeImage.name;
       selectedImagePath.value = await img!.path;
-      
+
       File imagefile = File(selectedImagePath.value); //convert Path to File
       Uint8List imagebytes = await imagefile.readAsBytes(); //convert to bytes
       base64string.value =
           "data:image/jpeg;base64," + base64.encode(imagebytes);
       print("byteImage");
-      print(base64string.value); //convert bytes to base64 string
+      // print(base64string.value); //convert bytes to base64 string
       // await editPageController.getUpdateProfile(base64string.value);
       // await convertImageIntoByte();
 
       // print(selectedImagePath.value);
     } else {
       customeToast("No Image Selected");
-     
     }
+  }
+
+  void scrollToTop() {
+    scrollController.animateTo(0,
+        duration: const Duration(seconds: 3), curve: Curves.linear);
+  }
+
+  Future getImageforInvoice(ImageSource imageSource) async {
+    var pickeImage = await ImagePicker().pickImage(source: imageSource);
+    if (pickeImage != null) {
+      File? img = await getCroppedImage(pickeImage);
+      pathNameforInvoice.value = pickeImage.name;
+      selectedImagePathinInvoice.value = await img!.path;
+
+      File imagefile =
+          File(selectedImagePathinInvoice.value); //convert Path to File
+      Uint8List imagebytes = await imagefile.readAsBytes(); //convert to bytes
+      base64stringforInvoice.value =
+          "data:image/jpeg;base64," + base64.encode(imagebytes);
+      print("byteImage");
+      // print(base64string.value); //convert bytes to base64 string
+      // await editPageController.getUpdateProfile(base64string.value);
+      // await convertImageIntoByte();
+
+      // print(selectedImagePath.value);
+    } else {
+      customeToast("No Image Selected");
+    }
+  }
+
+  Future getImageforProfile(ImageSource imageSource) async {
+    var pickeImage = await ImagePicker().pickImage(source: imageSource);
+    if (pickeImage != null) {
+      File? img = await getCroppedImage(pickeImage);
+      pathNameforProfile.value = pickeImage.name;
+      selectedImagePathinProfile.value = await img!.path;
+
+      File imagefile =
+          File(selectedImagePathinProfile.value); //convert Path to File
+      Uint8List imagebytes = await imagefile.readAsBytes(); //convert to bytes
+      base64stringforProfile.value =
+          "data:image/jpeg;base64," + base64.encode(imagebytes);
+      print("byteImage");
+      // print(base64stringforProfile.value); //convert bytes to base64 string
+      // await editPageController.getUpdateProfile(base64string.value);
+      // await convertImageIntoByte();
+
+      // print(selectedImagePath.value);
+    } else {
+      customeToast("No Image Selected");
+    }
+  }
+
+  uploadPrescriptions() async {
+    Map<String, dynamic> data = {};
+    // data["pincode"] = zip;
+    // data["city"] = city;
+    try {
+      showloadingIndicators();
+      await ApiRepo().uploadPrescription(data).then((value) {
+        print(value["status"]);
+      });
+    } catch (e) {
+      print(e);
+    }
+    hideLoading();
+  }
+
+  getframeMaterial(String id) async {
+    try {
+      showloadingIndicators();
+      await ApiRepo()
+          .frameMaterial(
+        id,
+      )
+          .then((value) {
+        // freameMaterialList.clear();
+
+        // bestSellerList.clear();
+        // bestSellerList.value = value["data"];
+        // print("bestseller");
+        // print(bestSellerList);
+        // genderWiseProductList!.clear();
+        freameMaterialList.value = (value["data"] as List)
+            .map((e) => FrameMaterialModel.fromJson(e))
+            .toList();
+        print(freameMaterialList.value);
+        // print("genderWiseProductList");
+        // print(genderWiseProductList);
+        // allProductByGenderList.addAll(value["data"]);
+      });
+    } catch (e) {
+      print(e);
+    }
+    hideLoading();
   }
 
   getCroppedImage(XFile image) async {
@@ -244,11 +360,42 @@ class HomepageController extends GetxController {
     hideLoading();
   }
 
+  getFiftyProducts() async {
+    // await sharedPref.getUserId();
+    Map<String, dynamic> data = {};
+    data["latest"] = 1;
+    data["limit"] = 30;
+
+    sharedPref.userToken.value.isEmpty
+        ? null
+        : data["user_id"] = sharedPref.userToken.value;
+    try {
+      isLoading.value = true;
+      showloadingIndicators();
+
+      await ApiRepo().getFiftyProduct(data).then((value) {
+        print("dbkjasfk");
+        fiftyProductsList!.value = (value["data"] as List)
+            .map((e) => FiftyProductModel.fromJson(e))
+            .toList();
+        print(
+            "foinalhomepagelistgdfsghfdsghsdfhfghdfhshfdsh555555555555555555555555");
+        print(fiftyProductsList!.value);
+        print(fiftyProductsList![0].productAttributes![0].colorCode);
+      });
+    } catch (e) {
+      print(e);
+    }
+    isLoading.value = false;
+    hideLoading();
+  }
+
   getProductDetail(String value) async {
     print("slug");
     print(value);
     Map<String, dynamic> data = {};
     data["slug"] = value;
+    data["user_id"] = sharedPref.userToken.value;
     try {
       isLoading.value = true;
       showloadingIndicators();
@@ -257,11 +404,23 @@ class HomepageController extends GetxController {
           productDetailList!.value = (value["data"] as List)
               .map((e) => ProductDetailModel.fromJson(e))
               .toList();
+          print("this is the product type in the products");
+          productType.value = productDetailList![0].producttype.name;
+          print(productDetailList![0].producttype.name);
+          print(productType.value);
           print("productDetailModel");
           print(productDetailList);
           selectColorCode.value =
               productDetailList![0].productAttributes![0].id.toString();
-        
+          // print("this is description in the products");
+          // print(productDetailList![0].shortDescription);
+          // print("SHow data from the table of description");
+          // print(Html(
+          //   data: productDetailList![0].shortDescription,
+          //   tagsList: ["strong"],
+          // ));
+          // print("This is html view");
+
           // allimageList.clear();
           // imageList.clear();
           // imageList.addAll(value["data"]);
@@ -287,8 +446,9 @@ class HomepageController extends GetxController {
     print("arunss");
     Map<String, dynamic> data = {};
     data["best_seller"] = "";
-    data["frame_shape"] = "";
-    data["frame_type"] = value;
+    data["frame_shape"] = value;
+    data["frame_type"] = "";
+    // data["frame_type"] = value;
     data["user_id"] = "";
     try {
       showloadingIndicators();
@@ -298,6 +458,37 @@ class HomepageController extends GetxController {
               .map((e) => OtherProductShapeModel.fromJson(e))
               .toList();
           print(productShapeList);
+        }
+        print(value);
+      });
+    } catch (e) {
+      print(e);
+    }
+
+    hideLoading();
+  }
+
+  getShopCollectionData(String value) async {
+    print("arunss");
+    Map<String, dynamic> data = {};
+    data["best_seller"] = "";
+    data["frame_shape"] = "";
+    data["frame_type"] = "";
+    data["frame_material"] = value;
+    sharedPref.userToken.value.isEmpty
+        ? null
+        : data["user_id"] = sharedPref.userToken.value;
+
+    // data["user_id"] = "";
+    try {
+      showloadingIndicators();
+      await ApiRepo().getOurRecommendation(data).then((value) {
+        if (value["status"] == "success") {
+          shopCollectionList!.clear();
+          shopCollectionList!.value = (value["data"] as List)
+              .map((e) => ShopCollectionModel.fromJson(e))
+              .toList();
+          print(shopCollectionList);
         }
         print(value);
       });
@@ -373,7 +564,7 @@ class HomepageController extends GetxController {
     data["lens"] = lensesid.value;
     data["qty"] = qty;
     data["prescription"] = prescreption;
-
+    print("Here is add to cart");
     print(data["user_id"]);
     print(data["size"]);
     print(data["color"]);
@@ -384,12 +575,12 @@ class HomepageController extends GetxController {
 
     try {
       // isLoading.value = true;
-       showloadingIndicators();
+      showloadingIndicators();
       await ApiRepo().addToCart(data).then((value) async {
         if (value["status"] == "success") {
           await getCarts();
           // subtotal();
-         await Get.to(CartPage());
+          await Get.to(CartPage());
 
           // sum();
           customeToast(value["msg"]);
@@ -402,7 +593,7 @@ class HomepageController extends GetxController {
       print(e);
     }
     // isLoading.value = false;
-     hideLoading();
+    hideLoading();
   }
 
   getProductIncreement(
@@ -418,10 +609,11 @@ class HomepageController extends GetxController {
     print(data["product_id"]);
     print(data["qty"]);
     try {
+      showloadingIndicators();
       await ApiRepo().addToCart(data).then((value) async {
         if (value["status"] == "success") {
           getCarts();
-          Get.to(CartPage());
+          // Get.to(CartPage());
           // sum();
           // print("value");
           // print(value);
@@ -434,6 +626,7 @@ class HomepageController extends GetxController {
     } catch (e) {
       print(e);
     }
+    hideLoading();
   }
 
   getCarts() async {
@@ -535,6 +728,14 @@ class HomepageController extends GetxController {
     // videoPlayerController.setLooping(true);
     // videoPlayerController.setVolume(0.0);
     // videoPlayerController.play();
+    scrollController = ScrollController()
+      ..addListener(() {
+        if (scrollController.offset >= 400) {
+          showBackToTop.value = true; // show the back-to-top button
+        } else {
+          showBackToTop.value = false; // hide the back-to-top button
+        }
+      });
     await getHomepageSlider();
     await getOurRecommendation("");
     await getOurCollection();
@@ -542,7 +743,9 @@ class HomepageController extends GetxController {
     await getLensesByCategory();
     await getCarts();
     await getAdsUrl();
-    initDynamicLinks();
+    await getFiftyProducts();
+
+    // initDynamicLinks();
     // await addNewAddressController.getProfileAddress();
 
     super.onInit();
@@ -639,6 +842,7 @@ class HomepageController extends GetxController {
   @override
   void dispose() {
     // videoPlayerController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 }

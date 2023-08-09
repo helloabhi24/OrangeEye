@@ -25,8 +25,8 @@ class ProductCategoryModel {
   final int id;
   final String? name;
   final String? slug;
-  final String? mrp;
-  final String? price;
+  final dynamic mrp;
+  final dynamic price;
   final String? availability;
   final dynamic extraPrice;
   final String? productName;

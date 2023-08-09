@@ -6,7 +6,7 @@ import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 
 class CustomElevatedButtons extends StatelessWidget {
-  final Function? ontap;
+  final Function ontap;
   final String textButton;
   final Color? buttoncolor;
   final Color? textcolor;
@@ -53,7 +53,7 @@ class CustomElevatedButtons extends StatelessWidget {
             fontWeight: fontWeight),
       ),
       onPressed: () {
-        ontap!();
+        ontap();
       },
       style: ElevatedButton.styleFrom(
           shape: (isBorder == true)

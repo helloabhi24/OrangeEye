@@ -7,9 +7,12 @@ import 'package:orangeeye/controller.dart/mainPageController.dart';
 import 'package:orangeeye/routes/approutes.dart';
 import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
+import 'package:orangeeye/view.dart/homePage.dart';
+import 'package:orangeeye/view.dart/mainpage.dart';
 import 'package:orangeeye/widgets/cartPageWidget.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utils/appColor.dart';
+import '../utils/customDrpdown.dart';
 import '../utils/customToast.dart';
 import '../utils/customeAppBar.dart';
 import '../utils/customeElevatedButton.dart';
@@ -94,18 +97,36 @@ class CartPage extends GetView<CartpageController> {
                                 height: Get.height * 0.050,
                                 width: Get.width * 0.93,
                                 textcolor: AppColor.whiteColor,
-                                textButton: "Lets Chat",
-                                ontap: () async {
-                                  var whatsappAndroid = Uri.parse(
-                                      "whatsapp://send?phone=6296157088&text=Hi, I need some help");
-                                  if (await canLaunchUrl(whatsappAndroid)) {
-                                    await launchUrl(whatsappAndroid);
-                                  } else {
-                                    customeToast(
-                                        "WhatsApp is not installed on the device");
-                                  }
+                                textButton: "Shop More",
+                                ontap: () {
+                                  print("cilck on back");
+                                  mainpageController.bottomNavbarIndex.value =
+                                      0;
+                                  Get.to(() => MainPage());
+                                  print("Clicked on Back");
                                 }),
                           ),
+                          // ClipRRect(
+                          //   borderRadius: BorderRadius.circular(10),
+                          //   child: CustomElevatedButtons(
+                          //       fontWeight: FontWeight.w600,
+                          //       isBorder: false,
+                          //       buttoncolor: AppColor.orangeColor,
+                          //       height: Get.height * 0.050,
+                          //       width: Get.width * 0.93,
+                          //       textcolor: AppColor.whiteColor,
+                          //       textButton: "Lets Chat",
+                          //       ontap: () async {
+                          //         var whatsappAndroid = Uri.parse(
+                          //             "whatsapp://send?phone=6296157088&text=Hi, I need some help");
+                          //         if (await canLaunchUrl(whatsappAndroid)) {
+                          //           await launchUrl(whatsappAndroid);
+                          //         } else {
+                          //           customeToast(
+                          //               "WhatsApp is not installed on the device");
+                          //         }
+                          //       }),
+                          // ),
                         ),
                         width8,
                         Expanded(
@@ -121,6 +142,33 @@ class CartPage extends GetView<CartpageController> {
                                 textButton: "Checkout",
                                 ontap: () {
                                   // Get.toNamed(Routes.CARTPAGE);
+                                  addNewAddressController.getProfileAddress();
+                                  print("This is state value in cart");
+                                  print(pref.stateName.value);
+                                  print(addNewAddressController
+                                      .statenameforbilling.value);
+                                  addNewAddressController.statenameforbilling
+                                      .value = pref.stateName.value;
+                                  pref.stateNameforBill.value =
+                                      pref.stateName.value;
+                                  addNewAddressController.billingStateidInt
+                                      .value = pref.stateNameId.value;
+                                  pref.stateNameIdforBill.value =
+                                      pref.stateNameId.value;
+                                  addNewAddressController.citynameforbilling
+                                      .value = pref.cityName.value;
+                                  pref.cityNameforBill.value =
+                                      pref.cityName.value;
+
+                                  addNewAddressController.billingCityidInt
+                                      .value = pref.cityNameId.value;
+                                  pref.cityNameIdforBill.value =
+                                      pref.cityNameId.value;
+                                  print("this is city value");
+                                  print(addNewAddressController
+                                      .citynameforbilling.value);
+                                  print(addNewAddressController
+                                      .billingCityidInt.value);
                                   Get.toNamed(Routes.SELECTADDRESS);
                                 }),
                           ),

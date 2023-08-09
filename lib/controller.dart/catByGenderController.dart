@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,6 +11,7 @@ import '../routes/approutes.dart';
 import '../utils/appColor.dart';
 import '../utils/appText.dart';
 import '../utils/cachedNetworkImage.dart';
+import '../utils/sharedPref.dart';
 import '../utils/showLoadingIndicator.dart';
 import '../utils/sizeHelper.dart';
 import '../widgets/productDetailPage.dart';
@@ -19,6 +22,7 @@ class CategoryByGenderController extends GetxController {
   RxBool oninit = false.obs;
   RxInt whichGlassesDataShow = 0.obs;
   RxString nameOfGlass = "".obs;
+  RxString _userId = "".obs;
 
   RxList<ProductByGenderModel>? allProductByGenderList =
       <ProductByGenderModel>[].obs;
@@ -28,15 +32,25 @@ class CategoryByGenderController extends GetxController {
 
   RxList<GenderWiseProductModel>? genderWiseProductList =
       <GenderWiseProductModel>[].obs;
+  Pref sharedPref = Get.find();
 
   RxList bestSellerList = [].obs;
   RxList<dynamic> getallCategoryList = [].obs;
+  RxList<dynamic> getallDataWithTypeList = [].obs;
+
+  _get_userId() {
+    sharedPref.getUserId();
+    _userId.value = sharedPref.userToken.value;
+  }
 
   getCategoryAndProduct(String type, String category) async {
+    _get_userId();
     try {
       isLoading.value = true;
       oninit.value == true ? null : showloadingIndicators();
-      await ApiRepo().categoryWiseProduct(type, category).then((value) {
+      await ApiRepo()
+          .categoryWiseProduct(type, category, _userId.value)
+          .then((value) {
         allProductByGenderList!.clear();
         allProductByGenderList!.value = (value["data"] as List)
             .map((e) => ProductByGenderModel.fromJson(e))
@@ -53,9 +67,12 @@ class CategoryByGenderController extends GetxController {
   }
 
   getCategory(String type, String category) async {
+    _get_userId();
     try {
       showloadingIndicators();
-      await ApiRepo().categoryWiseProduct(type, category).then((value) {
+      await ApiRepo()
+          .categoryWiseProduct(type, category, _userId.value)
+          .then((value) {
         allProductByGenderList!.clear();
         allProductByGenderList!.value = (value["data"] as List)
             .map((e) => ProductByGenderModel.fromJson(e))
@@ -72,9 +89,12 @@ class CategoryByGenderController extends GetxController {
   }
 
   getallCategory(String type, String category) async {
+    _get_userId();
     try {
       showloadingIndicators();
-      await ApiRepo().categoryWiseProduct(type, category).then((value) {
+      await ApiRepo()
+          .categoryWiseProduct(type, category, _userId.value)
+          .then((value) {
         getallCategoryList.clear();
         // allProductByGenderList!.value = (value["data"] as List)
         //     .map((e) => ProductByGenderModel.fromJson(e))
@@ -83,6 +103,27 @@ class CategoryByGenderController extends GetxController {
 
         print("getallCategoryList");
         print(getallCategoryList);
+        // allProductByGenderList.addAll(value["data"]);
+      });
+    } catch (e) {
+      print(e);
+    }
+    hideLoading();
+  }
+
+  getAllDataWithTypeList(String type) async {
+    try {
+      showloadingIndicators();
+      await ApiRepo().typeWiseProduct(type).then((value) {
+        // getallDataWithTypeList.clear();
+        getallCategoryList.clear();
+        // allProductByGenderList!.value = (value["data"] as List)
+        //     .map((e) => ProductByGenderModel.fromJson(e))
+        //     .toList();
+        // getallDataWithTypeList.addAll(value["data"]);
+        getallCategoryList.addAll(value["data"]);
+        print("getallDataWithTypeList");
+        print(getallDataWithTypeList);
         // allProductByGenderList.addAll(value["data"]);
       });
     } catch (e) {
@@ -123,7 +164,7 @@ class CategoryByGenderController extends GetxController {
         genderWiseProductList!.value = (value["data"] as List)
             .map((e) => GenderWiseProductModel.fromJson(e))
             .toList();
-          
+
         print("genderWiseProductList");
         print(genderWiseProductList);
         // allProductByGenderList.addAll(value["data"]);
@@ -155,8 +196,6 @@ class CategoryByGenderController extends GetxController {
     }
     hideLoading();
   }
-
-
 
   RxList<Map<String, String>> genderImgeList = <Map<String, String>>[
     {
@@ -220,6 +259,7 @@ class GogleCategoryWiseWidget extends StatelessWidget {
             Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
           },
           child: Container(
+              // width: Get.width * 0.50,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(color: AppColor.greyColor, width: 0.3)),
@@ -232,29 +272,89 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: Get.height * 0.16,
+                        height: Get.height * 0.17,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (cnt, index1) {
                             return Container(
-                              margin: EdgeInsets.only(top: getVerticalSize(40)),
+                              margin: EdgeInsets.only(top: getVerticalSize(30)),
                               height: Get.height * 0.18,
+                              width: Get.width * 0.45,
                               color: AppColor.whiteColor,
-                              child: cacheNetworkImage(
-                                  imageUrl:
-                                      "https://orangeeyewearindia.com/public/uploads/products/${categoryByGenderController.getallCategoryList[index!]["images"][index1]}",
-                                  height: Get.height * 0.20,
-                                  boxfit: BoxFit.cover,
-                                  width: Get.width * 0.37,
-                                  memCacheHeight: 220,
-                                  ontap: () async {
-                                     await homepageController.getProductDetail(
-                categoryByGenderController.getallCategoryList[index!]["slug"]);
-            print("slug");
-            print(
-                categoryByGenderController.getallCategoryList[index!]["slug"]);
-            Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
-                                  }),
+                              child: CarouselSlider(
+                                  items: categoryByGenderController
+                                      .getallCategoryList[index!]["images"]!
+                                      .map<Widget>((element) =>
+                                          CachedNetworkImage(
+                                            height: Get.height * 0.20,
+                                            // boxfit: BoxFit.cover,
+                                            width: Get.width * 0.40,
+                                            memCacheHeight: 220,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              width: getHorizontalSize(4000),
+                                              // height: Get.height * 0.20,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(0),
+                                                image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.fitWidth),
+                                              ),
+                                            ),
+                                            imageUrl:
+                                                "https://orangeeyewearindia.com/public/uploads/products/${element}",
+                                            placeholder: (context, url) =>
+                                                const Center(
+                                                    child:
+                                                        CircularProgressIndicator()),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          ))
+                                      .toList(),
+                                  options: CarouselOptions(
+                                    // height: homepageController
+                                    //         .homePageSliderList!.isEmpty
+                                    //     ? 0
+                                    //     : Get.height * 0.20,
+
+                                    aspectRatio: 13 / 8.8,
+                                    viewportFraction: 1.6,
+                                    initialPage: 0,
+                                    enableInfiniteScroll: true,
+                                    reverse: false,
+                                    autoPlay: false,
+                                    autoPlayInterval:
+                                        const Duration(seconds: 3),
+                                    autoPlayAnimationDuration:
+                                        const Duration(milliseconds: 800),
+                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    enlargeFactor: 0.2,
+                                    enlargeCenterPage: true,
+                                    onPageChanged: (v, c) {
+                                      homepageController.sliderIndex.value = v;
+                                    },
+                                    scrollDirection: Axis.horizontal,
+                                  )),
+                              // cacheNetworkImage(
+                              //     imageUrl:
+                              //         "https://orangeeyewearindia.com/public/uploads/products/${categoryByGenderController.getallCategoryList[index!]["images"][index1]}",
+                              //     height: Get.height * 0.20,
+                              //     boxfit: BoxFit.cover,
+                              //     width: Get.width * 0.40,
+                              //     memCacheHeight: 220,
+                              //     ontap: () async {
+                              //       await homepageController.getProductDetail(
+                              //           categoryByGenderController
+                              //                   .getallCategoryList[index!]
+                              //               ["slug"]);
+                              //       print("slug");
+                              //       print(categoryByGenderController
+                              //           .getallCategoryList[index!]["slug"]);
+                              //       Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
+                              //     }),
                             );
                           },
                           itemCount: categoryByGenderController
@@ -262,7 +362,7 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                           shrinkWrap: true,
                         ),
                       ),
-                  
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -283,13 +383,13 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                                       left: getHorizontalSize(10)),
                                   child: Row(
                                     children: [
-                                      AppText(
-                                          textDecoration:
-                                              TextDecoration.lineThrough,
-                                          fontSize: 12.sp,
-                                          text:
-                                              "₹ ${categoryByGenderController.getallCategoryList[index!]["mrp"]}"),
-                                      width8,
+                                      // AppText(
+                                      //     textDecoration:
+                                      //         TextDecoration.lineThrough,
+                                      //     fontSize: 12.sp,
+                                      //     text:
+                                      //         "₹ ${categoryByGenderController.getallCategoryList[index!]["mrp"]}"),
+                                      // width8,
                                       AppText(
                                           fontSize: 12.sp,
                                           text:
@@ -342,7 +442,6 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                           ],
                         ),
                       )
-                      
                     ],
                   ),
                   Padding(
@@ -359,34 +458,54 @@ class GogleCategoryWiseWidget extends StatelessWidget {
                               // Get.to(LoginScreen());
                               // loginDialouge(context);
                             } else {
-                              if (homepageController.genderLikeUpdatedList.contains(
-                                  categoryByGenderController
-                                    .getallCategoryList[index!]["id"])) {
+                              if (homepageController.genderLikeUpdatedList
+                                  .contains(categoryByGenderController
+                                      .getallCategoryList[index!]["id"])) {
+                                print("this is print of before remove ");
+                                print(homepageController.genderLikeUpdatedList
+                                    .contains(categoryByGenderController
+                                        .getallCategoryList[index!]["id"]));
                                 homepageController.genderLikeUpdatedList.remove(
                                     categoryByGenderController
-                                    .getallCategoryList[index!]["id"]);
+                                        .getallCategoryList[index!]["id"]);
                                 await homepageController.updatedWhislist(
                                   categoryByGenderController
-                                    .getallCategoryList[index!]["id"]
+                                      .getallCategoryList[index!]["id"]
                                       .toString(),
                                 );
+                                print("this is print of after remove");
+                                print(homepageController.genderLikeUpdatedList
+                                    .contains(categoryByGenderController
+                                        .getallCategoryList[index!]["id"]));
+                                print(categoryByGenderController
+                                    .getallCategoryList[index!]["id"]);
+                                homepageController.finalHomepageProductList!
+                                    .clear();
+                                homepageController.getOurRecommendation("");
                               } else {
                                 homepageController.genderLikeUpdatedList.add(
                                     categoryByGenderController
-                                    .getallCategoryList[index!]["id"]);
+                                        .getallCategoryList[index!]["id"]);
                                 await homepageController.updatedWhislist(
                                   categoryByGenderController
-                                    .getallCategoryList[index!]["id"]
+                                      .getallCategoryList[index!]["id"]
                                       .toString(),
                                 );
+                                homepageController.finalHomepageProductList!
+                                    .clear();
+                                homepageController.getOurRecommendation("");
                               }
-                            
                             }
-
                           },
-                          child: Icon( homepageController.genderLikeUpdatedList.contains(categoryByGenderController
-                                    .getallCategoryList[index!]["id"])
-                              || categoryByGenderController.getallCategoryList[index!]["wishlist"]==true                                    
+                          child: Icon(
+                              homepageController.genderLikeUpdatedList.contains(
+                                      categoryByGenderController
+                                          .getallCategoryList[index!]["id"])
+                                  // ||
+                                  // categoryByGenderController
+                                  //             .getallCategoryList[index!]
+                                  //         ["wishlist"] ==
+                                  //     true
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                               color: AppColor.orangeColor),

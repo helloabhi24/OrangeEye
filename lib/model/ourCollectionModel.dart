@@ -11,6 +11,13 @@ String ourShopCollectionModelToJson(OurShopCollectionModel data) =>
     json.encode(data.toJson());
 
 class OurShopCollectionModel {
+  final int id;
+  final String name;
+  final String status;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final FrameProduct frameProduct;
+
   OurShopCollectionModel({
     required this.id,
     required this.name,
@@ -19,13 +26,6 @@ class OurShopCollectionModel {
     required this.updatedAt,
     required this.frameProduct,
   });
-
-  final int id;
-  final String? name;
-  final String? status;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final FrameProduct? frameProduct;
 
   factory OurShopCollectionModel.fromJson(Map<String, dynamic> json) =>
       OurShopCollectionModel(
@@ -41,25 +41,69 @@ class OurShopCollectionModel {
         "id": id,
         "name": name,
         "status": status,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
-        "frame_product": frameProduct!.toJson(),
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "frame_product": frameProduct.toJson(),
       };
 }
 
 class FrameProduct {
+  final int id;
+  final String name;
+  final String slug;
+  final String hsnCode;
+  final String modelNumber;
+  final int category;
+  final String colorName;
+  final String colorCode;
+  final dynamic brand;
+  final int productType;
+  final int frameMaterial;
+  final int frameType;
+  final int frameShape;
+  final dynamic lens;
+  final List<String> frameSize;
+  final dynamic mrp;
+  final dynamic price;
+  final String image1;
+  final String image2;
+  final String image3;
+  final String image4;
+  final String image5;
+  final String image6;
+  final String shortDescription;
+  final String description;
+  final dynamic exraDescription;
+  final dynamic sizeGuid;
+  final String availaility;
+  final String isBestSeller;
+  final String isNewArrival;
+  final String temple;
+  final String bridge;
+  final String lenseWidth;
+  final String frameWidth;
+  final int cgst;
+  final int sgst;
+  final int igst;
+  final dynamic extraPrice;
+  final String status;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
   FrameProduct({
     required this.id,
     required this.name,
     required this.slug,
+    required this.hsnCode,
     required this.modelNumber,
     required this.category,
+    required this.colorName,
+    required this.colorCode,
     this.brand,
     required this.productType,
     required this.frameMaterial,
     required this.frameType,
     required this.frameShape,
-    this.frameColor,
     this.lens,
     required this.frameSize,
     required this.mrp,
@@ -79,65 +123,31 @@ class FrameProduct {
     required this.isNewArrival,
     required this.temple,
     required this.bridge,
-    this.cgst,
-    this.sgst,
-    this.igst,
-    required this.extraPrice,
+    required this.lenseWidth,
+    required this.frameWidth,
+    required this.cgst,
+    required this.sgst,
+    required this.igst,
+    this.extraPrice,
     required this.status,
     required this.createdAt,
     required this.updatedAt,
   });
 
-  final int id;
-  final String? name;
-  final String? slug;
-  final String? modelNumber;
-  final String? category;
-  final dynamic brand;
-  final String? productType;
-  final String? frameMaterial;
-  final String? frameType;
-  final String? frameShape;
-  final dynamic frameColor;
-  final dynamic lens;
-  final List<String>? frameSize;
-  final String? mrp;
-  final String? price;
-  final String? image1;
-  final String? image2;
-  final String? image3;
-  final String? image4;
-  final String? image5;
-  final String? image6;
-  final String? shortDescription;
-  final String? description;
-  final dynamic exraDescription;
-  final dynamic sizeGuid;
-  final String? availaility;
-  final String? isBestSeller;
-  final String? isNewArrival;
-  final String? temple;
-  final String? bridge;
-  final dynamic cgst;
-  final dynamic sgst;
-  final dynamic igst;
-  final String? extraPrice;
-  final String? status;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-
   factory FrameProduct.fromJson(Map<String, dynamic> json) => FrameProduct(
         id: json["id"],
         name: json["name"],
         slug: json["slug"],
+        hsnCode: json["hsn_code"],
         modelNumber: json["model_number"],
         category: json["category"],
+        colorName: json["color_name"],
+        colorCode: json["color_code"],
         brand: json["brand"],
         productType: json["product_type"],
         frameMaterial: json["frame_material"],
         frameType: json["frame_type"],
         frameShape: json["frame_shape"],
-        frameColor: json["frame_color"],
         lens: json["lens"],
         frameSize: List<String>.from(json["frame_size"].map((x) => x)),
         mrp: json["mrp"],
@@ -157,6 +167,8 @@ class FrameProduct {
         isNewArrival: json["is_new_arrival"],
         temple: json["temple"],
         bridge: json["bridge"],
+        lenseWidth: json["lense_width"],
+        frameWidth: json["frame_width"],
         cgst: json["cgst"],
         sgst: json["sgst"],
         igst: json["igst"],
@@ -170,16 +182,18 @@ class FrameProduct {
         "id": id,
         "name": name,
         "slug": slug,
+        "hsn_code": hsnCode,
         "model_number": modelNumber,
         "category": category,
+        "color_name": colorName,
+        "color_code": colorCode,
         "brand": brand,
         "product_type": productType,
         "frame_material": frameMaterial,
         "frame_type": frameType,
         "frame_shape": frameShape,
-        "frame_color": frameColor,
         "lens": lens,
-        "frame_size": List<dynamic>.from(frameSize!.map((x) => x)),
+        "frame_size": List<dynamic>.from(frameSize.map((x) => x)),
         "mrp": mrp,
         "price": price,
         "image1": image1,
@@ -197,12 +211,14 @@ class FrameProduct {
         "is_new_arrival": isNewArrival,
         "temple": temple,
         "bridge": bridge,
+        "lense_width": lenseWidth,
+        "frame_width": frameWidth,
         "cgst": cgst,
         "sgst": sgst,
         "igst": igst,
         "extra_price": extraPrice,
         "status": status,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
       };
 }

@@ -11,7 +11,7 @@ String cityModelToJson(CityModel data) => json.encode(data.toJson());
 class CityModel {
   final int id;
   final String? name;
-  final String? stateId;
+  final dynamic stateId;
   final String? status;
   final DateTime? createdAt;
   final DateTime? updatedAt;

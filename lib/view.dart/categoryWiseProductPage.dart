@@ -6,7 +6,6 @@ import '../controller.dart/catByGenderController.dart';
 import '../utils/appColor.dart';
 import '../utils/customeAppBar.dart';
 
-
 class CategoryWiseProductPage extends GetView<CategoryByGenderController> {
   String? glassName;
   CategoryWiseProductPage({this.glassName = "", super.key});
@@ -30,7 +29,7 @@ class CategoryWiseProductPage extends GetView<CategoryByGenderController> {
                   itemCount:
                       categoryByGenderController.getallCategoryList.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: Get.height * 0.28,
+                      mainAxisExtent: Get.height * 0.30,
                       crossAxisCount: 2,
                       crossAxisSpacing: 4.0,
                       mainAxisSpacing: 4.0),

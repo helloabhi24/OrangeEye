@@ -13,16 +13,17 @@ class OnboardingController extends GetxController {
 
   List<Map<String, dynamic>> onboardingList = [
     {
-      "title": "Picks Your Favourite Frames",
+      "title": "Pick Your Favourite Frames",
       "images": "assets/image/image4.jpg",
     },
     {
-      "title": "Cool Specs and gogle",
+      "title": "Cool Specs and Sunglasses ",
       "images": "assets/image/model2.jpg",
     },
     {
       "title": "Eyewear for everyone & every need",
-      "images": "assets/image/model4.jpg",
+      "images": "assets/image/model4.png",
+      // "images": "assets/image/model4.jpg",
     },
   ];
 

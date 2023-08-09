@@ -25,12 +25,15 @@ class Productdesc extends GetView<CartpageController> {
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
             onTap: () async {
-              await homepageController.getProductDetail(
-                  homepageController.getCartList![index!].slug!);
-              Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
+              // await homepageController.getProductDetail(
+              //     homepageController.getCartList![index!].slug!);
+              // Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
             },
             child: Container(
-              height: Get.height * 0.52,
+              height:
+                  homepageController.getCartList![index!].prescription == null
+                      ? Get.height * 0.47
+                      : Get.height * 0.55,
               width: Get.width * 0.95,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
@@ -38,62 +41,70 @@ class Productdesc extends GetView<CartpageController> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      homepageController.getCartList![index!].image1 == null
-                          ? Padding(
-                              padding: EdgeInsets.only(
-                                  left: getHorizontalSize(20),
-                                  top: getVerticalSize(10)),
-                              child: Image.network(
-                                "https://orangeeyewearindia.com/public/uploads/products/${homepageController.getCartList![index!].pImage}",
-                                height: Get.height * 0.09,
+                  GestureDetector(
+                    onTap: () async {
+                      await homepageController.getProductDetail(
+                          homepageController.getCartList![index!].slug!);
+                      Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        homepageController.getCartList![index!].image1 == null
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                    left: getHorizontalSize(20),
+                                    top: getVerticalSize(10)),
+                                child: Image.network(
+                                  "https://orangeeyewearindia.com/public/uploads/products/${homepageController.getCartList![index!].pimage}",
+                                  height: Get.height * 0.09,
+                                ),
+                              )
+                            // SizedBox(
+                            //     height: Get.height * 0.10,
+                            //     width: Get.width * 0.30,
+                            //     child: Center(
+                            //         child: Text(
+                            //       "No image",
+                            //       style: TextStyle(
+                            //           fontSize: 15.sp,
+                            //           fontWeight: FontWeight.w500),
+                            //     )))
+                            : Padding(
+                                padding: EdgeInsets.only(
+                                    left: getHorizontalSize(20),
+                                    top: getVerticalSize(10)),
+                                child: Image.network(
+                                  "https://orangeeyewearindia.com/public/${homepageController.getCartList![index!].image1}",
+                                  height: Get.height * 0.09,
+                                ),
                               ),
-                            )
-                          // SizedBox(
-                          //     height: Get.height * 0.10,
-                          //     width: Get.width * 0.30,
-                          //     child: Center(
-                          //         child: Text(
-                          //       "No image",
-                          //       style: TextStyle(
-                          //           fontSize: 15.sp,
-                          //           fontWeight: FontWeight.w500),
-                          //     )))
-                          : Padding(
-                              padding: EdgeInsets.only(
-                                  left: getHorizontalSize(20),
-                                  top: getVerticalSize(10)),
-                              child: Image.network(
-                                "https://orangeeyewearindia.com/public/${homepageController.getCartList![index!].image1}",
-                                height: Get.height * 0.09,
+                        Column(
+                          children: [
+                            getheight(context, 0.010),
+                            GestureDetector(
+                                onTap: () async {
+                                  print("arunkumar");
+                                  await controller.removeProductFromCart(
+                                      homepageController
+                                          .getCartList![index!].id);
+                                },
+                                child: Icon(Icons.close)),
+                            getheight(context, 0.030),
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(right: getHorizontalSize(10)),
+                              child: AppText(
+                                text:
+                                    "₹ ${homepageController.getCartList![index!].price.toString()}",
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
-                      Column(
-                        children: [
-                          GestureDetector(
-                              onTap: () async{
-                                print("arunkumar");
-                               await controller.removeProductFromCart(
-                                    homepageController.getCartList![index!].id);
-                                   
-                              },
-                              child: Icon(Icons.close)),
-                          getheight(context, 0.010),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(right: getHorizontalSize(10)),
-                            child: AppText(
-                              text:
-                                  "₹${homepageController.getCartList![index!].price.toString()}",
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   homepageController.getCartList![index!].colorCode == null
                       ? AppText(
@@ -104,7 +115,7 @@ class Productdesc extends GetView<CartpageController> {
                           child: ColorDots(
                             borderColor: AppColor.greyColor,
                             dotsColor: Color(int.parse(
-                                "0xff${homepageController.getCartList![index!].colorCode!.replaceFirst(r'#', "")}")),
+                                "0xff${homepageController.getCartList![index!].colorCode.replaceFirst(r'#', "")}")),
                           ),
                         ),
                   Padding(
@@ -144,7 +155,7 @@ class Productdesc extends GetView<CartpageController> {
                                                     .getCartList![index!]
                                                     .qty!) -
                                                 1);
-
+                                    print("This is api call from cart page");
                                     homepageController.getCarts();
                                   },
                                   child: const Icon(
@@ -158,8 +169,7 @@ class Productdesc extends GetView<CartpageController> {
                               width: 1,
                             ),
                             AppText(
-                              text:
-                                  homepageController.getCartList![index!].qty!,
+                              text: homepageController.getCartList![index!].qty,
                               color: AppColor.blackColor,
                             ),
                             const VerticalDivider(
@@ -199,35 +209,38 @@ class Productdesc extends GetView<CartpageController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Row(
-                          children: [
-                            AppText(
-                              text: "Prescription Type :",
-                              color: AppColor.greyColor,
-                              fontSize: 13.sp,
-                            ),
-                            AppText(
-                              text: " Zero Power",
-                              color: AppColor.blackColor,
-                              fontSize: 13.sp,
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            AppText(
-                              text: "Lens Price :",
-                              color: AppColor.greyColor,
-                              fontSize: 13.sp,
-                            ),
-                            AppText(
-                              text:
-                                  "₹${homepageController.getCartList![index!].lenseSubtotal! - homepageController.getCartList![index!].lenseTax!}",
-                              color: AppColor.blackColor,
-                              fontSize: 13.sp,
-                            )
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     AppText(
+                        //       text: "Prescription Type :",
+                        //       color: AppColor.greyColor,
+                        //       fontSize: 13.sp,
+                        //     ),
+                        //     AppText(
+                        //       text: " Zero Power",
+                        //       color: AppColor.blackColor,
+                        //       fontSize: 13.sp,
+                        //     )
+                        //   ],
+                        // ),
+                        homepageController.getCartList![index!].lenseSubtotal !=
+                                null
+                            ? Row(
+                                children: [
+                                  AppText(
+                                    text: "Lens Price :",
+                                    color: AppColor.greyColor,
+                                    fontSize: 13.sp,
+                                  ),
+                                  AppText(
+                                    text:
+                                        "₹ ${homepageController.getCartList![index!].lenseSubtotal - homepageController.getCartList![index!].lenseTax}",
+                                    color: AppColor.blackColor,
+                                    fontSize: 13.sp,
+                                  )
+                                ],
+                              )
+                            : SizedBox(),
                       ],
                     ),
                   ),
@@ -247,7 +260,7 @@ class Productdesc extends GetView<CartpageController> {
                                   null
                               ? "No lens"
                               : homepageController
-                                  .getCartList![index!].lensName!,
+                                  .getCartList![index!].lensName,
                           color: AppColor.blackColor,
                           fontSize: 13.sp,
                         )
@@ -305,10 +318,10 @@ class Productdesc extends GetView<CartpageController> {
                       ],
                     ),
                   ),
-                 getheight(context, 0.010),
+                  getheight(context, 0.010),
                   Padding(
                     padding:
-                        EdgeInsets.symmetric(horizontal: getHorizontalSize(20)),
+                        EdgeInsets.symmetric(horizontal: getHorizontalSize(11)),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -324,15 +337,25 @@ class Productdesc extends GetView<CartpageController> {
                                 width10,
                                 GestureDetector(
                                   onTap: () {
-                                    allTaxes(
-                                      context,
-                                      homepageController
-                                          .getCartList![index!].lenseTax
-                                          .toString(),
-                                      homepageController
-                                          .getCartList![index!].productTax
-                                          .toString(),
-                                    );
+                                    homepageController.getCartList![index!]
+                                                .lenseTax !=
+                                            null
+                                        ? allTaxes(
+                                            context,
+                                            homepageController
+                                                .getCartList![index!].lenseTax
+                                                .toString(),
+                                            homepageController
+                                                .getCartList![index!].productTax
+                                                .toString(),
+                                          )
+                                        : allTaxes(
+                                            context,
+                                            "",
+                                            homepageController
+                                                .getCartList![index!].productTax
+                                                .toString(),
+                                          );
                                   },
                                   child: CircleAvatar(
                                     backgroundColor:
@@ -349,13 +372,21 @@ class Productdesc extends GetView<CartpageController> {
                             ),
                           ],
                         ),
-                        AppText(
-                          text:
-                              "₹${homepageController.getCartList![index!].productTax! + homepageController.getCartList![index!].lenseTax!}",
-                          color: AppColor.blackColor,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w500,
-                        )
+                        homepageController.getCartList![index!].lenseTax != null
+                            ? AppText(
+                                text:
+                                    "₹ ${homepageController.getCartList![index!].productTax + homepageController.getCartList![index!].lenseTax}",
+                                color: AppColor.blackColor,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w500,
+                              )
+                            : AppText(
+                                text:
+                                    "₹ ${homepageController.getCartList![index!].productTax}",
+                                color: AppColor.blackColor,
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w500,
+                              )
                       ],
                     ),
                   ),
@@ -371,7 +402,7 @@ class Productdesc extends GetView<CartpageController> {
                       alignment: Alignment.centerRight,
                       child: AppText(
                         text:
-                            "₹${homepageController.getCartList![index!].subtotal!.toString()}",
+                            "₹ ${homepageController.getCartList![index!].subtotal.toString()}",
                         color: AppColor.blackColor,
                         fontSize: 14.sp,
                       ),
@@ -599,7 +630,7 @@ class Coupouns extends GetView<CartpageController> {
                                             fontWeight: FontWeight.w600,
                                             fontSize: 13.sp,
                                             color: AppColor.greyColor,
-                                            text: "₹${element.value}",
+                                            text: "₹ ${element.value}",
                                           ),
                                         ],
                                       ),
@@ -679,7 +710,7 @@ class ProductPaymentDetails extends GetView<HomepageController> {
               ),
             ),
             getheight(context, 0.010),
-            paymentTiles("Subtotal", "₹${controller.productSubtotal.value}"),
+            paymentTiles("Subtotal", "₹ ${controller.productSubtotal.value}"),
             getheight(context, 0.008),
             // paymentTiles("Discount", "-₹200"),
             // getheight(context, 0.008),
@@ -697,7 +728,7 @@ class ProductPaymentDetails extends GetView<HomepageController> {
                 AppText(
                   text: cartpageController.selectCoupouns.value.isEmpty
                       ? "₹ 0.00"
-                      : "₹${cartpageController.selectCoupouns.value}",
+                      : "₹ ${cartpageController.selectCoupouns.value}",
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColor.greyColor,

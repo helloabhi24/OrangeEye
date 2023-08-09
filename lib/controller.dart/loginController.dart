@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:orangeeye/networking.dart/apiRepo.dart';
+import 'package:orangeeye/utils/customDrpdown.dart';
 import 'package:orangeeye/utils/sharedPref.dart';
 import 'package:orangeeye/utils/showLoadingIndicator.dart';
 import 'package:orangeeye/view.dart/mainpage.dart';
@@ -80,6 +81,7 @@ class LoginPageController extends GetxController {
           await sharedPref.setUserId(Id.value);
           // await sharedPref.getUserId();
           Get.to(MainPage());
+          mainpageController.getProfile();
           // Get.toNamed(Routes.MAINPAGE);
           otpController.clear();
           mobileController.clear();
@@ -148,13 +150,13 @@ class LoginPageController extends GetxController {
     } catch (e) {
       print(e);
     }
-    mobileController.clear();
+    // mobileController.clear();
     hideLoading();
   }
 
-  Future listenOtp() async {
-    await SmsAutoFill().listenForCode();
-  }
+  // Future listenOtp() async {
+  //   await SmsAutoFill().listenForCode();
+  // }
 
   Future getPrivacy() async {
     try {
@@ -175,13 +177,13 @@ class LoginPageController extends GetxController {
     mobileController = TextEditingController();
     checkloginController = TextEditingController();
     otpController = TextEditingController();
-    listenOtp();
+    //listenOtp();
     super.onInit();
   }
 
   @override
   void onClose() {
-    SmsAutoFill().unregisterListener();
+    // SmsAutoFill().unregisterListener();
     mobileController.dispose();
     checkloginController.dispose();
     otpController.dispose();

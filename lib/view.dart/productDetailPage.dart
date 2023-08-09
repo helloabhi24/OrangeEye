@@ -2,16 +2,19 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:orangeeye/controller.dart/homeController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/customToast.dart';
 import 'package:orangeeye/utils/customeAssetsImage.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
+import 'package:orangeeye/view.dart/termsAndConditions.dart';
 import 'package:orangeeye/widgets/homepageWidget.dart';
 import 'package:orangeeye/widgets/productDetailPage.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -19,17 +22,20 @@ import '../routes/approutes.dart';
 import '../utils/customeElevatedButton.dart';
 import '../utils/showDialouge.dart';
 
-
 class ProductDetailScreen extends GetView<HomepageController> {
   const ProductDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    HomepageController homepagehomepageController = Get.find();
+    HomepageController homepageController = Get.find();
     return Obx(
       () => Scaffold(
-         appBar: AppBar(backgroundColor: Colors.white38,
-          elevation: 0,toolbarHeight: getVerticalSize(36),iconTheme: IconThemeData(color: AppColor.blackColor),),
+        appBar: AppBar(
+          backgroundColor: Colors.white38,
+          elevation: 0,
+          toolbarHeight: getVerticalSize(36),
+          iconTheme: IconThemeData(color: AppColor.blackColor),
+        ),
         body: Stack(
           children: [
             SingleChildScrollView(
@@ -51,7 +57,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                 ),
                               )
                             : ListView.builder(
-                              // scrollDirection: Axis.horizontal,
+                                // scrollDirection: Axis.horizontal,
                                 shrinkWrap: true,
                                 itemBuilder: (context, index) {
                                   return controller
@@ -91,12 +97,14 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                                           ),
                                                         ),
                                                         imageUrl:
-                                                            "https://orangeeye.skardtech.com/public/uploads/products/${element}",
+                                                            // "https://orangeeye.skardtech.com/public/uploads/products/${element}",
+                                                            "https://orangeeyewearindia.com/public/uploads/products/${element}",
                                                         placeholder: (context,
                                                                 url) =>
                                                             const Center(
-                                                                child:
-                                                                    RepaintBoundary(child: CircularProgressIndicator())),
+                                                                child: RepaintBoundary(
+                                                                    child:
+                                                                        CircularProgressIndicator())),
                                                         errorWidget: (context,
                                                                 url, error) =>
                                                             const Icon(
@@ -112,6 +120,8 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                                 enableInfiniteScroll: true,
                                                 reverse: false,
                                                 autoPlay: false,
+                                                scrollDirection:
+                                                    Axis.horizontal,
                                                 autoPlayInterval:
                                                     const Duration(seconds: 3),
                                                 autoPlayAnimationDuration:
@@ -124,8 +134,6 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                                 onPageChanged: (v, c) {
                                                   controller.dotIndex.value = v;
                                                 },
-                                                scrollDirection:
-                                                    Axis.horizontal,
                                               )),
                                         );
                                 },
@@ -134,8 +142,6 @@ class ProductDetailScreen extends GetView<HomepageController> {
                               ),
                       ),
                     ),
-                  
-                    
                     Positioned(
                         top: Get.height * 0.65,
                         child: Container(
@@ -235,17 +241,44 @@ class ProductDetailScreen extends GetView<HomepageController> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.w600,
                               color: AppColor.blackColor,
-                              text: controller.productDetailList![0].name!),
+                              text: controller.productDetailList![0].name),
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () async {
+                              if (homepageController.genderLikeUpdatedList
+                                  .contains(homepageController
+                                      .productDetailList![0].id)) {
+                                homepageController.genderLikeUpdatedList.remove(
+                                    homepageController
+                                        .productDetailList![0].id);
+                                await homepageController.updatedWhislist(
+                                  homepageController.productDetailList![0].id
+                                      .toString(),
+                                );
+                              } else {
+                                homepageController.genderLikeUpdatedList.add(
+                                    homepageController
+                                        .productDetailList![0].id);
+                                await homepageController.updatedWhislist(
+                                  homepageController.productDetailList![0].id
+                                      .toString(),
+                                );
+                              }
+                            },
                             child: Padding(
                               padding:
                                   EdgeInsets.only(right: getHorizontalSize(10)),
                               child: Icon(
-                                Icons.bookmark_add_outlined,
-                                size: 30.sp,
-                                color: AppColor.blackColor,
-                              ),
+                                  homepageController.genderLikeUpdatedList
+                                          .contains(homepageController
+                                              .productDetailList![0].id)
+                                      //         ||
+                                      // homepageController
+                                      //         .productDetailList![0]
+                                      //         .wishlist ==
+                                      //     true
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: AppColor.orangeColor),
                             ),
                           ),
                         ],
@@ -255,30 +288,31 @@ class ProductDetailScreen extends GetView<HomepageController> {
                         children: [
                           Row(
                             children: [
-                              AppText(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: AppColor.blackColor,
-                                text:
-                                    "₹ ${controller.productDetailList![0].mrp.toString()}",
-                                textDecoration: TextDecoration.lineThrough,
-                              ),
-                              width10,
+                              // AppText(
+                              //   fontSize: 14,
+                              //   fontWeight: FontWeight.w500,
+                              //   color: AppColor.blackColor,
+                              //   text:
+                              //       "₹ ${controller.productDetailList![0].mrp.toString()}",
+                              //   textDecoration: TextDecoration.lineThrough,
+                              // ),
+                              // width10,
                               AppText(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w500,
                                   color: AppColor.blackColor,
-                                  text: controller.productDetailList![0].price
-                                      .toString()),
+                                  text:
+                                      "₹ ${controller.productDetailList![0].price.toString()}"),
                             ],
                           ),
-                          AppText(
-                            textDecoration: TextDecoration.underline,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                            color: AppColor.greyColor,
-                            text: "Bookmark",
-                          ),
+                          // AppText(
+                          //   textDecoration: TextDecoration.underline,
+                          //   fontSize: 10,
+                          //   fontWeight: FontWeight.w500,
+                          //   color: AppColor.greyColor,
+                          //   // text: "Bookmark",
+                          //   text: "Wishlist",
+                          // ),
                         ],
                       ),
                       getheight(context, 0.010),
@@ -295,15 +329,13 @@ class ProductDetailScreen extends GetView<HomepageController> {
                               text: "Including Premium Anti Glare Lens"),
                         ),
                       ),
-                    
                       getheight(context, 0.010),
                       Row(
-                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Obx(
                             () => Row(
-                              children: [  
-                                                            
+                              children: [
                                 ...Iterable.generate(controller
                                         .productDetailList![0]
                                         .productAttributes!
@@ -317,7 +349,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                                         controller.colorDotsIndex.value = e;
                                         print("index");
                                         print(controller.colorDotsIndex.value);
-                                            controller.selectColorCode.value =
+                                        controller.selectColorCode.value =
                                             controller.productDetailList![0]
                                                 .productAttributes![e].id
                                                 .toString();
@@ -338,11 +370,13 @@ class ProductDetailScreen extends GetView<HomepageController> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              sizeGuideDialouge(context ,controller
-                                                  .productDetailList![0]
-                                                  .productAttributes![controller
-                                                      .colorDotsIndex.value]
-                                                  .images!);
+                              sizeGuideDialouge(
+                                  context,
+                                  controller
+                                      .productDetailList![0]
+                                      .productAttributes![
+                                          controller.colorDotsIndex.value]
+                                      .images!);
                             },
                             child: Row(
                               children: [
@@ -359,7 +393,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                         ],
                       )
                     ])),
-              
+
                 Container(
                   width: Get.width,
                   color: AppColor.greyColor,
@@ -368,7 +402,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
 
                 productDescriptionDeatil(),
                 details(),
-                productDetail("Dimensions", context, () {}),
+                // productDetail("Dimensions", context, () {}),
                 exchangeAndReturn("Exchange & Return Policy", context, () {}),
                 SizedBox(
                   height: getVerticalSize(18),
@@ -469,29 +503,59 @@ class ProductDetailScreen extends GetView<HomepageController> {
                   top: getVerticalSize(8)),
               child: Row(
                 children: [
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: CustomElevatedButtons(
-                          fontWeight: FontWeight.w600,
-                          isBorder: false,
-                          buttoncolor: AppColor.orangeColor,
-                          height: Get.height * 0.050,
-                          width: Get.width * 0.93,
-                          textcolor: AppColor.whiteColor,
-                          textButton: "Lets Chat",
-                          ontap: () async {
-                            var whatsappAndroid = Uri.parse(
-                                "whatsapp://send?phone=6296157088&text=Hi, I need some help");
-                            if (await canLaunchUrl(whatsappAndroid)) {
-                              await launchUrl(whatsappAndroid);
-                            } else {
-                              customeToast(
-                                  "WhatsApp is not installed on the device");
-                            }
-                          }),
-                    ),
-                  ),
+                  controller.productType.value == "Eyeglasses"
+                      ? Expanded(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CustomElevatedButtons(
+                                fontWeight: FontWeight.w600,
+                                isBorder: false,
+                                buttoncolor: AppColor.orangeColor,
+                                height: Get.height * 0.050,
+                                width: Get.width * 0.93,
+                                textcolor: AppColor.whiteColor,
+                                // textButton: "Lets Chat",
+                                textButton: "Select Lens",
+                                ontap: () async {
+                                  // var whatsappAndroid = Uri.parse(
+                                  //     "whatsapp://send?phone=6296157088&text=Hi, I need some help");
+                                  // if (await canLaunchUrl(whatsappAndroid)) {
+                                  //   await launchUrl(whatsappAndroid);
+                                  // } else {
+                                  //   customeToast(
+                                  //       "WhatsApp is not installed on the device");
+                                  // }
+                                  if (homepageController
+                                      .sharedPref.userToken.value.isEmpty) {
+                                    Get.toNamed(
+                                      Routes.OTPPHONENUMBERPAGE,
+                                    );
+                                    // Get.to(LoginScreen());
+                                    // loginDialouge(context);
+                                  } else {
+                                    if (controller
+                                        .selectColorCode.value.isEmpty) {
+                                      customeToast("Choose color of frames");
+                                    } else {
+                                      // controller.isLensType.value = true;
+
+                                      Get.toNamed(Routes.SELECTPRESCRIPTIONPAGE,
+                                          arguments: {
+                                            "colorCode": controller
+                                                .selectColorCode.value,
+                                            "image": controller
+                                                .productDetailList![0]
+                                                .productAttributes![controller
+                                                    .colorDotsIndex.value]
+                                                .images![0]
+                                                .toString()
+                                          });
+                                    }
+                                  }
+                                }),
+                          ),
+                        )
+                      : SizedBox(),
                   width8,
                   Expanded(
                     child: ClipRRect(
@@ -504,8 +568,8 @@ class ProductDetailScreen extends GetView<HomepageController> {
                           width: Get.width * 0.93,
                           textcolor: AppColor.whiteColor,
                           textButton: "Add To Cart",
-                          ontap: () {
-                            if (homepagehomepageController
+                          ontap: () async {
+                            if (homepageController
                                 .sharedPref.userToken.value.isEmpty) {
                               Get.toNamed(
                                 Routes.OTPPHONENUMBERPAGE,
@@ -513,21 +577,32 @@ class ProductDetailScreen extends GetView<HomepageController> {
                               // Get.to(LoginScreen());
                               // loginDialouge(context);
                             } else {
-                              if (controller.selectColorCode.value.isEmpty) {
-                                customeToast("Choose color of frames");
-                              } else {
-                                Get.toNamed(Routes.SELECTPRESCRIPTIONPAGE,
-                                    arguments: {
-                                      "colorCode":
-                                          controller.selectColorCode.value,
-                                      "image": controller
-                                          .productDetailList![0]
-                                          .productAttributes![
-                                              controller.colorDotsIndex.value]
-                                          .images![0]
-                                          .toString()
-                                    });
-                              }
+                              // if (controller.selectColorCode.value.isEmpty) {
+                              //   customeToast("Choose color of frames");
+                              // } else {
+                              //   Get.toNamed(Routes.SELECTPRESCRIPTIONPAGE,
+                              //       arguments: {
+                              //         "colorCode":
+                              //             controller.selectColorCode.value,
+                              //         "image": controller
+                              //             .productDetailList![0]
+                              //             .productAttributes![
+                              //                 controller.colorDotsIndex.value]
+                              //             .images![0]
+                              //             .toString()
+                              //       });
+                              // }
+                              controller.isLensType.value = false;
+                              controller.lensesid.value = 0;
+                              await controller.getAddToCart(
+                                  controller
+                                      .productDetailList![0].frameSize![0].id
+                                      .toString(),
+                                  controller.selectColorCode.value,
+                                  controller.productDetailList![0].id
+                                      .toString(),
+                                  "1",
+                                  "");
                             }
                           }),
                     ),
@@ -670,24 +745,23 @@ class ProductDetailScreen extends GetView<HomepageController> {
             data: controller.productDetailList![0].description,
             style: {
               "table": Style(
-                backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
-                fontSize: FontSize.medium
-              ),
+                  backgroundColor: const Color.fromARGB(0x50, 0xee, 0xee, 0xee),
+                  fontSize: FontSize.medium),
               "tr": Style(
-                border: const Border(bottom: BorderSide(color: Colors.grey)),
-                fontSize: FontSize.medium
-              ),
+                  border: const Border(bottom: BorderSide(color: Colors.grey)),
+                  fontSize: FontSize.medium),
               "th": Style(
-                padding: const EdgeInsets.all(6),
-                backgroundColor: Colors.grey,
-                fontSize: FontSize.medium
-              ),
+                  padding: const EdgeInsets.all(6),
+                  backgroundColor: Colors.grey,
+                  fontSize: FontSize.medium),
               "td": Style(
-                padding: const EdgeInsets.all(6),
-                alignment: Alignment.topLeft,
-                fontSize: FontSize.medium
-              ),
-              'h5': Style(maxLines: 2, textOverflow: TextOverflow.ellipsis , fontSize: FontSize.medium),
+                  padding: const EdgeInsets.all(6),
+                  alignment: Alignment.topLeft,
+                  fontSize: FontSize.medium),
+              'h5': Style(
+                  maxLines: 2,
+                  textOverflow: TextOverflow.ellipsis,
+                  fontSize: FontSize.medium),
             },
           )
         ],
@@ -765,6 +839,12 @@ class ProductDetailScreen extends GetView<HomepageController> {
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w600,
                       ),
+                      height2,
+                      AppText(
+                        text: "Dimensions",
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ],
                   ),
                 ),
@@ -782,7 +862,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                       height2,
                       AppText(
                         text: controller.productDetailList![0].brand ??
-                            "No brand",
+                            "ORANGE EYEWEAR",
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -822,6 +902,15 @@ class ProductDetailScreen extends GetView<HomepageController> {
                         text:
                             controller.productDetailList![0].frameshape!.name ??
                                 "No material",
+                        fontSize: 13.sp,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      height2,
+                      AppText(
+                        text:
+                            // "${controller.productDetailList![0].lenseWidth} - ${controller.productDetailList![0].bridge} - ${controller.productDetailList![0].frameWidth}" ??
+                            "${controller.productDetailList![0].lenseWidth} - ${controller.productDetailList![0].bridge} - ${controller.productDetailList![0].temple}" ??
+                                "No Dimensions",
                         fontSize: 13.sp,
                         fontWeight: FontWeight.w600,
                       ),
@@ -882,6 +971,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
                           ),
+                          height10,
                         ],
                       ),
                     ),
@@ -944,8 +1034,7 @@ class ProductDetailScreen extends GetView<HomepageController> {
           Column(
             children: [
               AppText(
-                text:
-                    "* Easy no question ask 14- days return & exchnage policy ",
+                text: "* Easy no question ask 7 days return & exchnage policy ",
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
               ),
@@ -954,12 +1043,36 @@ class ProductDetailScreen extends GetView<HomepageController> {
                 fontSize: 13.sp,
                 fontWeight: FontWeight.w600,
               ),
-              AppText(
-                text:
-                    "* click here for show all terms and conditions policies ",
-                fontSize: 13.sp,
-                fontWeight: FontWeight.w600,
-              ),
+              // AppText(
+              //   text:
+              //       "* click here for show all terms and conditions policies ",
+              //   fontSize: 13.sp,
+              //   fontWeight: FontWeight.w600,
+              // ),
+              RichText(
+                  text: TextSpan(text: "", children: [
+                //                           "i agree to the": "I Agree to the",
+                // "term": "Term & Conditions",
+                // "and the": "and the",
+                // "privacy policy": "Privacy Policy"
+                TextSpan(
+                    style: GoogleFonts.poppins(
+                        fontSize: 13.sp,
+                        color: AppColor.blueColor,
+                        fontWeight: FontWeight.w600),
+                    text: "* click here ",
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () => Get.to(TermsAndConditionPage())),
+                TextSpan(
+                  style: GoogleFonts.poppins(
+                      fontSize: 13.sp,
+                      color: AppColor.blackColor,
+                      fontWeight: FontWeight.w600),
+                  text: "for show all terms and conditions policies ",
+                  // recognizer: TapGestureRecognizer()
+                  //   ..onTap = () => print('Tap Here onTap'),
+                ),
+              ]))
             ],
           ),
           height13,

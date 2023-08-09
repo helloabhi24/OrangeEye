@@ -13,48 +13,52 @@ String placeOrderItemsModelToJson(PlaceOrderItemsModel data) =>
 class PlaceOrderItemsModel {
   final int id;
   final String orderId;
-  final String productId;
+  final dynamic productId;
   final String productName;
+  final dynamic hsnCode;
   final String image;
   final String modelNumber;
-  final String category;
+  final dynamic category;
   final dynamic brand;
-  final String productType;
-  final String frameMaterial;
-  final String frameType;
-  final String frameShape;
-  final String frameSize;
-  final String prescription;
+  final dynamic productType;
+  final dynamic frameMaterial;
+  final dynamic frameType;
+  final dynamic frameShape;
+  final dynamic frameSize;
+  final dynamic prescription;
   final String frameSizeName;
-  final String lensId;
-  final String lensName;
-  final String lensImage;
-  final String lensPrice;
-  final String lensCgst;
-  final String lensSgst;
-  final String lensIgst;
-  final String colorId;
+  final dynamic lensId;
+  final dynamic lensName;
+  final dynamic lensImage;
+  final dynamic lensPrice;
+  final dynamic lensCgst;
+  final dynamic lensSgst;
+  final dynamic lensIgst;
+  final dynamic colorId;
   final String colorName;
   final String colorCode;
   final String colorImage;
-  final String mrp;
-  final String price;
-  final String qty;
+  final dynamic mrp;
+  final dynamic price;
+  final dynamic qty;
   final String temple;
   final String bridge;
-  final String cgst;
-  final String sgst;
-  final String igst;
+  final dynamic cgst;
+  final dynamic sgst;
+  final dynamic igst;
   final dynamic extraPrice;
-  final String totalPrice;
+  final dynamic totalPrice;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final int productTax;
+  final dynamic lenseTax;
 
   PlaceOrderItemsModel({
     required this.id,
     required this.orderId,
     required this.productId,
     required this.productName,
+    this.hsnCode,
     required this.image,
     required this.modelNumber,
     required this.category,
@@ -64,15 +68,15 @@ class PlaceOrderItemsModel {
     required this.frameType,
     required this.frameShape,
     required this.frameSize,
-    required this.prescription,
+    this.prescription,
     required this.frameSizeName,
-    required this.lensId,
-    required this.lensName,
-    required this.lensImage,
-    required this.lensPrice,
-    required this.lensCgst,
-    required this.lensSgst,
-    required this.lensIgst,
+    this.lensId,
+    this.lensName,
+    this.lensImage,
+    this.lensPrice,
+    this.lensCgst,
+    this.lensSgst,
+    this.lensIgst,
     required this.colorId,
     required this.colorName,
     required this.colorCode,
@@ -89,6 +93,8 @@ class PlaceOrderItemsModel {
     required this.totalPrice,
     required this.createdAt,
     required this.updatedAt,
+    required this.productTax,
+    this.lenseTax,
   });
 
   factory PlaceOrderItemsModel.fromJson(Map<String, dynamic> json) =>
@@ -97,6 +103,7 @@ class PlaceOrderItemsModel {
         orderId: json["order_id"],
         productId: json["product_id"],
         productName: json["product_name"],
+        hsnCode: json["hsn_code"],
         image: json["image"],
         modelNumber: json["model_number"],
         category: json["category"],
@@ -131,6 +138,8 @@ class PlaceOrderItemsModel {
         totalPrice: json["total_price"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
+        productTax: json["product_tax"],
+        lenseTax: json["lense_tax"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -138,6 +147,7 @@ class PlaceOrderItemsModel {
         "order_id": orderId,
         "product_id": productId,
         "product_name": productName,
+        "hsn_code": hsnCode,
         "image": image,
         "model_number": modelNumber,
         "category": category,
@@ -172,5 +182,7 @@ class PlaceOrderItemsModel {
         "total_price": totalPrice,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
+        "product_tax": productTax,
+        "lense_tax": lenseTax,
       };
 }

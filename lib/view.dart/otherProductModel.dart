@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -43,7 +45,7 @@ class OtherProductShapePage extends GetView<HomepageController> {
                       scrollDirection: Axis.vertical,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
-                          mainAxisExtent: Get.height * 0.28,
+                          mainAxisExtent: Get.height * 0.30,
                           childAspectRatio: 1,
                           crossAxisSpacing: 1,
                           mainAxisSpacing: 0),
@@ -71,7 +73,7 @@ class OtherProductWidget extends StatelessWidget {
         child: GestureDetector(
           onTap: () async {
             await homepageController.getProductDetail(
-                homepageController.finalHomepageProductList![index!].slug!);
+                homepageController.productShapeList![index!].slug!);
             Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
           },
           child: Container(
@@ -87,25 +89,91 @@ class OtherProductWidget extends StatelessWidget {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: Get.height * 0.15,
+                        height: Get.height * 0.17,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (cnt, index1) {
                             return Container(
-                              margin: EdgeInsets.only(top: getVerticalSize(40)),
-                              height: Get.height * 0.10,
-                              color: AppColor.whiteColor,
-                              child: cacheNetworkImage(
-                                  imageUrl:
-                                      "https://orangeeyewearindia.com/public/uploads/products/${homepageController.productShapeList![index!].images![index1]}",
-                                  height: Get.height * 0.13,
-                                  boxfit: BoxFit.cover,
-                                  width: Get.width * 0.43,
-                                  memCacheHeight: 200,
-                                  ontap: () async {
-                                    // Get.toNamed("/mainpage");
-                                  }),
-                            );
+                                width: Get.width * 0.37,
+                                margin: EdgeInsets.only(
+                                    top: getVerticalSize(30),
+                                    left: getHorizontalSize(20),
+                                    right: getHorizontalSize(20)),
+                                height: Get.height * 0.15,
+                                color: AppColor.whiteColor,
+                                child: CarouselSlider(
+                                    items: homepageController
+                                        .productShapeList![index!].images!
+                                        .map<Widget>((element) =>
+                                            CachedNetworkImage(
+                                              height: Get.height * 0.20,
+                                              // boxfit: BoxFit.cover,
+                                              width: Get.width * 0.40,
+                                              memCacheHeight: 220,
+                                              imageBuilder:
+                                                  (context, imageProvider) =>
+                                                      Container(
+                                                width: getHorizontalSize(4000),
+                                                // height: Get.height * 0.20,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(0),
+                                                  image: DecorationImage(
+                                                      image: imageProvider,
+                                                      fit: BoxFit.fitWidth),
+                                                ),
+                                              ),
+                                              imageUrl:
+                                                  "https://orangeeyewearindia.com/public/uploads/products/${element}",
+                                              placeholder: (context, url) =>
+                                                  const Center(
+                                                      child:
+                                                          CircularProgressIndicator()),
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      const Icon(Icons.error),
+                                            ))
+                                        .toList(),
+                                    options: CarouselOptions(
+                                      // height: homepageController
+                                      //         .homePageSliderList!.isEmpty
+                                      //     ? 0
+                                      //     : Get.height * 0.20,
+
+                                      aspectRatio: 13 / 8.9,
+                                      viewportFraction: 1.6,
+                                      initialPage: 0,
+                                      enableInfiniteScroll: true,
+                                      reverse: false,
+                                      autoPlay: false,
+                                      autoPlayInterval:
+                                          const Duration(seconds: 3),
+                                      autoPlayAnimationDuration:
+                                          const Duration(milliseconds: 800),
+                                      autoPlayCurve: Curves.fastOutSlowIn,
+                                      enlargeFactor: 0.2,
+                                      enlargeCenterPage: true,
+                                      onPageChanged: (v, c) {
+                                        homepageController.sliderIndex.value =
+                                            v;
+                                      },
+                                      scrollDirection: Axis.horizontal,
+                                    ))
+                                // cacheNetworkImage(
+                                //     imageUrl:
+                                //         "https://orangeeyewearindia.com/public/uploads/products/${homepageController.productShapeList![index!].images![index1]}",
+                                //     height: Get.height * 0.18,
+                                //     boxfit: BoxFit.cover,
+                                //     width: Get.width * 0.34,
+                                //     memCacheHeight: 200,
+                                //     ontap: () async {
+                                //       // Get.toNamed("/mainpage");
+                                //       await homepageController.getProductDetail(
+                                //           homepageController
+                                //               .productShapeList![index!].slug!);
+                                //       Get.toNamed(Routes.PRODUCTDESCRIPTIONPAGE);
+                                //     }),
+                                );
                           },
                           itemCount: homepageController
                               .productShapeList![index!].images!.length,
@@ -146,13 +214,13 @@ class OtherProductWidget extends StatelessWidget {
                                       left: getHorizontalSize(10)),
                                   child: Row(
                                     children: [
-                                      AppText(
-                                          textDecoration:
-                                              TextDecoration.lineThrough,
-                                          fontSize: 12.sp,
-                                          text:
-                                              "₹ ${homepageController.finalHomepageProductList![index!].mrp}"),
-                                      getWidth(context, 0.020),
+                                      // AppText(
+                                      //     textDecoration:
+                                      //         TextDecoration.lineThrough,
+                                      //     fontSize: 12.sp,
+                                      //     text:
+                                      //         "₹ ${homepageController.finalHomepageProductList![index!].mrp}"),
+                                      // getWidth(context, 0.020),
                                       AppText(
                                           fontSize: 12.sp,
                                           text:
@@ -164,29 +232,70 @@ class OtherProductWidget extends StatelessWidget {
                         ],
                       ),
 
-                      // height18,
-                      SizedBox(
-                        height: Get.height * 0.06,
-                        // width: Get.width * 0.20,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index2) {
-                            return Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: getHorizontalSize(10)),
-                              child: ColorDots(
-                                dotsColor: Color(int.parse(
-                                    "0xff${homepageController.productShapeList![index!].productAttributes![index2].colorCode!.replaceFirst(r'#', "")}")),
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            homepageController
+                                        .productShapeList![index!].colorCode ==
+                                    "null"
+                                ? SizedBox()
+                                : ColorDots(
+                                    borderColor: AppColor.greyColor,
+                                    dotsColor: Color(int.parse(
+                                        "0xff${homepageController.productShapeList![index!].colorCode!.replaceFirst(r'#', "")}")),
+                                  ),
+                            SizedBox(
+                              height: Get.height * 0.05,
+                              // width: Get.width * 0.20,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index2) {
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: getHorizontalSize(10)),
+                                    child: ColorDots(
+                                      borderColor: AppColor.greyColor,
+                                      dotsColor: Color(int.parse(
+                                          "0xff${homepageController.productShapeList![index!].productAttributes![index2].colorCode!.replaceFirst(r'#', "")}")),
+                                    ),
+                                  );
+                                },
+                                itemCount: homepageController
+                                    .productShapeList![index!]
+                                    .productAttributes!
+                                    .length,
+                                shrinkWrap: true,
                               ),
-                            );
-                          },
-                          itemCount: homepageController
-                              .productShapeList![index!]
-                              .productAttributes!
-                              .length,
-                          shrinkWrap: true,
+                            ),
+                          ],
                         ),
                       )
+
+                      // height18,
+                      // SizedBox(
+                      //   height: Get.height * 0.06,
+                      //   // width: Get.width * 0.20,
+                      //   child: ListView.builder(
+                      //     scrollDirection: Axis.horizontal,
+                      //     itemBuilder: (context, index2) {
+                      //       return Padding(
+                      //         padding: EdgeInsets.symmetric(
+                      //             horizontal: getHorizontalSize(10)),
+                      //         child: ColorDots(
+                      //           dotsColor: Color(int.parse(
+                      //               "0xff${homepageController.productShapeList![index!].productAttributes![index2].colorCode!.replaceFirst(r'#', "")}")),
+                      //         ),
+                      //       );
+                      //     },
+                      //     itemCount: homepageController
+                      //         .productShapeList![index!]
+                      //         .productAttributes!
+                      //         .length,
+                      //     shrinkWrap: true,
+                      //   ),
+                      // )
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.center,
                       //   children: [
@@ -216,16 +325,45 @@ class OtherProductWidget extends StatelessWidget {
                                 .sharedPref.userToken.value.isEmpty) {
                               Get.to(LoginScreen());
                             } else {
-                              await homepageController.updatedWhislist(
-                                homepageController.productShapeList![index!].id
-                                    .toString(),
-                              );
-
-                              homepageController.isSelected.value =
+                              if (homepageController.genderLikeUpdatedList
+                                  .contains(homepageController
+                                      .productShapeList![index!].id)) {
+                                homepageController.genderLikeUpdatedList.remove(
+                                    homepageController
+                                        .productShapeList![index!].id);
+                                await homepageController.updatedWhislist(
                                   homepageController
                                       .productShapeList![index!].id
-                                      .toString();
+                                      .toString(),
+                                );
+                                // homepageController.finalHomepageProductList!
+                                //     .clear();
+                                // homepageController.getOurRecommendation("");
+                              } else {
+                                homepageController.genderLikeUpdatedList.add(
+                                    homepageController
+                                        .productShapeList![index!].id);
+                                await homepageController.updatedWhislist(
+                                  homepageController
+                                      .productShapeList![index!].id
+                                      .toString(),
+                                );
+                                // homepageController.finalHomepageProductList!
+                                //     .clear();
+                                // homepageController.getOurRecommendation("");
+                              }
                             }
+                            // else {
+                            //   await homepageController.updatedWhislist(
+                            //     homepageController.productShapeList![index!].id
+                            //         .toString(),
+                            //   );
+
+                            //   homepageController.isSelected.value =
+                            //       homepageController
+                            //           .productShapeList![index!].id
+                            //           .toString();
+                            // }
 
                             // if (homepageController
                             //         .finalHomepageProductList![index!]
@@ -247,13 +385,16 @@ class OtherProductWidget extends StatelessWidget {
                             //     !homepageController.isAddWishlist.value;
                           },
                           child: Icon(
-                              homepageController.productShapeList![index!]
-                                              .wishlist ==
-                                          true ||
-                                      homepageController.isSelected.value ==
-                                          homepageController
-                                              .productShapeList![index!].id
-                                              .toString()
+                              homepageController.genderLikeUpdatedList.contains(
+                                      homepageController
+                                          .productShapeList![index!].id)
+                                  // homepageController.productShapeList![index!]
+                                  //                 .wishlist ==
+                                  //             true ||
+                                  //         homepageController.isSelected.value ==
+                                  //             homepageController
+                                  //                 .productShapeList![index!].id
+                                  //                 .toString()
                                   ? Icons.favorite
                                   : Icons.favorite_border,
                               color: AppColor.orangeColor),

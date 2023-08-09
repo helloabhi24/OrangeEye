@@ -8,5 +8,5 @@ customeToast(String text) {
       gravity: ToastGravity.BOTTOM,
       timeInSecForIosWeb: 1,
       backgroundColor: AppColor.blackColor,
-      textColor: AppColor.blackColor);
+      textColor: AppColor.whiteColor);
 }

@@ -8,6 +8,8 @@ import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/customeAppBar.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 
+import '../controller.dart/homeController.dart';
+
 class CategoryByGenderPage extends GetView<CategoryByGenderController> {
   const CategoryByGenderPage({super.key});
 
@@ -15,6 +17,7 @@ class CategoryByGenderPage extends GetView<CategoryByGenderController> {
   Widget build(BuildContext context) {
     MainpageController mainpageController = Get.find();
     CategoryByGenderController categoryByGenderController = Get.find();
+
     return Obx(
       () => Scaffold(
         appBar: CustomAppbar.customeAppbar(
@@ -45,7 +48,8 @@ class CategoryByGenderPage extends GetView<CategoryByGenderController> {
               getheight(context, 0.020),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ...Iterable.generate(
                             mainpageController.getCategoryName.length)
@@ -61,6 +65,11 @@ class CategoryByGenderPage extends GetView<CategoryByGenderController> {
                                             .toString());
                                     categoryByGenderController
                                         .whichGlassesDataShow.value = e;
+                                    print("THis is value of e");
+                                    print(e);
+                                    print("THis is value of controller");
+                                    print(categoryByGenderController
+                                        .whichGlassesDataShow.value);
                                   },
                                   child: CircleAvatar(
                                     radius: 32.h,
@@ -109,7 +118,7 @@ class CategoryByGenderPage extends GetView<CategoryByGenderController> {
                             gridDelegate:
                                 SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
-                                    mainAxisExtent: Get.height * 0.28,
+                                    mainAxisExtent: Get.height * 0.30,
                                     childAspectRatio: 1,
                                     crossAxisSpacing: 1,
                                     mainAxisSpacing: 0),
@@ -119,8 +128,7 @@ class CategoryByGenderPage extends GetView<CategoryByGenderController> {
                               return GogleCategoryWiseWidget(
                                 index: index,
                               );
-                            })
-                            ),
+                            })),
               )
             ],
           ),

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:orangeeye/controller.dart/addNewAddressController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
+import 'package:orangeeye/utils/customDrpdown.dart';
 import 'package:orangeeye/utils/customeAppBar.dart';
 import 'package:orangeeye/utils/sizeHelper.dart';
 import '../routes/approutes.dart';
@@ -134,7 +135,9 @@ class PaymentPage extends GetView<AddNewAddressController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AppText(
-                          text: "Delivering To ",
+                          text: controller.isCheck.value
+                              ? "Billing To"
+                              : "Delivering To ",
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
                           color: AppColor.blackColor),
@@ -147,7 +150,7 @@ class PaymentPage extends GetView<AddNewAddressController> {
                       getheight(context, 0.007),
                       AppText(
                           text:
-                              "${controller.billingLocalityController.text} ${controller.city.value} ${controller.state.value} ${controller.billingPincodeController.text} ",
+                              "${controller.billingLocalityController.text}, ${controller.citynameforbilling.value}, ${controller.statenameforbilling.value}, ${controller.billingPincodeController.text} ",
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w400,
                           color: AppColor.blackColor),
@@ -158,6 +161,48 @@ class PaymentPage extends GetView<AddNewAddressController> {
                           fontWeight: FontWeight.w500,
                           color: AppColor.blackColor),
                       getheight(context, 0.007),
+                    ],
+                  ),
+                ),
+                Visibility(
+                  visible: controller.isCheck.value,
+                  child: Column(
+                    children: [
+                      getheight(context, 0.010),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: getHorizontalSize(10)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AppText(
+                                text: "Delivering To",
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColor.blackColor),
+                            getheight(context, 0.007),
+                            AppText(
+                                text: controller.nameController.text,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w400,
+                                color: AppColor.blackColor),
+                            getheight(context, 0.007),
+                            AppText(
+                                text:
+                                    "${controller.localityController.text}, ${controller.citynameforshipping.value}, ${controller.stateforshipping.value}, ${controller.pincodeController.text} ",
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w400,
+                                color: AppColor.blackColor),
+                            getheight(context, 0.007),
+                            AppText(
+                                text: controller.phoneController.text,
+                                fontSize: 13.sp,
+                                fontWeight: FontWeight.w500,
+                                color: AppColor.blackColor),
+                            getheight(context, 0.007),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -186,10 +231,9 @@ class PaymentPage extends GetView<AddNewAddressController> {
                             "https://securegw.paytm.in/theia/api/v1/initiateTransaction/?mid=VuhEjm57073837498953&orderId=${controller.orderId.value}",
                             //'https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=${controller.orderId.value}',
                             false,
-                            false);
+                            true);
                       } else {
-                        await controller
-                            .placeOrder();
+                        await controller.placeOrder();
                       }
 
                       // Get.toNamed(Routes.MAINPAGE)

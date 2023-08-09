@@ -17,13 +17,13 @@ class CustomAppbar {
     String title = "appbar",
     double fontSize = 15,
     FontWeight fontWeight = FontWeight.w500,
+    // Color appBarColor = AppColor.whiteColor,
     Color appBarColor = AppColor.whiteColor,
     bool isImage = false,
     String imagePath = "",
   }) {
     WishlistPageController whishlistController = Get.find();
     HomepageController homepageController = Get.find();
- 
 
     return AppBar(
       iconTheme: const IconThemeData(color: AppColor.blackColor),
@@ -56,11 +56,9 @@ class CustomAppbar {
               onTap: () {
                 if (homepageController.sharedPref.userToken.value.isEmpty) {
                   Get.to(LoginScreen());
-            
                 } else {
                   Get.to(CartPage());
                 }
-                
               },
               child: Icon(
                 Icons.shopping_bag_outlined,

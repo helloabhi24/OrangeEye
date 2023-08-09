@@ -12,12 +12,12 @@ String getLensesByCategoryModelToJson(GetLensesByCategoryModel data) =>
 
 class GetLensesByCategoryModel {
   final int id;
-  final String? name;
-  final String? image;
-  final String? status;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final List<Lense>? lenses;
+  final String name;
+  final String image;
+  final String status;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final List<Lense> lenses;
 
   GetLensesByCategoryModel({
     required this.id,
@@ -45,25 +45,25 @@ class GetLensesByCategoryModel {
         "name": name,
         "image": image,
         "status": status,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
-        "lenses": List<dynamic>.from(lenses!.map((x) => x.toJson())),
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
+        "lenses": List<dynamic>.from(lenses.map((x) => x.toJson())),
       };
 }
 
 class Lense {
   final int id;
-  final String? lensCategory;
-  final String? name;
-  final String? mrp;
-  final String? price;
-  final String? cgst;
-  final String? sgst;
-  final String? igst;
-  final String? image;
-  final String? status;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  final int lensCategory;
+  final String name;
+  final dynamic mrp;
+  final dynamic price;
+  final int cgst;
+  final int sgst;
+  final int igst;
+  final String image;
+  final String status;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Lense({
     required this.id,
@@ -106,7 +106,7 @@ class Lense {
         "igst": igst,
         "image": image,
         "status": status,
-        "created_at": createdAt!.toIso8601String(),
-        "updated_at": updatedAt!.toIso8601String(),
+        "created_at": createdAt.toIso8601String(),
+        "updated_at": updatedAt.toIso8601String(),
       };
 }

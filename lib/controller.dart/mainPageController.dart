@@ -35,8 +35,17 @@ class MainpageController extends GetxController {
   RxString blogtitle = "".obs;
   RxString blogimage = "".obs;
   RxString blogddescription = "".obs;
-  
-  AddNewAddressController addNewAddressController =  Get.find();
+
+  RxInt stateById = 0.obs;
+  RxString stateByName = "".obs;
+
+  RxString stateByIdfromProfile = "".obs;
+  RxString cityByIdfromProfile = "".obs;
+
+  RxInt cityById = 0.obs;
+  RxString cityByName = "".obs;
+
+  AddNewAddressController addNewAddressController = Get.find();
 
   RxList<GlassesModel> getGlassesList = <GlassesModel>[].obs;
 
@@ -57,9 +66,16 @@ class MainpageController extends GetxController {
   Future getProfile() async {
     try {
       showloadingIndicators();
-      await ApiRepo().getProfile(sharedPref.userToken.value).then((value) {
+      await ApiRepo()
+          .getProfile(sharedPref.userToken.value)
+          .then((value) async {
         if (value["status"] == 1) {
+          print("This is value of getProfile in main page controller");
           phoneNumber.value = value["data"]["phone"];
+          stateByIdfromProfile.value = value["data"]["state"].toString();
+          cityByIdfromProfile.value = value["data"]["city"].toString();
+          await getStatesById(stateByIdfromProfile.value);
+          await getCitysById(cityByIdfromProfile.value);
         } else {
           customeToast(value["msg"]);
           // customeToast("something went worng please try again");
@@ -165,7 +181,7 @@ class MainpageController extends GetxController {
         if (value["status"] == "success") {
           getglassesHomePageList.value = value["data"];
           print("categoryNmae");
-          print(getglassesHomePageList);
+          print(getglassesHomePageList.value);
         }
       });
     } catch (e) {
@@ -173,65 +189,58 @@ class MainpageController extends GetxController {
     }
   }
 
- Future getTermsandconditions() async {
+  Future getTermsandconditions() async {
     try {
       await ApiRepo().getTermsandConditions().then((value) {
-          if(value["status"]=="success"){
-            termsAndCondition.value = value["data"];
-          }
+        if (value["status"] == "success") {
+          termsAndCondition.value = value["data"];
+        }
       });
     } catch (e) {
       print(e);
     }
   }
-
 
   Future getsizeguide() async {
     try {
       await ApiRepo().getSizeGuide().then((value) {
-          if(value["status"]=="success"){
-             sizeGuide.value =  value["data"].toString();
-             print(sizeGuide.value);
-          }
+        if (value["status"] == "success") {
+          sizeGuide.value = value["data"].toString();
+          // print(sizeGuide.value);
+        }
       });
     } catch (e) {
       print(e);
     }
   }
 
-
-
-   Future getBlogs() async {
+  Future getBlogs() async {
     print("arun");
     try {
       await ApiRepo().getBlog().then((value) {
-          if(value["status"]=="success"){
-             blogList.value = value["data"];
-         
-          }
+        if (value["status"] == "success") {
+          blogList.value = value["data"];
+        }
       });
     } catch (e) {
       print(e);
     }
   }
 
-
-   getOurBlogDetail(String value) async {
-   
+  getStatesById(String value) async {
     Map<String, dynamic> data = {};
-    data["slug"] = value;
+    data["id"] = value;
 
     try {
       showloadingIndicators();
-      await ApiRepo().getBlogdetail(data).then((value) {
-
-        if(value["status"]=="success"){
-          blogimage.value = value["data"][0]["image"];
-          blogtitle.value = value["data"][0]["title"];
-            blogddescription.value = value["data"][0]["description"];
-
-         
-          }
+      await ApiRepo().getStateById(data).then((value) {
+        if (value["status"] == "success") {
+          stateById.value = value["data"]["id"];
+          stateByName.value = value["data"]["name"];
+          // blogimage.value = value["data"][0]["image"];
+          // blogtitle.value = value["data"][0]["title"];
+          // blogddescription.value = value["data"][0]["description"];
+        }
       });
     } catch (e) {
       print(e);
@@ -239,13 +248,46 @@ class MainpageController extends GetxController {
     hideLoading();
   }
 
+  getCitysById(String value) async {
+    Map<String, dynamic> data = {};
+    data["id"] = value;
 
+    try {
+      showloadingIndicators();
+      await ApiRepo().getCityById(data).then((value) {
+        if (value["status"] == "success") {
+          cityById.value = value["data"]["id"];
+          cityByName.value = value["data"]["name"];
+          // blogimage.value = value["data"][0]["image"];
+          // blogtitle.value = value["data"][0]["title"];
+          // blogddescription.value = value["data"][0]["description"];
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+    hideLoading();
+  }
 
+  getOurBlogDetail(String value) async {
+    Map<String, dynamic> data = {};
+    data["slug"] = value;
 
+    try {
+      // showloadingIndicators();
+      await ApiRepo().getBlogdetail(data).then((value) {
+        if (value["status"] == "success") {
+          blogimage.value = value["data"][0]["image"];
+          blogtitle.value = value["data"][0]["title"];
+          blogddescription.value = value["data"][0]["description"];
+        }
+      });
+    } catch (e) {
+      print(e);
+    }
+    // hideLoading();
+  }
 
-
-   
-     
   List<Map<String, dynamic>> drawerList = [
     {
       "title": "Size guide",
@@ -268,11 +310,7 @@ class MainpageController extends GetxController {
       "page": const PrescriptionPage(),
     },
 
-    {
-      "title": "Blog",
-      "images": "assets/images/Home.png",
-      "page": BlogPage()
-    },
+    {"title": "Blog", "images": "assets/images/Home.png", "page": BlogPage()},
     {
       "title": "Socila Media Links",
       "images": "assets/images/Home.png",
@@ -300,14 +338,16 @@ class MainpageController extends GetxController {
     getCategoryNameProduct();
     await sharedPref.getUserId();
     await getProfile();
+    // await getStatesById(stateByIdfromProfile.value.toString());
+    // await getCitysById(cityByIdfromProfile.value.toString());
     await getRetrunPolicies();
     await getShippingPolicies();
     await getTermsandconditions();
-     getsizeguide();
-     getBlogs();
-   await  getSocilaMediaLinks();
+    getsizeguide();
+    getBlogs();
+    await getSocilaMediaLinks();
     await getGlassesHomePage();
-     await addNewAddressController.getProfileAddress();
+    await addNewAddressController.getProfileAddress();
     super.onInit();
   }
 }
