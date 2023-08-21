@@ -380,8 +380,8 @@ class HomepageController extends GetxController {
             .toList();
         print(
             "foinalhomepagelistgdfsghfdsghsdfhfghdfhshfdsh555555555555555555555555");
-        print(fiftyProductsList!.value);
-        print(fiftyProductsList![0].productAttributes![0].colorCode);
+        // print(fiftyProductsList!.value);
+        // print(fiftyProductsList![0].productAttributes![0].colorCode);
       });
     } catch (e) {
       print(e);

@@ -23,10 +23,10 @@ class FiftyProductModel {
   final dynamic price;
   final String availability;
   final String extraPrice;
-  final String productName;
+  final dynamic productName;
   final String categoriesName;
   final List<ProductAttribute> productAttributes;
-  final List<String> images;
+  final List<String?> images;
   final bool wishlist;
 
   FiftyProductModel({
@@ -68,7 +68,7 @@ class FiftyProductModel {
         productAttributes: List<ProductAttribute>.from(
             json["product_attributes"]
                 .map((x) => ProductAttribute.fromJson(x))),
-        images: List<String>.from(json["images"].map((x) => x)),
+        images: List<String?>.from(json["images"].map((x) => x)),
         wishlist: json["wishlist"],
       );
 
