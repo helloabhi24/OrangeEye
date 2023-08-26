@@ -72,7 +72,7 @@ class MainPage extends GetView<MainpageController> {
                             fontWeight: FontWeight.w500,
                             color: AppColor.blackColor,
                           ),
-                          getheight(context, 0.004),
+                          getheight(context, 0.002),
                           AppText(
                             text: profileSettingPageController
                                     .emailController.text.isEmpty
@@ -317,70 +317,70 @@ class MainPage extends GetView<MainpageController> {
             fontWeight: FontWeight.w600,
           ),
           children: [
-            ...Iterable.generate(controller.getGlassesList.length)
-                .map((e1) => Align(
-                      alignment: Alignment.centerLeft,
-                      child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ExpansionTile(
-                            tilePadding: EdgeInsets.symmetric(
-                                horizontal: getHorizontalSize(10)),
-                            title: AppText(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w600,
-                              text: controller.getGlassesList[e1].name,
-                            ),
-                            children: [
-                              ...Iterable.generate(
-                                      controller.getCategoryName.length)
-                                  .map((e) => Align(
-                                        alignment: Alignment.centerLeft,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            categoryByGenderController
-                                                .getallCategory(
-                                                    controller
-                                                        .getGlassesList[e1].id
-                                                        .toString(),
-                                                    controller
-                                                        .getCategoryName[e].id
-                                                        .toString());
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      CategoryWiseProductPage(
-                                                    glassName: controller
-                                                        .getGlassesList[e1]
-                                                        .name,
-                                                  ),
-                                                ));
-                                            // Get.toNamed(
-                                            //   Routes.CATEGORYWISEPRODUCT,
-                                            // );
+            ...Iterable.generate(controller.getGlassesList.length).map((e1) =>
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ExpansionTile(
+                        tilePadding: EdgeInsets.symmetric(
+                            horizontal: getHorizontalSize(10)),
+                        title: AppText(
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600,
+                          text: controller.getGlassesList[e1].name,
+                        ),
+                        children: [
+                          ...Iterable.generate(
+                                  controller.getCategoryName.length)
+                              .map((e) => Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        print("this is value of ");
+                                        print(controller.getGlassesList[e1].id);
+                                        print(controller.getCategoryName[e].id);
+                                        categoryByGenderController
+                                            .getallCategory(
+                                                controller.getGlassesList[e1].id
+                                                    .toString(),
+                                                controller.getCategoryName[e].id
+                                                    .toString());
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CategoryWiseProductPage(
+                                                glassName: controller
+                                                    .getGlassesList[e1].name,
+                                              ),
+                                            ));
+                                        // Get.toNamed(
+                                        //   Routes.CATEGORYWISEPRODUCT,
+                                        // );
 
-                                            //   // arguments: {
-                                            //   //   "type": controller
-                                            //   //       .getGlassesList[e1].name
-                                            //   //       .toString(),
-                                            //   //   // "id": "1"
-                                            //   // }
-                                            // );
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: AppText(
-                                              fontSize: 13.sp,
-                                              fontWeight: FontWeight.w600,
-                                              text: controller
-                                                  .getCategoryName[e].name,
-                                            ),
-                                          ),
+                                        //   // arguments: {
+                                        //   //   "type": controller
+                                        //   //       .getGlassesList[e1].name
+                                        //   //       .toString(),
+                                        //   //   // "id": "1"
+                                        //   // }
+                                        // );
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: AppText(
+                                          fontSize: 13.sp,
+                                          fontWeight: FontWeight.w600,
+                                          text: controller
+                                              .getCategoryName[e].name,
                                         ),
-                                      ))
-                            ],
-                          )),
-                    )),
+                                      ),
+                                    ),
+                                  ))
+                        ],
+                      )),
+                )),
           ],
         ),
       ),

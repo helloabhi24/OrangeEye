@@ -174,6 +174,23 @@ class ApiRepo {
     }
   }
 
+  Future categoryWiseProductWithOutLogin(String type, String category) async {
+    try {
+      Response response = await _api.request.get(
+        "https://orangeeyewearindia.com/api/get_product?type=${int.parse(type)}&category=${int.parse(category)}}",
+        options: options,
+      );
+
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        customeToast("Something went wrong");
+      }
+    } on DioError catch (e) {
+      DioExceptions.fromDioError(e);
+    }
+  }
+
   Future typeWiseProduct(String type) async {
     try {
       Response response = await _api.request.get(

@@ -23,6 +23,7 @@ class CategoryByGenderController extends GetxController {
   RxInt whichGlassesDataShow = 0.obs;
   RxString nameOfGlass = "".obs;
   RxString _userId = "".obs;
+  HomepageController homepageController = Get.find();
 
   RxList<ProductByGenderModel>? allProductByGenderList =
       <ProductByGenderModel>[].obs;
@@ -44,23 +45,46 @@ class CategoryByGenderController extends GetxController {
   }
 
   getCategoryAndProduct(String type, String category) async {
-    _get_userId();
-    try {
-      isLoading.value = true;
-      oninit.value == true ? null : showloadingIndicators();
-      await ApiRepo()
-          .categoryWiseProduct(type, category, _userId.value)
-          .then((value) {
-        allProductByGenderList!.clear();
-        allProductByGenderList!.value = (value["data"] as List)
-            .map((e) => ProductByGenderModel.fromJson(e))
-            .toList();
-        print("allProductByGenderList");
-        print(allProductByGenderList);
-        // allProductByGenderList.addAll(value["data"]);
-      });
-    } catch (e) {
-      print(e);
+    // _get_userId();
+    if (homepageController.isLogin.value == false) {
+      try {
+        isLoading.value = true;
+        oninit.value == true ? null : showloadingIndicators();
+        await ApiRepo()
+            .categoryWiseProductWithOutLogin(type, category)
+            .then((value) {
+          allProductByGenderList!.clear();
+          allProductByGenderList!.value = (value["data"] as List)
+              .map((e) => ProductByGenderModel.fromJson(e))
+              .toList();
+          print("allProductByGenderList");
+          print(allProductByGenderList);
+          // allProductByGenderList.addAll(value["data"]);
+        });
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      _get_userId();
+
+      try {
+        isLoading.value = true;
+        oninit.value == true ? null : showloadingIndicators();
+        await ApiRepo()
+            .categoryWiseProduct(type, category, _userId.value)
+            .then((value) {
+          allProductByGenderList!.clear();
+          allProductByGenderList!.value = (value["data"] as List)
+              .map((e) => ProductByGenderModel.fromJson(e))
+              .toList();
+          print("fdlsajfjhadsfhlkjadhsfkjhsdakjfhksdhafkhlsadkhf++++++");
+          print("allProductByGenderList");
+          print(allProductByGenderList);
+          // allProductByGenderList.addAll(value["data"]);
+        });
+      } catch (e) {
+        print(e);
+      }
     }
     isLoading.value = false;
     oninit.value == true ? null : hideLoading();
@@ -89,24 +113,45 @@ class CategoryByGenderController extends GetxController {
   }
 
   getallCategory(String type, String category) async {
-    _get_userId();
-    try {
-      showloadingIndicators();
-      await ApiRepo()
-          .categoryWiseProduct(type, category, _userId.value)
-          .then((value) {
-        getallCategoryList.clear();
-        // allProductByGenderList!.value = (value["data"] as List)
-        //     .map((e) => ProductByGenderModel.fromJson(e))
-        //     .toList();
-        getallCategoryList.addAll(value["data"]);
+    if (homepageController.isLogin.value == false) {
+      try {
+        showloadingIndicators();
+        await ApiRepo()
+            .categoryWiseProductWithOutLogin(type, category)
+            .then((value) {
+          getallCategoryList.clear();
+          // allProductByGenderList!.value = (value["data"] as List)
+          //     .map((e) => ProductByGenderModel.fromJson(e))
+          //     .toList();
+          getallCategoryList.addAll(value["data"]);
 
-        print("getallCategoryList");
-        print(getallCategoryList);
-        // allProductByGenderList.addAll(value["data"]);
-      });
-    } catch (e) {
-      print(e);
+          print("getallCategoryList");
+          print(getallCategoryList);
+          // allProductByGenderList.addAll(value["data"]);
+        });
+      } catch (e) {
+        print(e);
+      }
+    } else {
+      _get_userId();
+      try {
+        showloadingIndicators();
+        await ApiRepo()
+            .categoryWiseProduct(type, category, _userId.value)
+            .then((value) {
+          getallCategoryList.clear();
+          // allProductByGenderList!.value = (value["data"] as List)
+          //     .map((e) => ProductByGenderModel.fromJson(e))
+          //     .toList();
+          getallCategoryList.addAll(value["data"]);
+
+          print("getallCategoryList");
+          print(getallCategoryList);
+          // allProductByGenderList.addAll(value["data"]);
+        });
+      } catch (e) {
+        print(e);
+      }
     }
     hideLoading();
   }

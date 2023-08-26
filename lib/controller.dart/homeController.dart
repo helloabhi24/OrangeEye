@@ -56,6 +56,7 @@ class HomepageController extends GetxController {
   RxString taxes = "".obs;
   RxString grandtotal = "".obs;
   RxString productSubtotal = "".obs;
+  RxBool isLogin = false.obs;
 
   RxString productType = "".obs;
 
@@ -640,6 +641,7 @@ class HomepageController extends GetxController {
       // showloadingIndicators();
       await ApiRepo().getAddtocart(data).then((value) {
         if (value["status"] == "success") {
+          isLogin.value = true;
           getCartList!.value = (value["data"] as List)
               .map((e) => GetCartModel.fromJson(e))
               .toList();
@@ -653,6 +655,7 @@ class HomepageController extends GetxController {
           // customeToast(value["msg"]);
         } else {
           customeToast(value["msg"]);
+          isLogin.value = false;
         }
       });
     } catch (e) {

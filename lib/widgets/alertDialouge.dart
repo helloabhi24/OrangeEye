@@ -4,7 +4,9 @@ import 'package:orangeeye/controller.dart/mainPageController.dart';
 import 'package:orangeeye/utils/appColor.dart';
 import 'package:orangeeye/utils/appText.dart';
 import 'package:orangeeye/utils/sharedPref.dart';
+import 'package:restart_app/restart_app.dart';
 import '../routes/approutes.dart';
+import '../view.dart/authenticationPage/inputMobileNumberPage.dart';
 
 Future<void> showMyDialog(context) async {
   MainpageController mainpageController = Get.find();
@@ -44,10 +46,12 @@ Future<void> showMyDialog(context) async {
               await Pref().deleteToken();
               await pref.setUserId("");
               // await mainpageController.getProfile();
+              Restart.restartApp(webOrigin: '/inputnumberotp');
               mainpageController.phoneNumber.value = "";
-              Get.toNamed(
-                Routes.OTPPHONENUMBERPAGE,
-              );
+              Get.offAll(LoginScreen());
+              // Get.toNamed(
+              //   Routes.OTPPHONENUMBERPAGE,
+              // );
             },
           ),
         ],

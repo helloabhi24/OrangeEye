@@ -325,23 +325,27 @@ class AddNewAddressController extends GetxController {
     try {
       showloadingIndicators();
       await ApiRepo().getProfiledetail(data).then((value) {
-        billingNameController.text = value["data"]["name"] ?? "";
-        billingPhoneController.text = value["data"]["phone"] ?? "";
-        billingEmailController.text = value["data"]["email"] ?? "";
-        billingAddressController.text = value["data"]["address"] ?? "";
-        billingLocalityController.text = value["data"]["address"] ?? "";
-        billingPincodeController.text = value["data"]["zip"] ?? "";
-        profileSettingPageController.nameController.text =
-            value["data"]["name"] ?? "";
-        profileSettingPageController.emailController.text =
-            value["data"]["email"] ?? "";
-        profileSettingPageController.phoneController.text =
-            value["data"]["phone"] ?? "";
-        profileSettingPageController.zipCodeController.text =
-            value["data"]["zip"] ?? "";
-        profileSettingPageController.addressController.text =
-            value["data"]["address"] ?? "";
-        profileSettingPageController.image.value = value["data"]["image"] ?? "";
+        if (value["data"] == "Please Enter User Id") {
+        } else {
+          billingNameController.text = value["data"]["name"] ?? "";
+          billingPhoneController.text = value["data"]["phone"] ?? "";
+          billingEmailController.text = value["data"]["email"] ?? "";
+          billingAddressController.text = value["data"]["address"] ?? "";
+          billingLocalityController.text = value["data"]["address"] ?? "";
+          billingPincodeController.text = value["data"]["zip"] ?? "";
+          profileSettingPageController.nameController.text =
+              value["data"]["name"] ?? "";
+          profileSettingPageController.emailController.text =
+              value["data"]["email"] ?? "";
+          profileSettingPageController.phoneController.text =
+              value["data"]["phone"] ?? "";
+          profileSettingPageController.zipCodeController.text =
+              value["data"]["zip"] ?? "";
+          profileSettingPageController.addressController.text =
+              value["data"]["address"] ?? "";
+          profileSettingPageController.image.value =
+              value["data"]["image"] ?? "";
+        }
       });
       // hideLoading();
     } catch (e) {
